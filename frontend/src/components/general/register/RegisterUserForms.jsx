@@ -241,8 +241,8 @@ const RegisterUserForms = () => {
     return (
         <div className="min-h-screen bg-gray-200 flex items-center justify-center py-28 px-4">
             <div className="w-full max-w-2xl bg-white p-8 rounded-lg shadow-lg">
+                <p className='text-sm text-right mb-6'>Already register? <a href="/login" className='font-bold underline'>Login</a></p>
                 <h2 className="text-2xl font-bold text-center mb-6">Register as {userType.charAt(0).toUpperCase() + userType.slice(1)}</h2>
-                
                 <div className="join flex justify-center mb-6">
                     <button
                         className={`btn join-item rounded-l-full px-4 py-2 ${userType === 'farmer' ? 'bg-lime-500 text-white' : 'bg-gray-200'}`}

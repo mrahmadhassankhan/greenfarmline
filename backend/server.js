@@ -2,6 +2,8 @@ const express = require("express");
 const db = require("../backend/Database/DatabaseConnection"); // Connection Handling MongoDB
 const userrouter = require("./Routers/userRouter");
 const app = express();
+
+require("dotenv").config();
 const cors = require("cors");
 const {
   errorHandler,
@@ -11,12 +13,12 @@ const PORT = process.env.PORT || 1783;
 
 app.use(
   cors({
-    origin: ["http://localhost:6463",'http://localhost:6464'],
+    origin: ["http://localhost:5173", "http://localhost:6464"],
     credentials: true,
   })
 );
 app.use(express.json());
-app.use(express.static("public"))
+app.use(express.static("public"));
 
 // Define routes
 app.use("/api", userrouter);

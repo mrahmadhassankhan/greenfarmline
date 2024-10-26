@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const dbURI = process.env.DB_URI;
+const dbURI = `mongodb+srv://codewithahk:747526@greenfarmline.j2uib.mongodb.net/?retryWrites=true&w=majority&appName=GreenFarmLine`;
 
 mongoose.connect(dbURI);
 const db = mongoose.connection;

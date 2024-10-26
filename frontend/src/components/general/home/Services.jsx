@@ -11,7 +11,7 @@ function Services() {
                     <div className='text-4xl font-bold text-center'>
                         Our Services
                     </div>
-                    <div className='w-full mt-12 flex flex-col md:flex-row gap-2'>
+                    <div className='w-full mt-12 flex flex-col items-center md:flex-row gap-2'>
                         <div className="card bg-base-100 w-96 shadow-xl">
                             <figure className="px-10 pt-10">
                                 <img

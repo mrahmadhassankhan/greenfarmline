@@ -9,10 +9,18 @@ const {
 const {
   ExpertRegisterController,
 } = require("../Controllers/User/ExpertController");
+const {
+  buisnessLogouploadmiddleware,
+  degreeuploadmiddleware,
+} = require("../middlewares/ImageMiddleware");
 
 //Registeration Routes
 registerRouter.route("/registerAsFarmer").post(FarmerRegisterController);
-registerRouter.route("/registerAsSeller").post(SellerRegisterController);
-registerRouter.route("/registerAsExpert").post(ExpertRegisterController);
+registerRouter
+  .route("/registerAsSeller")
+  .post(buisnessLogouploadmiddleware, SellerRegisterController);
+registerRouter
+  .route("/registerAsExpert")
+  .post(degreeuploadmiddleware, ExpertRegisterController);
 
 module.exports = registerRouter;

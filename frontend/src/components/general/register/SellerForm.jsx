@@ -47,7 +47,7 @@ const SellerForm = ({ formValues, handleChange, errors }) => {
         </label>
         <input
           type="file"
-          name="logo"
+          name="businessLogo"
           className="w-full p-2 border rounded-md"
           onChange={handleChange}
         />

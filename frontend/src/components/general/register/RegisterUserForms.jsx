@@ -15,7 +15,7 @@ const RegisterUserForms = () => {
     confirmPassword: "",
     businessName: "",
     registrationNo: "",
-    logo: null,
+    businessLogo: null,
     qualification: "",
     degree: null,
     yearsOfExperience: "",
@@ -35,61 +35,62 @@ const RegisterUserForms = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData(); // Create a new FormData instance
+
+    // Conditionally append fields to formData
+    if (userType === "farmer") {
+      formData.append("fullName", formValues.fullName);
+      formData.append("email", formValues.email);
+      formData.append("phoneNumber", formValues.phoneNumber);
+      formData.append("address", formValues.address);
+      formData.append("password", formValues.password);
+      formData.append("userType", userType);
+    } else if (userType === "seller") {
+      formData.append("fullName", formValues.fullName);
+      formData.append("email", formValues.email);
+      formData.append("phoneNumber", formValues.phoneNumber);
+      formData.append("address", formValues.address);
+      formData.append("password", formValues.password);
+      formData.append("businessName", formValues.businessName);
+      formData.append("registrationNo", formValues.registrationNo);
+      formData.append("businessLogo", formValues.businessLogo); // Only for seller
+      formData.append("userType", userType);
+    } else if (userType === "expert") {
+      formData.append("fullName", formValues.fullName);
+      formData.append("email", formValues.email);
+      formData.append("phoneNumber", formValues.phoneNumber);
+      formData.append("address", formValues.address);
+      formData.append("password", formValues.password);
+      formData.append("qualification", formValues.qualification);
+      formData.append("degree", formValues.degree); // If degree file is needed
+      formData.append("yearsOfExperience", formValues.yearsOfExperience);
+      formData.append("expertise", formValues.expertise);
+      formData.append("userType", userType);
+    }
+
     let apiUrl;
-    let payload = {};
 
     switch (userType) {
       case "farmer":
-        apiUrl = "http://localhost:1783/api/register/registerAsFarmer"; // Replace with your actual endpoint
-        payload = {
-          fullName: formValues.fullName,
-          email: formValues.email,
-          phoneNumber: formValues.phoneNumber,
-          address: formValues.address,
-          password: formValues.password,
-          userType: userType,
-        };
+        apiUrl = "http://localhost:1783/api/register/registerAsFarmer";
         break;
-
       case "seller":
-        apiUrl = "http://localhost:1783/api/register/registerAsSeller"; // Replace with your actual endpoint
-        payload = {
-          fullName: formValues.fullName,
-          email: formValues.email,
-          phoneNumber: formValues.phoneNumber,
-          address: formValues.address,
-          password: formValues.password,
-          businessName: formValues.businessName,
-          registrationNo: formValues.registrationNo,
-          businessLogo: formValues.logo,
-          userType: userType,
-        };
+        apiUrl = "http://localhost:1783/api/register/registerAsSeller";
         break;
-
       case "expert":
-        apiUrl = "http://localhost:1783/api/register/registerAsExpert"; // Replace with your actual endpoint
-        payload = {
-          fullName: formValues.fullName,
-          email: formValues.email,
-          phoneNumber: formValues.phoneNumber,
-          address: formValues.address,
-          password: formValues.password,
-          qualification: formValues.qualification,
-          degree: formValues.degree,
-          yearsOfExperience: formValues.yearsOfExperience,
-          expertise: formValues.expertise,
-          userType: userType,
-        };
+        apiUrl = "http://localhost:1783/api/register/registerAsExpert";
         break;
-
       default:
         return;
     }
 
     try {
-      const response = await axios.post(apiUrl, payload);
+      const response = await axios.post(apiUrl, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // Set the content type
+        },
+      });
       console.log("Registration successful:", response.data);
-      // Handle success (e.g., show a success message, redirect, etc.)
     } catch (error) {
       console.error("Error during registration:", error);
       setErrors({ ...errors, form: "Registration failed. Please try again." });

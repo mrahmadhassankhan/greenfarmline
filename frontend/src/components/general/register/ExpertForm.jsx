@@ -1,0 +1,86 @@
+import React from "react";
+import CommonFields from "./CommonFields";
+import PropTypes from "prop-types";
+const ExpertForm = ({ formValues, handleChange, errors }) => {
+  return (
+    <>
+      <CommonFields
+        formValues={formValues}
+        handleChange={handleChange}
+        errors={errors}
+      />
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Qualification
+        </label>
+        <input
+          type="text"
+          name="qualification"
+          placeholder="Enter your qualification"
+          className="w-full p-2 border rounded-md"
+          value={formValues.qualification}
+          onChange={handleChange}
+        />
+        {errors.qualification && (
+          <p className="text-red-500 text-xs mt-1">{errors.qualification}</p>
+        )}
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Upload Degree
+        </label>
+        <input
+          type="file"
+          name="degree"
+          className="w-full p-2 border rounded-md"
+          onChange={handleChange}
+        />
+        {errors.degree && (
+          <p className="text-red-500 text-xs mt-1">{errors.degree}</p>
+        )}
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Years of Experience
+        </label>
+        <input
+          type="number"
+          name="yearsOfExperience"
+          placeholder="Enter your years of experience"
+          className="w-full p-2 border rounded-md"
+          value={formValues.yearsOfExperience}
+          onChange={handleChange}
+        />
+        {errors.yearsOfExperience && (
+          <p className="text-red-500 text-xs mt-1">
+            {errors.yearsOfExperience}
+          </p>
+        )}
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Area of Expertise
+        </label>
+        <input
+          type="text"
+          name="expertise"
+          placeholder="Enter your area of expertise"
+          className="w-full p-2 border rounded-md"
+          value={formValues.expertise}
+          onChange={handleChange}
+        />
+        {errors.expertise && (
+          <p className="text-red-500 text-xs mt-1">{errors.expertise}</p>
+        )}
+      </div>
+    </>
+  );
+};
+
+ExpertForm.propTypes = {
+  formValues: PropTypes.object.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+};
+
+export default ExpertForm;

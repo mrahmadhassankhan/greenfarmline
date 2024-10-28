@@ -129,27 +129,39 @@ const RegisterUserForms = () => {
   };
 
   return (
-    <div>
-      <h2 className="text-2xl mb-4">Register as:</h2>
-      <select
-        onChange={(e) => setUserType(e.target.value)}
-        value={userType}
-        className="mb-4 p-2 border rounded-md"
-      >
-        <option value="farmer">Farmer</option>
-        <option value="seller">Seller</option>
-        <option value="expert">Expert</option>
-      </select>
-      <form onSubmit={handleSubmit}>
-        {renderForm()}
-        <button
-          type="submit"
-          className="mt-4 p-2 bg-blue-500 text-white rounded-md"
-        >
-          Submit
-        </button>
-      </form>
-    </div>
+    <div className="min-h-screen bg-gray-200 flex items-center justify-center py-28 px-4">
+            <div className="w-full max-w-2xl bg-white p-8 rounded-lg shadow-lg">
+                <p className='text-sm text-right mb-6'>Already register? <a href="/login" className='font-bold underline'>Login</a></p>
+                <h2 className="text-2xl font-bold text-center mb-6">Register as {userType.charAt(0).toUpperCase() + userType.slice(1)}</h2>
+                <div className="join flex justify-center mb-6">
+                    <button
+                        className={`btn join-item rounded-l-full px-4 py-2 ${userType === 'farmer' ? 'bg-lime-500 text-white' : 'bg-gray-200'}`}
+                        onClick={() => setUserType('farmer')}
+                    >
+                        Farmer
+                    </button>
+                    <button
+                        className={`btn join-item px-4 py-2 ${userType === 'seller' ? 'bg-lime-500 text-white' : 'bg-gray-200'}`}
+                        onClick={() => setUserType('seller')}
+                    >
+                        Seller
+                    </button>
+                    <button
+                        className={`btn join-item rounded-r-full px-4 py-2 ${userType === 'expert' ? 'bg-lime-500 text-white' : 'bg-gray-200'}`}
+                        onClick={() => setUserType('expert')}
+                    >
+                        Expert
+                    </button>
+                </div>
+
+                <form onSubmit={handleSubmit}>
+                    {renderForm()}
+                    <div className="mt-6">
+                        <button className="w-full bg-lime-500 text-white py-2 rounded-lg hover:bg-lime-600">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
   );
 };
 

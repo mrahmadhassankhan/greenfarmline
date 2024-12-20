@@ -1,5 +1,7 @@
 const AsyncHandler = require("express-async-handler");
 const SellerModel = require("../../Models/User/SellerModel");
+
+// Seller Register Controller
 const SellerRegisterController = AsyncHandler(async (req, res) => {
   const {
     fullName,
@@ -50,4 +52,42 @@ const SellerRegisterController = AsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { SellerRegisterController };
+// Seller Login Controller
+const SellerLoginController = AsyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  const passwdstr = password.toString();
+  try {
+    // Check if the seller exists
+    const seller = await SellerModel.findOne({ email });
+    if (!seller) {
+      return res.status(404).json({ message: "Seller not found" });
+    }
+
+    // Compare the provided password with the hashed password in the database
+    const passwordMatch = await seller.comparePassword(passwdstr);
+    if (!passwordMatch) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    // If the login is successful, send a response (you can send a JWT token here for better security)
+    res.status(200).json({
+      message: "Login successful",
+      seller: {
+        id: seller._id,
+        fullName: seller.fullName,
+        email: seller.email,
+        phoneNumber: seller.phoneNumber,
+        address: seller.address,
+        businessName: seller.businessName,
+        registrationNo: seller.registrationNo,
+        businessLogo: seller.businessLogo,
+        userType: seller.userType,
+      },
+    });
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ message: "Error Logging In", error: error.message });
+  }
+});
+
+module.exports = { SellerRegisterController, SellerLoginController };

@@ -14,6 +14,7 @@ const contactUsRouter = require("./Routers/ContactUsRouter");
 const orderRouter = require("./Routers/OrderRouter");
 const productrouter = require("./Routers/ProductsRouter");
 const registerRouter = require("./Routers/RegisterationRouter");
+const loginRouter = require("./Routers/LoginRouter");
 const PORT = process.env.PORT || 1783;
 
 app.use(
@@ -28,6 +29,7 @@ app.use(express.static("public"));
 
 //Routers
 app.use("/api/register", registerRouter);
+app.use("/api/login", loginRouter);
 app.use("/api/categories", categoriesrouter);
 app.use("/api/contactus", contactUsRouter);
 app.use("/api/order", orderRouter);

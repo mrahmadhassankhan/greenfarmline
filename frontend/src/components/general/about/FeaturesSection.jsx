@@ -1,9 +1,9 @@
 import React from 'react';
 
 const features = [
-    { title: "E-commerce", description: "Access a vast marketplace for agricultural products.", icon: "🛒" },
-    { title: "Forum", description: "Engage in discussions with experts and fellow farmers.", icon: "💬" },
-    { title: "Crop Detection", description: "Use AI to detect crop diseases through image uploads.", icon: "🌱" },
+    { title: "E-commerce", description: "Access a vast marketplace for agricultural products.", icon: "🛒", link: "#"},
+    { title: "Forum", description: "Engage in discussions with experts and fellow farmers.", icon: "💬", link: "/discussionforum" },
+    { title: "Crop Detection", description: "Use AI to detect crop diseases through image uploads.", icon: "🌱", link: "#" },
 ];
 
 const FeaturesSection = () => {
@@ -19,7 +19,7 @@ const FeaturesSection = () => {
                                 <h2 className="card-title">{feature.title}</h2>
                                 <p>{feature.description}</p>
                                 <div className="card-actions">
-                                    <button className="bg-lime-500 text-white p-2 mt-6 rounded-md hover:bg-lime-600 duration-200 cursor-pointer">Explore</button>
+                                    <button className="bg-lime-500 text-white p-2 mt-6 rounded-md hover:bg-lime-600 duration-200 cursor-pointer"><a href={feature.link}>Explore</a></button>
                                 </div>
                             </div>
                         </div>

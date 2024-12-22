@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import QueryCard from '../../components/general/discussionForum/QueryCard';
@@ -11,7 +12,8 @@ function DiscussionForum() {
             description: "I’ve noticed some damage in my wheat crops. What is the best way to deal with pests and ensure a healthy yield?",
             author: "Farmer John",
             date: "2024-12-19",
-            image: "https://via.placeholder.com/150"
+            image: "https://via.placeholder.com/150",
+            status: "Approved",
         },
         {
             id: 2,
@@ -19,7 +21,8 @@ function DiscussionForum() {
             description: "I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?",
             author: "Farmer smith",
             date: "2024-12-20",
-            image: "https://via.placeholder.com/150"
+            image: "https://via.placeholder.com/150",
+            status: "Approved",
         },
         {
             id: 3,
@@ -27,7 +30,8 @@ function DiscussionForum() {
             description: "I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?",
             author: "Farmer smith",
             date: "2024-12-20",
-            image: "https://via.placeholder.com/150"
+            image: "https://via.placeholder.com/150",
+            status: "Approved",
         },
         {
             id: 4,
@@ -35,7 +39,8 @@ function DiscussionForum() {
             description: "I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?",
             author: "Farmer smith",
             date: "2024-12-20",
-            image: "https://via.placeholder.com/150"
+            image: "https://via.placeholder.com/150",
+            status: "Approved",
         },
         {
             id: 5,
@@ -43,7 +48,8 @@ function DiscussionForum() {
             description: "I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?",
             author: "Farmer smith",
             date: "2024-12-20",
-            image: "https://via.placeholder.com/150"
+            image: "https://via.placeholder.com/150",
+            status: "Approved",
         },
         {
             id: 6,
@@ -51,9 +57,13 @@ function DiscussionForum() {
             description: "I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?",
             author: "Farmer smith",
             date: "2024-12-20",
-            image: "https://via.placeholder.com/150"
+            image: "https://via.placeholder.com/150",
+            status: "Approved",
         },
     ];
+
+    const navigate = useNavigate();
+
   return (
     <>
         <Navbar />
@@ -69,7 +79,8 @@ function DiscussionForum() {
                         author={query.author}
                         date={query.date}
                         image={query.image}
-                        onClick={() => console.log(`Navigating to query ID: ${query.id}`)}
+                        status={query.status}
+                        onClick={() => navigate('/register')}
                     />
                 ))}
             </div>

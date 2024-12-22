@@ -1,10 +1,23 @@
 import React from 'react';
 
-const QueryCard = ({ title, description, author, date, image, onClick }) => {
+const QueryCard = ({ title, description, author, date, image, status, onClick }) => {
+    const getBadgeStyle = (status) => {
+        switch (status) {
+            case "Pending":
+                return "bg-yellow-400 text-white";
+            case "Approved":
+                return "bg-green-500 text-white";
+            case "Rejected":
+                return "bg-red-500 text-white";
+            default:
+                return "bg-gray-400 text-white";
+        }
+    };
+
     return (
         <div 
             onClick={onClick} 
-            className="flex flex-col md:flex-row items-start bg-white shadow-lg rounded-lg p-4 hover:shadow-xl transition-shadow cursor-pointer"
+            className="relative flex flex-col md:flex-row items-start bg-white shadow-lg rounded-lg p-4 hover:shadow-xl transition-shadow cursor-pointer"
         >
             {image && (
                 <img
@@ -23,6 +36,13 @@ const QueryCard = ({ title, description, author, date, image, onClick }) => {
                     <span>{date}</span>
                 </div>
             </div>
+
+            {/* Badge */}
+            <span
+                className={`absolute bottom-4 right-4 px-3 py-1 text-xs font-semibold rounded-full ${getBadgeStyle(status)}`}
+            >
+                {status}
+            </span>
         </div>
     );
 };

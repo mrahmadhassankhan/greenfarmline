@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import logo from '../../images/logo-icon.png'
-function UserNav() {
+function ExpertNav() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const toggleDropdown = () => {
@@ -25,14 +25,13 @@ function UserNav() {
                         </div>
                         <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                             <div class="flex shrink-0 items-center">
-                                <img class="h-8 w-auto" src={logo} alt="Green Farm Line" /><p className="text-white px-2">Farmer Dashboard</p>
+                                <img class="h-8 w-auto" src={logo} alt="Green Farm Line" /><p className="text-white px-2">Expert Dashboard</p>
                             </div>
                             <div class="hidden sm:ml-6 sm:block">
                                 <div class="flex space-x-4">
-                                    <a href="/username" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
-                                    <a href="/userforumview" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Forum</a>
-                                    <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Orders</a>
-                                    <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Image Results</a>
+                                    <a href="/expertname" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
+                                    <a href="/expertforumview" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Queries</a>
+                                    <a href="/your-answered-queries" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Answered Queries</a>
                                 </div>
                             </div>
                         </div>
@@ -47,7 +46,7 @@ function UserNav() {
                             <div className="relative ml-3">
                                 <div>
                                     <button type="button" className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" onClick={toggleDropdown} >
-                                        <span className="sr-only">Open user menu</span>
+                                        <span className="sr-only">Open expert menu</span>
                                         <img className="size-8 rounded-full" src="https://static.vecteezy.com/system/resources/previews/005/129/844/non_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg" alt="User avatar" />
                                     </button>
                                 </div>
@@ -64,10 +63,9 @@ function UserNav() {
                 </div>
                 <div class="sm:hidden" id="mobile-menu">
                     <div class="space-y-1 px-2 pb-3 pt-2">
-                        <a href="/username" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
-                        <a href="/userforumview" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Forum</a>
-                        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Orders</a>
-                        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Image Results</a>
+                        <a href="/expertname" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
+                        <a href="/expertforumview" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Queries</a>
+                        <a href="/your-answered-queries" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Answered Queries</a>
                     </div>
                 </div>
             </nav>
@@ -75,4 +73,4 @@ function UserNav() {
     )
 }
 
-export default UserNav
+export default ExpertNav

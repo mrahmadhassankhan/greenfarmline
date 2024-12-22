@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import UserNav from "../UserNav";
+import { useNavigate } from 'react-router-dom';
 
 const PostQuery = () => {
     const [queryData, setQueryData] = useState({
@@ -33,85 +34,124 @@ const PostQuery = () => {
         // Implement API call to post the query
     };
 
+    const navigate = useNavigate();
+
     return (
         <>
             <UserNav />
-            <div className="min-h-screen flex items-center justify-center bg-gray-100 py-10 px-4">
-                <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-2xl">
-                    <h2 className="text-2xl font-bold text-gray-700 mb-6 text-center">
-                        Post Your Query
-                    </h2>
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Title */}
-                        <div>
-                            <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-                                Query Title
-                            </label>
-                            <input
-                                type="text"
-                                id="title"
-                                name="title"
-                                value={queryData.title}
-                                onChange={handleChange}
-                                required
-                                placeholder="Enter the title of your query"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-lime-500 focus:border-lime-500"
-                            />
-                        </div>
+            <div className="flex">
 
-                        {/* Description */}
-                        <div>
-                            <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                                Description
-                            </label>
-                            <textarea
-                                id="description"
-                                name="description"
-                                value={queryData.description}
-                                onChange={handleChange}
-                                required
-                                rows="4"
-                                placeholder="Describe your query in detail"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-lime-500 focus:border-lime-500"
-                            />
-                        </div>
-
-                        {/* Image Upload */}
-                        <div>
-                            <label htmlFor="images" className="block text-sm font-medium text-gray-700">
-                                Upload Images (Optional)
-                            </label>
-                            <input
-                                type="file"
-                                id="images"
-                                name="images"
-                                accept="image/*"
-                                multiple
-                                onChange={handleFileChange}
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm"
-                            />
-                            {/* Image Preview */}
-                            <div className="mt-3 grid grid-cols-3 gap-3">
-                                {previewImages.map((src, index) => (
-                                    <img
-                                        key={index}
-                                        src={src}
-                                        alt={`Preview ${index + 1}`}
-                                        className="w-full h-20 object-cover rounded-lg shadow"
-                                    />
-                                ))}
+                {/* Side Panel */}
+                <aside className="w-1/4 bg-gray-100 min-h-screen p-4 shadow-md">
+                    <h2 className="text-xl font-semibold mb-4">Forum Navigation</h2>
+                    <ul className="space-y-3">
+                        <li>
+                            <button
+                                onClick={() => navigate('/userforumview')}
+                                className="w-full text-left px-4 py-2 bg-lime-500 text-white rounded hover:bg-lime-600"
+                            >
+                                Latest Queries
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                onClick={() => navigate('/post-query')}
+                                className="w-full text-left px-4 py-2 bg-lime-500 text-white rounded hover:bg-lime-600"
+                            >
+                                Post a Query
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                onClick={() => navigate('/your-queries')}
+                                className="w-full text-left px-4 py-2 bg-lime-500 text-white rounded hover:bg-lime-600"
+                            >
+                                Your Queries
+                            </button>
+                        </li>
+                    </ul>
+                </aside>
+                
+                {/* Main Content */}
+                <main className="w-3/4 max-w-7xl mx-auto p-6">
+                <div className="min-h-screen flex items-center justify-center bg-gray-100 py-10 px-4">
+                    <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-2xl">
+                        <h2 className="text-2xl font-bold text-gray-700 mb-6 text-center">
+                            Post Your Query
+                        </h2>
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            {/* Title */}
+                            <div>
+                                <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                                    Query Title
+                                </label>
+                                <input
+                                    type="text"
+                                    id="title"
+                                    name="title"
+                                    value={queryData.title}
+                                    onChange={handleChange}
+                                    required
+                                    placeholder="Enter the title of your query"
+                                    className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-lime-500 focus:border-lime-500"
+                                />
                             </div>
-                        </div>
 
-                        {/* Submit Button */}
-                        <button
-                            type="submit"
-                            className="w-full p-3 text-white bg-lime-500 rounded-lg font-semibold hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500"
-                        >
-                            Submit Query
-                        </button>
-                    </form>
+                            {/* Description */}
+                            <div>
+                                <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                                    Description
+                                </label>
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    value={queryData.description}
+                                    onChange={handleChange}
+                                    required
+                                    rows="4"
+                                    placeholder="Describe your query in detail"
+                                    className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-lime-500 focus:border-lime-500"
+                                />
+                            </div>
+
+                            {/* Image Upload */}
+                            <div>
+                                <label htmlFor="images" className="block text-sm font-medium text-gray-700">
+                                    Upload Images (Optional)
+                                </label>
+                                <input
+                                    type="file"
+                                    id="images"
+                                    name="images"
+                                    accept="image/*"
+                                    multiple
+                                    onChange={handleFileChange}
+                                    className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm"
+                                />
+                                {/* Image Preview */}
+                                <div className="mt-3 grid grid-cols-3 gap-3">
+                                    {previewImages.map((src, index) => (
+                                        <img
+                                            key={index}
+                                            src={src}
+                                            alt={`Preview ${index + 1}`}
+                                            className="w-full h-20 object-cover rounded-lg shadow"
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Submit Button */}
+                            <button
+                                type="submit"
+                                className="w-full p-3 text-white bg-lime-500 rounded-lg font-semibold hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500"
+                            >
+                                Submit Query
+                            </button>
+                        </form>
+                    </div>
                 </div>
+                </main>
             </div>
         </>
     );

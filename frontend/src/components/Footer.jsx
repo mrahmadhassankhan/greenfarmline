@@ -7,7 +7,7 @@ function Footer() {
                 <nav>
                     <h6 className="footer-title">Services</h6>
                     <a className="link link-hover">Ecommerce Store</a>
-                    <a className="link link-hover">Discussion Forum</a>
+                    <a className="link link-hover" href='/discussionforum'>Discussion Forum</a>
                     <a className="link link-hover">Crop Disease Detection</a>
                 </nav>
                 <nav>

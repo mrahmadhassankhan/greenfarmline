@@ -109,7 +109,7 @@ function ExpertForumView() {
                                 date={query.date}
                                 image={query.image}
                                 status={query.status}
-                                onClick={() => navigate('/query-detailed-view')}
+                                onClick={() => navigate('/write-your-answer')}
                             />
                         ))
                     ) : (

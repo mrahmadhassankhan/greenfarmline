@@ -20,12 +20,7 @@ import ExpertDashboard from "./pages/expert/dashboard/ExpertDashboard";
 import ExpertForumView from "./pages/expert/discussionforum/ExpertForumView";
 import ExpertAnswerView from "./pages/expert/discussionforum/ExpertAnswerView";
 import ExpertAnsweredQueries from "./pages/expert/discussionforum/ExpertAnsweredQueries";
-import { ToastContainer, toast } from "react-toastify";
 
-const App = () => {
-  return (
-    <>
-      <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />

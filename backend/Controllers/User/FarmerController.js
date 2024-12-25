@@ -32,26 +32,23 @@ const FarmerRegisterController = AsyncHandler(async (req, res) => {
 
 const FarmerLoginController = AsyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  const passwdstr = password.toString();
   try {
     const farmer = await FarmerModel.findOne({ email });
     if (!farmer) {
       return res.status(404).json({ message: "Farmer not found" });
     }
 
-    const passwordMatch = await bcrypt.compare(passwdstr, farmer.password);
+    const passwordMatch = await bcrypt.compare(password, farmer.password);
     if (!passwordMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
     res.status(200).json({
       message: "Login successful",
-      farmer: {
-        id: farmer._id,
-        fullName: farmer.fullName,
-        email: farmer.email,
-        phoneNumber: farmer.phoneNumber,
-        address: farmer.address,
+      user: {
+        userName: farmer.fullName,
+        userEmail: farmer.email,
+        userType: "farmer",
       },
     });
   } catch (error) {

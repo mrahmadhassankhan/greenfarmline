@@ -60,7 +60,6 @@ const ExpertRegisterController = AsyncHandler(async (req, res) => {
 // Expert Login Controller
 const ExpertLoginController = AsyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  const passwdStr = password.toString();
   try {
     // Check if the expert exists
     const expert = await ExpertModel.findOne({ email });
@@ -69,24 +68,17 @@ const ExpertLoginController = AsyncHandler(async (req, res) => {
     }
 
     // Compare the provided password with the hashed password
-    const passwordMatch = await bcrypt.compare(passwdStr, expert.password);
+    const passwordMatch = await bcrypt.compare(password, expert.password);
     if (!passwordMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // If login is successful, return expert details
     res.status(200).json({
       message: "Login successful",
-      expert: {
-        id: expert._id,
-        fullName: expert.fullName,
-        email: expert.email,
-        phoneNumber: expert.phoneNumber,
-        address: expert.address,
-        qualification: expert.qualification,
-        degree: expert.degree,
-        yearsOfExperience: expert.yearsOfExperience,
-        expertise: expert.expertise,
+      user: {
+        userName: expert.fullName,
+        userEmail: expert.email,
+        userType: "expert",
       },
     });
   } catch (error) {

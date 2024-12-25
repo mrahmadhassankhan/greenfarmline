@@ -3,6 +3,7 @@ import FarmerForm from "./FarmerForm";
 import SellerForm from "./SellerForm";
 import ExpertForm from "./ExpertForm";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const RegisterUserForms = () => {
   const [userType, setUserType] = useState("farmer");
@@ -90,9 +91,10 @@ const RegisterUserForms = () => {
           "Content-Type": "multipart/form-data", // Set the content type
         },
       });
-      console.log("Registration successful:", response.data);
+      toast.success("Registration Successfull");
     } catch (error) {
       console.error("Error during registration:", error);
+      toast.error("User Already Exists");
       setErrors({ ...errors, form: "Registration failed. Please try again." });
     }
   };
@@ -130,38 +132,53 @@ const RegisterUserForms = () => {
 
   return (
     <div className="min-h-screen bg-gray-200 flex items-center justify-center py-28 px-4">
-            <div className="w-full max-w-2xl bg-white p-8 rounded-lg shadow-lg">
-                <p className='text-sm text-right mb-6'>Already register? <a href="/login" className='font-bold underline'>Login</a></p>
-                <h2 className="text-2xl font-bold text-center mb-6">Register as {userType.charAt(0).toUpperCase() + userType.slice(1)}</h2>
-                <div className="join flex justify-center mb-6">
-                    <button
-                        className={`btn join-item rounded-l-full px-4 py-2 ${userType === 'farmer' ? 'bg-lime-500 text-white' : 'bg-gray-200'}`}
-                        onClick={() => setUserType('farmer')}
-                    >
-                        Farmer
-                    </button>
-                    <button
-                        className={`btn join-item px-4 py-2 ${userType === 'seller' ? 'bg-lime-500 text-white' : 'bg-gray-200'}`}
-                        onClick={() => setUserType('seller')}
-                    >
-                        Seller
-                    </button>
-                    <button
-                        className={`btn join-item rounded-r-full px-4 py-2 ${userType === 'expert' ? 'bg-lime-500 text-white' : 'bg-gray-200'}`}
-                        onClick={() => setUserType('expert')}
-                    >
-                        Expert
-                    </button>
-                </div>
-
-                <form onSubmit={handleSubmit}>
-                    {renderForm()}
-                    <div className="mt-6">
-                        <button className="w-full bg-lime-500 text-white py-2 rounded-lg hover:bg-lime-600">Register</button>
-                    </div>
-                </form>
-            </div>
+      <div className="w-full max-w-2xl bg-white p-8 rounded-lg shadow-lg">
+        <p className="text-sm text-right mb-6">
+          Already register?{" "}
+          <a href="/login" className="font-bold underline">
+            Login
+          </a>
+        </p>
+        <h2 className="text-2xl font-bold text-center mb-6">
+          Register as {userType.charAt(0).toUpperCase() + userType.slice(1)}
+        </h2>
+        <div className="join flex justify-center mb-6">
+          <button
+            className={`btn join-item rounded-l-full px-4 py-2 ${
+              userType === "farmer" ? "bg-lime-500 text-white" : "bg-gray-200"
+            }`}
+            onClick={() => setUserType("farmer")}
+          >
+            Farmer
+          </button>
+          <button
+            className={`btn join-item px-4 py-2 ${
+              userType === "seller" ? "bg-lime-500 text-white" : "bg-gray-200"
+            }`}
+            onClick={() => setUserType("seller")}
+          >
+            Seller
+          </button>
+          <button
+            className={`btn join-item rounded-r-full px-4 py-2 ${
+              userType === "expert" ? "bg-lime-500 text-white" : "bg-gray-200"
+            }`}
+            onClick={() => setUserType("expert")}
+          >
+            Expert
+          </button>
         </div>
+
+        <form onSubmit={handleSubmit}>
+          {renderForm()}
+          <div className="mt-6">
+            <button className="w-full bg-lime-500 text-white py-2 rounded-lg hover:bg-lime-600">
+              Register
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 

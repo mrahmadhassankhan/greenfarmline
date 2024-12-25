@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import UserNav from '../UserNav';
 import QueryCard from '../../../components/general/discussionForum/QueryCard';
 import { useNavigate } from 'react-router-dom';
@@ -67,7 +67,16 @@ function UserForumView() {
     },
   ];
 
+
+  const [search, setSearch] = useState(''); // Search state
   const navigate = useNavigate();
+
+  const searchedQueries = queries.filter((query) => {
+    const matchesSearch =
+      query.title.toLowerCase().includes(search.toLowerCase()) ||
+      query.description.toLowerCase().includes(search.toLowerCase());
+    return matchesSearch;
+  });
 
   return (
     <>
@@ -106,21 +115,40 @@ function UserForumView() {
 
         {/* Main Content */}
         <main className="w-3/4 max-w-7xl mx-auto p-6">
-          <h1 className="text-3xl font-bold text-center mb-6">Discussion Forum</h1>
-          <div className="space-y-4">
-            <h2 className="text-2xl font-semibold">Leatest Queries</h2>
-            {queries.map((query) => (
-              <QueryCard
-                key={query.id}
-                title={query.title}
-                description={query.description}
-                author={query.author}
-                date={query.date}
-                image={query.image}
-                status={query.status}
-                onClick={() => navigate('/query-detailed-view')}
+          <div className="flex flex-row justify-between items-center">
+            <h1 className="text-3xl font-bold">Discussion Forum</h1>
+            <div className="join">
+              {/* Search Input */}
+              <input
+                type="text"
+                className="input input-bordered join-item"
+                placeholder="Search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
               />
-            ))}
+              {/* <button className="btn join-item" onClick={() => console.log('Search initiated')}>
+                                Search
+                            </button> */}
+            </div>
+          </div>
+          <div className="space-y-4 mt-6">
+            <h2 className="text-2xl font-semibold">Latest Queries</h2>
+            {searchedQueries.length > 0 ? (
+              searchedQueries.map((query) => (
+                <QueryCard
+                  key={query.id}
+                  title={query.title}
+                  description={query.description}
+                  author={query.author}
+                  date={query.date}
+                  image={query.image}
+                  status={query.status}
+                  onClick={() => navigate('/query-detailed-view')}
+                />
+              ))
+            ) : (
+              <p className="text-gray-500">No queries match your search or filter.</p>
+            )}
           </div>
         </main>
       </div>

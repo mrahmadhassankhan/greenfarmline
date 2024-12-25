@@ -15,7 +15,7 @@ import UserForumView from "./pages/user/discussionForum/UserForumView";
 import UserDashboard from "./pages/user/dashboard/UserDashboard";
 import PostQuery from "./pages/user/discussionForum/PostQuery";
 import QueryDetailedView from "./pages/user/discussionForum/QueryDetailedView";
-import UserQueries from "./pages/user/discussionForum/userqueries";
+import UserQueries from "./pages/user/discussionForum/UserQueries";
 import ExpertDashboard from "./pages/expert/dashboard/ExpertDashboard";
 import ExpertForumView from "./pages/expert/discussionforum/ExpertForumView";
 import ExpertAnswerView from "./pages/expert/discussionforum/ExpertAnswerView";

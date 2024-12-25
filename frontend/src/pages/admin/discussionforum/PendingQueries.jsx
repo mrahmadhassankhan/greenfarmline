@@ -6,78 +6,78 @@ import PendingQueryCard from '../../../components/admin/discussionforum/PendingQ
 
 function PendingQueries() {
   const queries = [
-      {
-        id: 1,
-        title: 'How to prevent pests in wheat crops?',
-        description:
-          'I’ve noticed some damage in my wheat crops. What is the best way to deal with pests and ensure a healthy yield?',
-        author: 'Farmer John',
-        date: '2024-12-19',
-        image: 'https://via.placeholder.com/150',
-        status: "Pending",
-      },
-      {
-        id: 2,
-        title: 'How to prevent pests in cotton crops?',
-        description:
-          'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-        author: 'Farmer Smith',
-        date: '2024-12-20',
-        image: 'https://via.placeholder.com/150',
-        status: "Pending",
-      },
-      {
-        id: 3,
-        title: 'How to prevent pests in cotton crops?',
-        description:
-          'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-        author: 'Farmer Smith',
-        date: '2024-12-20',
-        image: 'https://via.placeholder.com/150',
-        status: "Pending",
-      },
-      {
-        id: 4,
-        title: 'How to prevent pests in cotton crops?',
-        description:
-          'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-        author: 'Farmer Smith',
-        date: '2024-12-20',
-        image: 'https://via.placeholder.com/150',
-        status: "Pending",
-      },
-      {
-        id: 5,
-        title: 'How to prevent pests in cotton crops?',
-        description:
-          'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-        author: 'Farmer Smith',
-        date: '2024-12-20',
-        image: 'https://via.placeholder.com/150',
-        status: "Pending",
-      },
-      {
-        id: 6,
-        title: 'How to prevent pests in cotton crops?',
-        description:
-          'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-        author: 'Farmer Smith',
-        date: '2024-12-20',
-        image: 'https://via.placeholder.com/150',
-        status: "Pending",
-      },
-    ];
-  
-  
-    const [search, setSearch] = useState(''); // Search state
-    const navigate = useNavigate();
-  
-    const searchedQueries = queries.filter((query) => {
-      const matchesSearch =
-        query.title.toLowerCase().includes(search.toLowerCase()) ||
-        query.description.toLowerCase().includes(search.toLowerCase());
-      return matchesSearch;
-    });
+    {
+      id: 1,
+      title: 'How to prevent pests in wheat crops?',
+      description:
+        'I’ve noticed some damage in my wheat crops. What is the best way to deal with pests and ensure a healthy yield?',
+      author: 'Farmer John',
+      date: '2024-12-19',
+      image: 'https://via.placeholder.com/150',
+      status: "Pending",
+    },
+    {
+      id: 2,
+      title: 'How to prevent pests in cotton crops?',
+      description:
+        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
+      author: 'Farmer Smith',
+      date: '2024-12-20',
+      image: 'https://via.placeholder.com/150',
+      status: "Pending",
+    },
+    {
+      id: 3,
+      title: 'How to prevent pests in cotton crops?',
+      description:
+        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
+      author: 'Farmer Smith',
+      date: '2024-12-20',
+      image: 'https://via.placeholder.com/150',
+      status: "Pending",
+    },
+    {
+      id: 4,
+      title: 'How to prevent pests in cotton crops?',
+      description:
+        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
+      author: 'Farmer Smith',
+      date: '2024-12-20',
+      image: 'https://via.placeholder.com/150',
+      status: "Pending",
+    },
+    {
+      id: 5,
+      title: 'How to prevent pests in cotton crops?',
+      description:
+        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
+      author: 'Farmer Smith',
+      date: '2024-12-20',
+      image: 'https://via.placeholder.com/150',
+      status: "Pending",
+    },
+    {
+      id: 6,
+      title: 'How to prevent pests in cotton crops?',
+      description:
+        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
+      author: 'Farmer Smith',
+      date: '2024-12-20',
+      image: 'https://via.placeholder.com/150',
+      status: "Pending",
+    },
+  ];
+
+
+  const [search, setSearch] = useState(''); // Search state
+  const navigate = useNavigate();
+
+  const searchedQueries = queries.filter((query) => {
+    const matchesSearch =
+      query.title.toLowerCase().includes(search.toLowerCase()) ||
+      query.description.toLowerCase().includes(search.toLowerCase());
+    return matchesSearch;
+  });
   return (
     <>
       <AdminNav />
@@ -103,7 +103,13 @@ function PendingQueries() {
             </div>
           </div>
           <div className="space-y-4 mt-6">
-            <h2 className="text-2xl font-semibold">Pending Queries</h2>
+            <div className='flex justify-between'>
+              <h2 className="text-2xl font-semibold">Pending Queries</h2>
+              <div>
+              <button className='bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition mx-2'> Approve All</button>
+              <button className='bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition'> Reject All</button>
+              </div>
+            </div>
             {searchedQueries.length > 0 ? (
               searchedQueries.map((query) => (
                 <PendingQueryCard

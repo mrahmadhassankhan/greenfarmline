@@ -55,7 +55,6 @@ const SellerRegisterController = AsyncHandler(async (req, res) => {
 // Seller Login Controller
 const SellerLoginController = AsyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  const passwdstr = password.toString();
   try {
     // Check if the seller exists
     const seller = await SellerModel.findOne({ email });
@@ -64,24 +63,17 @@ const SellerLoginController = AsyncHandler(async (req, res) => {
     }
 
     // Compare the provided password with the hashed password in the database
-    const passwordMatch = await seller.comparePassword(passwdstr);
+    const passwordMatch = await seller.comparePassword(password);
     if (!passwordMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // If the login is successful, send a response (you can send a JWT token here for better security)
     res.status(200).json({
       message: "Login successful",
-      seller: {
-        id: seller._id,
-        fullName: seller.fullName,
-        email: seller.email,
-        phoneNumber: seller.phoneNumber,
-        address: seller.address,
-        businessName: seller.businessName,
-        registrationNo: seller.registrationNo,
-        businessLogo: seller.businessLogo,
-        userType: seller.userType,
+      user: {
+        userName: seller.fullName,
+        userEmail: seller.email,
+        userType: "seller",
       },
     });
   } catch (error) {

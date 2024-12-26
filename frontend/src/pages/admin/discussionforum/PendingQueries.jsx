@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import UserNav from '../UserNav';
-import QueryCard from '../../../components/general/discussionForum/QueryCard';
 import { useNavigate } from 'react-router-dom';
-import SideBar from '../../../components/user/discussionforum/SideBar';
+import AdminNav from '../AdminNav'
+import SideNav from '../../../components/admin/discussionforum/SideNav'
+import PendingQueryCard from '../../../components/admin/discussionforum/PendingQueryCard';
 
-function UserForumView() {
+function PendingQueries() {
   const queries = [
     {
       id: 1,
@@ -14,7 +14,7 @@ function UserForumView() {
       author: 'Farmer John',
       date: '2024-12-19',
       image: 'https://via.placeholder.com/150',
-      status: "Approved",
+      status: "Pending",
     },
     {
       id: 2,
@@ -24,7 +24,7 @@ function UserForumView() {
       author: 'Farmer Smith',
       date: '2024-12-20',
       image: 'https://via.placeholder.com/150',
-      status: "Approved",
+      status: "Pending",
     },
     {
       id: 3,
@@ -34,7 +34,7 @@ function UserForumView() {
       author: 'Farmer Smith',
       date: '2024-12-20',
       image: 'https://via.placeholder.com/150',
-      status: "Approved",
+      status: "Pending",
     },
     {
       id: 4,
@@ -44,7 +44,7 @@ function UserForumView() {
       author: 'Farmer Smith',
       date: '2024-12-20',
       image: 'https://via.placeholder.com/150',
-      status: "Approved",
+      status: "Pending",
     },
     {
       id: 5,
@@ -54,7 +54,7 @@ function UserForumView() {
       author: 'Farmer Smith',
       date: '2024-12-20',
       image: 'https://via.placeholder.com/150',
-      status: "Approved",
+      status: "Pending",
     },
     {
       id: 6,
@@ -64,7 +64,7 @@ function UserForumView() {
       author: 'Farmer Smith',
       date: '2024-12-20',
       image: 'https://via.placeholder.com/150',
-      status: "Approved",
+      status: "Pending",
     },
   ];
 
@@ -78,14 +78,12 @@ function UserForumView() {
       query.description.toLowerCase().includes(search.toLowerCase());
     return matchesSearch;
   });
-
   return (
     <>
-      <UserNav />
-      <div className="flex">
+      <AdminNav />
+      <div className='flex'>
         {/* Side Panel */}
-        <SideBar />
-
+        <SideNav />
         {/* Main Content */}
         <main className="w-3/4 max-w-7xl mx-auto p-6">
           <div className="flex flex-row justify-between items-center">
@@ -105,10 +103,16 @@ function UserForumView() {
             </div>
           </div>
           <div className="space-y-4 mt-6">
-            <h2 className="text-2xl font-semibold">Latest Queries</h2>
+            <div className='flex justify-between'>
+              <h2 className="text-2xl font-semibold">Pending Queries</h2>
+              <div>
+              <button className='bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition mx-2'> Approve All</button>
+              <button className='bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition'> Reject All</button>
+              </div>
+            </div>
             {searchedQueries.length > 0 ? (
               searchedQueries.map((query) => (
-                <QueryCard
+                <PendingQueryCard
                   key={query.id}
                   title={query.title}
                   description={query.description}
@@ -116,7 +120,9 @@ function UserForumView() {
                   date={query.date}
                   image={query.image}
                   status={query.status}
-                  onClick={() => navigate('/query-detailed-view')}
+                  onClick={() => navigate('/admin-query-detailed-view')}
+                  onApprove={() => console.log('Query Approved..')}
+                  onReject={() => console.log('Query Rejected..')}
                 />
               ))
             ) : (
@@ -126,7 +132,7 @@ function UserForumView() {
         </main>
       </div>
     </>
-  );
+  )
 }
 
-export default UserForumView;
+export default PendingQueries

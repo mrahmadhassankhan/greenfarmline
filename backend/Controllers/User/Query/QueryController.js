@@ -44,20 +44,50 @@ const getAllPostQueries = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch post queries." });
   }
 };
-
-// Get a single post query by ID
-const getPostQueryById = async (req, res) => {
+// Route to get only pending queries
+const getPendingQueries = async (req, res) => {
   try {
-    const { id } = req.params;
-    const postQuery = await QueryModel.findById(id);
-
-    if (!postQuery) {
-      return res.status(404).json({ error: "Post query not found." });
-    }
-
-    res.status(200).json(postQuery);
+    // Fetch only pending queries
+    const pendingQueries = await QueryModel.find({ status: "Pending" });
+    res.status(200).json(pendingQueries);
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch the post query." });
+    console.error(error);
+    res.status(500).json({ message: "Error fetching pending queries" });
+  }
+};
+
+// Route to get only rejected queries
+const getRejectedQueries = async (req, res) => {
+  try {
+    // Fetch only pending queries
+    const rejectedQueries = await QueryModel.find({ status: "Rejected" });
+    res.status(200).json(rejectedQueries);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching Rejected queries" });
+  }
+};
+
+// Route to get only Approved queries
+const getApprovedQueries = async (req, res) => {
+  try {
+    // Fetch only pending queries
+    const approvedQueries = await QueryModel.find({ status: "Approved" });
+    res.status(200).json(approvedQueries);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching Approved queries" });
+  }
+};
+
+// Route to get all queries from a specific user based on email
+const getUserQueriesByEmail = async (req, res) => {
+  const { email } = req.query; // Access the email parameter
+  try {
+    const userQueries = await QueryModel.find({ email });
+    res.status(200).json(userQueries);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching queries." });
   }
 };
 
@@ -98,10 +128,71 @@ const deletePostQuery = async (req, res) => {
   }
 };
 
+// Endpoint to approve all queries
+const approverejectallqueries = async (req, res) => {
+  const { status } = req.body; // 'approved' or 'rejected'
+
+  if (!status || !["Approved", "Rejected"].includes(status)) {
+    return res.status(400).json({ message: "Invalid status" });
+  }
+
+  try {
+    // Update all queries with status 'Pending' to the new status
+    const result = await QueryModel.updateMany(
+      { status: "Pending" },
+      { $set: { status } }
+    );
+
+    if (result.modifiedCount > 0) {
+      res
+        .status(200)
+        .json({ message: `All queries have been marked as ${status}` });
+    } else {
+      res.status(400).json({ message: "No pending queries found to update" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error while updating queries" });
+  }
+};
+
+// Endpoint to approve or reject a specific query (optional, individual status change)
+const approverejectSpecificQuery = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  if (!status || !["Approved", "Rejected"].includes(status)) {
+    return res.status(400).json({ message: "Invalid status" });
+  }
+
+  try {
+    const query = await QueryModel.findById(id);
+
+    if (!query) {
+      return res.status(404).json({ message: "Query not found" });
+    }
+
+    query.status = status; // Update the status
+    await query.save(); // Save the changes
+
+    res.status(200).json({ message: `Query status updated to ${status}` });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Server error while updating query status" });
+  }
+};
+
 module.exports = {
   createPostQuery,
   getAllPostQueries,
-  getPostQueryById,
+  getApprovedQueries,
+  getRejectedQueries,
+  getPendingQueries,
+  getUserQueriesByEmail,
   updatePostQuery,
   deletePostQuery,
+  approverejectSpecificQuery,
+  approverejectallqueries,
 };

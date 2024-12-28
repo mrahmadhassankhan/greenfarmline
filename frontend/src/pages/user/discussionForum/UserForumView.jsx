@@ -1,77 +1,32 @@
-import React, { useState } from 'react';
-import UserNav from '../UserNav';
-import QueryCard from '../../../components/general/discussionForum/QueryCard';
-import { useNavigate } from 'react-router-dom';
-import SideBar from '../../../components/user/discussionforum/SideBar';
+import React, { useState, useEffect } from "react"; // Import useEffect
+import axios from "axios"; // Import axios for API calls
+import UserNav from "../UserNav";
+import QueryCard from "../../../components/general/discussionForum/QueryCard";
+import { useNavigate } from "react-router-dom";
+import SideBar from "../../../components/user/discussionforum/SideBar";
 
 function UserForumView() {
-  const queries = [
-    {
-      id: 1,
-      title: 'How to prevent pests in wheat crops?',
-      description:
-        'I’ve noticed some damage in my wheat crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer John',
-      date: '2024-12-19',
-      image: 'https://via.placeholder.com/150',
-      status: "Approved",
-    },
-    {
-      id: 2,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Approved",
-    },
-    {
-      id: 3,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Approved",
-    },
-    {
-      id: 4,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Approved",
-    },
-    {
-      id: 5,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Approved",
-    },
-    {
-      id: 6,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Approved",
-    },
-  ];
-
-
-  const [search, setSearch] = useState(''); // Search state
+  const [queries, setQueries] = useState([]); // State for storing queries
+  const [search, setSearch] = useState(""); // State for search input
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // Fetch approved queries from the backend when the component is mounted
+    const fetchQueries = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:1783/api/query/getapprovedqueries" // Replace with your backend API endpoint
+        );
+        setQueries(response.data); // Assuming the response contains approved queries
+      } catch (error) {
+        console.error("Error fetching queries:", error);
+      }
+    };
+
+    fetchQueries();
+  }, []); // Run the effect only once when the component is mounted
+
+  // Filter queries based on search input
   const searchedQueries = queries.filter((query) => {
     const matchesSearch =
       query.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -99,9 +54,6 @@ function UserForumView() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-              {/* <button className="btn join-item" onClick={() => console.log('Search initiated')}>
-                                Search
-                            </button> */}
             </div>
           </div>
           <div className="space-y-4 mt-6">
@@ -112,15 +64,17 @@ function UserForumView() {
                   key={query.id}
                   title={query.title}
                   description={query.description}
-                  author={query.author}
+                  author={query.username}
                   date={query.date}
-                  image={query.image}
+                  image={`http://localhost:1783/Images/${query.image}`}
                   status={query.status}
-                  onClick={() => navigate('/query-detailed-view')}
+                  onClick={() => navigate("/query-detailed-view")}
                 />
               ))
             ) : (
-              <p className="text-gray-500">No queries match your search or filter.</p>
+              <p className="text-gray-500">
+                No queries match your search or filter.
+              </p>
             )}
           </div>
         </main>

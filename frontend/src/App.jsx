@@ -24,10 +24,13 @@ import AdminDashboard from "./pages/admin/dashboard/AdminDashboard";
 import PendingQueries from "./pages/admin/discussionforum/PendingQueries";
 import AdminQueryDetailedView from "./pages/admin/discussionforum/AdminQueryDetailedView";
 import { ToastContainer, toast } from "react-toastify";
+import ApprovedQueries from "./pages/admin/discussionforum/ApprovedQueries";
+import RejectedQueries from "./pages/admin/discussionforum/RejectedQueries";
 
 const App = () => {
   return (
     <>
+      <div className="dark:bg-slate-900 dark:text-white">
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -56,8 +59,11 @@ const App = () => {
           <Route path="/admin-panel" element={<AdminDashboard />} />
           <Route path="/pending-queries" element={<PendingQueries />} />
           <Route path="/admin-query-detailed-view" element={<AdminQueryDetailedView />} />
+          <Route path="/approved-queries" element={<ApprovedQueries />} />
+          <Route path="/rejected-queries" element={<RejectedQueries />} />
 
         </Routes>
+      </div>
     </>
   );
 };

@@ -18,15 +18,15 @@ const ForgetPasswordForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Forgot Your Password?</h2>
-        <p className="text-sm text-gray-600 mb-6 text-center">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-slate-900">
+      <div className="bg-white dark:bg-slate-900 dark:border shadow-lg rounded-lg p-8 max-w-md w-full">
+        <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-gray-500 mb-6">Forgot Your Password?</h2>
+        <p className="text-sm text-gray-600 dark:text-gray-300 mb-6 text-center">
           Enter your email address below and we’ll send you a link to reset your password.
         </p>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">
+            <label htmlFor="email" className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
               Email Address
             </label>
             <input
@@ -34,7 +34,7 @@ const ForgetPasswordForm = () => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-lime-500 focus:border-transparent"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-lime-500 focus:border-transparent dark:bg-slate-900"
               placeholder="Enter your email"
             />
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}

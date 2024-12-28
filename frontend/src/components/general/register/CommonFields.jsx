@@ -4,14 +4,14 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
   return (
     <div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
           Full Name
         </label>
         <input
           type="text"
           name="fullName"
           placeholder="Enter your full name"
-          className="w-full p-2 border rounded-md"
+          className="w-full p-2 border rounded-md dark:bg-slate-900"
           value={formValues.fullName}
           onChange={handleChange}
         />
@@ -20,14 +20,14 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
         )}
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
           Email
         </label>
         <input
           type="email"
           name="email"
           placeholder="Enter your email address"
-          className="w-full p-2 border rounded-md"
+          className="w-full p-2 border rounded-md dark:bg-slate-900"
           value={formValues.email}
           onChange={handleChange}
         />
@@ -36,14 +36,14 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
         )}
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
           Phone Number
         </label>
         <input
           type="tel"
           name="phoneNumber"
           placeholder="Enter your phone number"
-          className="w-full p-2 border rounded-md"
+          className="w-full p-2 border rounded-md dark:bg-slate-900"
           value={formValues.phoneNumber}
           onChange={handleChange}
         />
@@ -52,14 +52,14 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
         )}
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
           Address
         </label>
         <input
           type="text"
           name="address"
           placeholder="Enter your address"
-          className="w-full p-2 border rounded-md"
+          className="w-full p-2 border rounded-md dark:bg-slate-900"
           value={formValues.address}
           onChange={handleChange}
         />
@@ -68,14 +68,14 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
         )}
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
           Password
         </label>
         <input
           type="password"
           name="password"
           placeholder="Enter your password"
-          className="w-full p-2 border rounded-md"
+          className="w-full p-2 border rounded-md dark:bg-slate-900"
           value={formValues.password}
           onChange={handleChange}
         />
@@ -84,14 +84,14 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
         )}
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
           Confirm Password
         </label>
         <input
           type="password"
           name="confirmPassword"
           placeholder="Confirm your password"
-          className="w-full p-2 border rounded-md"
+          className="w-full p-2 border rounded-md dark:bg-slate-900"
           value={formValues.confirmPassword}
           onChange={handleChange}
         />

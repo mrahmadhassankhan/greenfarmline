@@ -131,8 +131,8 @@ const RegisterUserForms = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 flex items-center justify-center py-28 px-4">
-      <div className="w-full max-w-2xl bg-white p-8 rounded-lg shadow-lg">
+    <div className="min-h-screen bg-gray-100 dark:bg-slate-900 flex items-center justify-center py-28 px-4">
+      <div className="w-full max-w-2xl bg-white dark:bg-slate-900 dark:border p-8 rounded-lg shadow-lg">
         <p className="text-sm text-right mb-6">
           Already register?{" "}
           <a href="/login" className="font-bold underline">

@@ -65,8 +65,8 @@ const LoginPage = () => {
     }
   };
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-200 py-28 px-4">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-slate-900 py-28 px-4">
+      <div className="bg-white dark:bg-slate-900 border p-8 rounded-lg shadow-md w-96">
         <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
         <div className="join flex justify-center mb-4">
           <button
@@ -113,7 +113,7 @@ const LoginPage = () => {
               value={credentials.email}
               onChange={handleChange}
               required
-              className="block w-full p-2 border border-gray-300 rounded"
+              className="block w-full p-2 border border-gray-300 dark:bg-slate-900 rounded"
             />
           </div>
           <div className="mb-4">
@@ -127,7 +127,7 @@ const LoginPage = () => {
               value={credentials.password}
               onChange={handleChange}
               required
-              className="block w-full p-2 border border-gray-300 rounded"
+              className="block w-full p-2 border border-gray-300 dark:bg-slate-900 rounded"
             />
           </div>
           <button

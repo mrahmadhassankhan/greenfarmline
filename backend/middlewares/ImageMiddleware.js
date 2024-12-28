@@ -66,10 +66,22 @@ const degreeuploadmiddleware = (req, res, next) => {
   });
 };
 
+const queryImageUploadMiddleware = (req, res, next) => {
+  upload.single("queryImage")(req, res, (err) => {
+    if (err instanceof multer.MulterError) {
+      return res.status(500).json({ message: "Query Image upload error" });
+    } else if (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Unknown error" });
+    }
+    next();
+  });
+};
 module.exports = {
   categoryUploadMiddleware,
   productUploadMiddleware,
   buisnessLogouploadmiddleware,
   degreeuploadmiddleware,
+  queryImageUploadMiddleware,
   multer,
 };

@@ -1,76 +1,29 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import AdminNav from '../AdminNav'
-import SideNav from '../../../components/admin/discussionforum/SideNav'
-import PendingQueryCard from '../../../components/admin/discussionforum/PendingQueryCard';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import AdminNav from "../AdminNav";
+import SideNav from "../../../components/admin/discussionforum/SideNav";
+import PendingQueryCard from "../../../components/admin/discussionforum/PendingQueryCard";
+import axios from "axios";
 
 function PendingQueries() {
-  const queries = [
-    {
-      id: 1,
-      title: 'How to prevent pests in wheat crops?',
-      description:
-        'I’ve noticed some damage in my wheat crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer John',
-      date: '2024-12-19',
-      image: 'https://via.placeholder.com/150',
-      status: "Pending",
-    },
-    {
-      id: 2,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Pending",
-    },
-    {
-      id: 3,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Pending",
-    },
-    {
-      id: 4,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Pending",
-    },
-    {
-      id: 5,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Pending",
-    },
-    {
-      id: 6,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Pending",
-    },
-  ];
-
-
-  const [search, setSearch] = useState(''); // Search state
+  const [queries, setQueries] = useState([]); // State to hold queries
+  const [search, setSearch] = useState(""); // Search state
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch only pending queries from the backend when the component is mounted
+    const fetchQueries = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:1783/api/query/getpendingqueries" // Ensure this hits the updated API
+        );
+        setQueries(response.data); // Assuming the response contains only pending queries
+      } catch (error) {
+        console.error("Error fetching queries:", error);
+      }
+    };
+    fetchQueries();
+  }, []);
 
   const searchedQueries = queries.filter((query) => {
     const matchesSearch =
@@ -78,10 +31,44 @@ function PendingQueries() {
       query.description.toLowerCase().includes(search.toLowerCase());
     return matchesSearch;
   });
+
+  const handleApproveAll = async () => {
+    try {
+      await axios.put(
+        "http://localhost:1783/api/query/approverejectallqueries",
+        { status: "Approved" }
+      );
+      const response = await axios.get(
+        "http://localhost:1783/api/query/getpendingqueries"
+      );
+      setQueries(response.data);
+      console.log("All queries approved");
+    } catch (error) {
+      console.error("Error approving queries:", error);
+    }
+  };
+
+  const handleRejectAll = async () => {
+    try {
+      await axios.put(
+        "http://localhost:1783/api/query/approverejectallqueries",
+        { status: "Rejected" }
+      );
+      // After successfully updating, refetch the queries to exclude the rejected ones
+      const response = await axios.get(
+        "http://localhost:1783/api/query/getpendingqueries"
+      );
+      setQueries(response.data);
+      console.log("All queries rejected");
+    } catch (error) {
+      console.error("Error rejecting queries:", error);
+    }
+  };
+
   return (
     <>
       <AdminNav />
-      <div className='flex'>
+      <div className="flex">
         {/* Side Panel */}
         <SideNav />
         {/* Main Content */}
@@ -97,42 +84,79 @@ function PendingQueries() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-              {/* <button className="btn join-item" onClick={() => console.log('Search initiated')}>
-                                Search
-                            </button> */}
             </div>
           </div>
           <div className="space-y-4 mt-6">
-            <div className='flex justify-between'>
+            <div className="flex justify-between">
               <h2 className="text-2xl font-semibold">Pending Queries</h2>
               <div>
-              <button className='bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition mx-2'> Approve All</button>
-              <button className='bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition'> Reject All</button>
+                <button
+                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition mx-2"
+                  onClick={handleApproveAll}
+                >
+                  Approve All
+                </button>
+                <button
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+                  onClick={handleRejectAll}
+                >
+                  Reject All
+                </button>
               </div>
             </div>
             {searchedQueries.length > 0 ? (
               searchedQueries.map((query) => (
                 <PendingQueryCard
-                  key={query.id}
+                  key={query._id} // Use MongoDB _id
                   title={query.title}
                   description={query.description}
-                  author={query.author}
-                  date={query.date}
-                  image={query.image}
+                  author={query.username}
+                  date={new Date(query.datePosted).toLocaleDateString()} // Format date
+                  image={`http://localhost:1783/Images/${query.image}`}
                   status={query.status}
-                  onClick={() => navigate('/admin-query-detailed-view')}
-                  onApprove={() => console.log('Query Approved..')}
-                  onReject={() => console.log('Query Rejected..')}
+                  onClick={() =>
+                    navigate("/admin-query-detailed-view", {
+                      state: { queryId: query._id },
+                    })
+                  } // Pass query ID to detailed view
+                  onApprove={async () => {
+                    await axios.put(
+                      `http://localhost:1783/api/query/approverejectquery/${query._id}`,
+                      {
+                        status: "Approved",
+                      }
+                    );
+                    // Update the query status after approval
+                    const updatedQueries = queries.map((q) =>
+                      q._id === query._id ? { ...q, status: "Approved" } : q
+                    );
+                    setQueries(updatedQueries);
+                  }}
+                  onReject={async () => {
+                    await axios.put(
+                      `http://localhost:1783/api/query/approverejectquery/${query._id}`,
+                      {
+                        status: "Rejected",
+                      }
+                    );
+                    // Update the query status after rejection
+                    const updatedQueries = queries.map((q) =>
+                      q._id === query._id ? { ...q, status: "Rejected" } : q
+                    );
+                    setQueries(updatedQueries);
+                  }}
                 />
               ))
             ) : (
-              <p className="text-gray-500">No queries match your search or filter.</p>
+              <p className="text-gray-500">
+                No queries match your search or filter.
+              </p>
             )}
           </div>
         </main>
       </div>
     </>
-  )
+  );
 }
 
-export default PendingQueries
+export default PendingQueries;

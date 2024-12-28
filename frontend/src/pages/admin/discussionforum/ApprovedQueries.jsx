@@ -122,7 +122,7 @@ function ApprovedQueries() {
         </main>
       </div>
     </>
-  )
+  );
 }
 
-export default ApprovedQueries
+export default ApprovedQueries;

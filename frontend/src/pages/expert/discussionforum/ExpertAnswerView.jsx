@@ -11,7 +11,8 @@ function ExpertAnswerView() {
             isExpert: true,
             content: "You should use eco-friendly pesticides and ensure proper soil treatment before planting.",
             date: "2024-12-20",
-            ratings: 5,
+            upvotes: 17,
+            downvotes: 6,
         },
         {
             id: 2,
@@ -19,7 +20,8 @@ function ExpertAnswerView() {
             isExpert: false,
             content: "You should use eco-friendly pesticides and ensure proper soil treatment before planting.",
             date: "2024-12-25",
-            ratings: 5,
+            upvotes: 27,
+            downvotes: 2,
         },
     ]);
 
@@ -50,7 +52,8 @@ function ExpertAnswerView() {
                 isExpert: false, // Replace with user role logic
                 content: newAnswer,
                 date: new Date().toISOString().split('T')[0],
-                ratings: 0, // Default rating
+                upvotes: 0,
+                downvotes: 0,
             };
 
             setAnswers((prevAnswers) => [...prevAnswers, newAnswerObj]);
@@ -90,7 +93,8 @@ function ExpertAnswerView() {
                             isExpert={answer.isExpert}
                             content={answer.content}
                             date={answer.date}
-                            ratings={answer.ratings}
+                            upvotes={answer.upvotes}
+                            downvotes={answer.downvotes}
                         />
                     ))}
                 </div>

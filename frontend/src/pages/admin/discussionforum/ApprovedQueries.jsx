@@ -1,87 +1,42 @@
-import React, { useState } from 'react';
-import AdminNav from '../AdminNav'
-import SideNav from '../../../components/admin/discussionforum/SideNav'
-import QueryCard from '../../../components/general/discussionForum/QueryCard';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import AdminNav from "../AdminNav";
+import SideNav from "../../../components/admin/discussionforum/SideNav";
+import QueryCard from "../../../components/general/discussionForum/QueryCard";
 
 function ApprovedQueries() {
-  const queries = [
-    {
-      id: 1,
-      title: 'How to prevent pests in wheat crops?',
-      description:
-        'I’ve noticed some damage in my wheat crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer John',
-      date: '2024-12-19',
-      image: 'https://via.placeholder.com/150',
-      status: "Approved",
-    },
-    {
-      id: 2,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Approved",
-    },
-    {
-      id: 3,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Approved",
-    },
-    {
-      id: 4,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Approved",
-    },
-    {
-      id: 5,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Approved",
-    },
-    {
-      id: 6,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Approved",
-    },
-  ];
+  const [queries, setQueries] = useState([]); // State for storing queries
+  const [search, setSearch] = useState(""); // State for search input
+  const [error, setError] = useState(null); // State for handling errors
 
+  // Fetch approved queries from backend
+  useEffect(() => {
+    axios
+      .get("http://localhost:1783/api/query/getapprovedqueries") // Replace with your API endpoint
+      .then((response) => {
+        setQueries(response.data); // Set the fetched queries to state
+      })
+      .catch((error) => {
+        console.error("Error fetching approved queries:", error);
+        setError("Failed to load approved queries. Please try again.");
+      });
+  }, []);
 
-  const [search, setSearch] = useState('');
-
+  // Search filter
   const searchedQueries = queries.filter((query) => {
     const matchesSearch =
       query.title.toLowerCase().includes(search.toLowerCase()) ||
       query.description.toLowerCase().includes(search.toLowerCase());
     return matchesSearch;
   });
+
   return (
     <>
       <AdminNav />
-      <div className='flex'>
+      <div className="flex">
         {/* Side Panel */}
         <SideNav />
+
         {/* Main Content */}
         <main className="w-3/4 max-w-7xl mx-auto p-6">
           <div className="flex flex-row justify-between items-center">
@@ -95,28 +50,27 @@ function ApprovedQueries() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-              {/* <button className="btn join-item" onClick={() => console.log('Search initiated')}>
-                                Search
-                            </button> */}
             </div>
           </div>
           <div className="space-y-4 mt-6">
             <h2 className="text-2xl font-semibold">Approved Queries</h2>
-            {searchedQueries.length > 0 ? (
+            {error ? (
+              <p className="text-red-500">{error}</p>
+            ) : searchedQueries.length > 0 ? (
               searchedQueries.map((query) => (
                 <QueryCard
                   key={query.id}
                   title={query.title}
                   description={query.description}
-                  author={query.author}
-                  date={query.date}
-                  image={query.image}
+                  author={query.username}
+                  date={new Date(query.datePosted).toLocaleDateString()}
+                  image={`http://localhost:1783/Images/${query.image}`}
                   status={query.status}
                   onClick={() => console.log("Query Clicked..")}
                 />
               ))
             ) : (
-              <p className="text-gray-500">No queries match your search or filter.</p>
+              <p className="text-gray-500">No queries match your search.</p>
             )}
           </div>
         </main>

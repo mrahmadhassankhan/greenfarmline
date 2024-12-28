@@ -1,85 +1,45 @@
-import React, { useState } from 'react';
-import AdminNav from '../AdminNav'
-import SideNav from '../../../components/admin/discussionforum/SideNav'
-import QueryCard from '../../../components/general/discussionForum/QueryCard';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import AdminNav from "../AdminNav";
+import SideNav from "../../../components/admin/discussionforum/SideNav";
+import QueryCard from "../../../components/general/discussionForum/QueryCard";
 
 function RejectedQueries() {
-  const queries = [
-    {
-      id: 1,
-      title: 'How to prevent pests in wheat crops?',
-      description:
-        'I’ve noticed some damage in my wheat crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer John',
-      date: '2024-12-19',
-      image: 'https://via.placeholder.com/150',
-      status: "Rejected",
-    },
-    {
-      id: 2,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Rejected",
-    },
-    {
-      id: 3,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Rejected",
-    },
-    {
-      id: 4,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Rejected",
-    },
-    {
-      id: 5,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Rejected",
-    },
-    {
-      id: 6,
-      title: 'How to prevent pests in cotton crops?',
-      description:
-        'I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?',
-      author: 'Farmer Smith',
-      date: '2024-12-20',
-      image: 'https://via.placeholder.com/150',
-      status: "Rejected",
-    },
-  ];
+  const [queries, setQueries] = useState([]);
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
+  // Fetch rejected queries using Axios
+  useEffect(() => {
+    const fetchRejectedQueries = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          "http://localhost:1783/api/query/getrejectedqueries"
+        );
+        setQueries(response.data); // Assuming the response contains an array of queries
+        setLoading(false);
+      } catch (err) {
+        setError("Failed to fetch rejected queries. Please try again later.");
+        setLoading(false);
+      }
+    };
 
-  const [search, setSearch] = useState('');
+    fetchRejectedQueries();
+  }, []);
 
-  const searchedQueries = queries.filter((query) => {
-    const matchesSearch =
+  // Filter queries based on search input
+  const searchedQueries = queries.filter(
+    (query) =>
       query.title.toLowerCase().includes(search.toLowerCase()) ||
-      query.description.toLowerCase().includes(search.toLowerCase());
-    return matchesSearch;
-  });
+      query.description.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <>
       <AdminNav />
-      <div className='flex'>
+      <div className="flex">
         {/* Side Panel */}
         <SideNav />
         {/* Main Content */}
@@ -95,34 +55,37 @@ function RejectedQueries() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-              {/* <button className="btn join-item" onClick={() => console.log('Search initiated')}>
-                                Search
-                            </button> */}
             </div>
           </div>
           <div className="space-y-4 mt-6">
             <h2 className="text-2xl font-semibold">Rejected Queries</h2>
-            {searchedQueries.length > 0 ? (
+            {loading ? (
+              <p className="text-gray-500">Loading queries...</p>
+            ) : error ? (
+              <p className="text-red-500">{error}</p>
+            ) : searchedQueries.length > 0 ? (
               searchedQueries.map((query) => (
                 <QueryCard
                   key={query.id}
                   title={query.title}
                   description={query.description}
-                  author={query.author}
-                  date={query.date}
-                  image={query.image}
+                  author={query.username}
+                  date={new Date(query.datePosted).toLocaleDateString()}
+                  image={`http://localhost:1783/Images/${query.image}`}
                   status={query.status}
                   onClick={() => console.log("Query Clicked..")}
                 />
               ))
             ) : (
-              <p className="text-gray-500">No queries match your search or filter.</p>
+              <p className="text-gray-500">
+                No queries match your search or filter.
+              </p>
             )}
           </div>
         </main>
       </div>
     </>
-  )
+  );
 }
 
-export default RejectedQueries
+export default RejectedQueries;

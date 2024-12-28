@@ -17,7 +17,7 @@ const QueryCard = ({ title, description, author, date, image, status, onClick })
     return (
         <div 
             onClick={onClick} 
-            className="relative flex flex-col md:flex-row items-start bg-white shadow-lg rounded-lg p-4 hover:shadow-xl transition-shadow cursor-pointer"
+            className="relative flex flex-col dark:bg-slate-900 dark:border md:flex-row items-start bg-white shadow-lg rounded-lg p-4 hover:shadow-xl transition-shadow cursor-pointer"
         >
             {image && (
                 <img
@@ -28,7 +28,7 @@ const QueryCard = ({ title, description, author, date, image, status, onClick })
             )}
             <div className="flex-1">
                 <h3 className="text-xl font-bold text-lime-600">{title}</h3>
-                <p className="text-sm text-gray-600 my-2">
+                <p className="text-sm dark:text-white text-gray-600 overflow-hidden break-words max-h-20 max-w-96 my-2">
                     {description.length > 120 ? `${description.slice(0, 120)}...` : description}
                 </p>
                 <div className="flex justify-between items-center mt-4 text-gray-500 text-sm">

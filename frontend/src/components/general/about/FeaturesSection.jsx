@@ -8,12 +8,12 @@ const features = [
 
 const FeaturesSection = () => {
     return (
-        <section className="py-16">
+        <section className="py-16 dark:border-t">
             <div className="container mx-auto px-4 text-center">
-                <h2 className="text-3xl font-bold text-gray-800 mb-10">What We Offer</h2>
+                <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-500 mb-10">What We Offer</h2>
                 <div className="flex justify-around flex-col md:flex-row">
                     {features.map((feature, idx) => (
-                        <div key={idx} className="card bg-base-100 w-96 drop-shadow-2xl p-10 mb-6">
+                        <div key={idx} className="card bg-base-100 dark:bg-slate-900 border w-96 drop-shadow-2xl p-10 mb-6">
                             <div className='text-5xl'>{feature.icon}</div>
                             <div className="card-body items-center text-center">
                                 <h2 className="card-title">{feature.title}</h2>

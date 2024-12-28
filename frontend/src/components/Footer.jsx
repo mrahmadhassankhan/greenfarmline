@@ -3,7 +3,7 @@ import React from 'react'
 function Footer() {
     return (
         <>
-            <footer className="footer bg-base-200 text-base-content p-10">
+            <footer className="footer bg-base-200 text-base-content dark:bg-slate-600 dark:text-white p-10">
                 <nav>
                     <h6 className="footer-title">Services</h6>
                     <a className="link link-hover">Ecommerce Store</a>
@@ -22,7 +22,7 @@ function Footer() {
                     <a className="link link-hover" href='/privacypolicy'>Privacy policy</a>
                 </nav>
             </footer>
-            <footer className="footer bg-base-200 text-base-content border-base-300 border-t px-10 py-4">
+            <footer className="footer bg-base-200 text-base-content border-base-300 dark:border-black dark:bg-slate-600 dark:text-white border-t px-10 py-4">
                 <aside className="grid-flow-col items-center">
                     <svg
                         width="24"

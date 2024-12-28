@@ -10,14 +10,14 @@ const ExpertForm = ({ formValues, handleChange, errors }) => {
         errors={errors}
       />
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
           Qualification
         </label>
         <input
           type="text"
           name="qualification"
           placeholder="Enter your qualification"
-          className="w-full p-2 border rounded-md"
+          className="w-full p-2 border rounded-md dark:bg-slate-900"
           value={formValues.qualification}
           onChange={handleChange}
         />
@@ -26,13 +26,13 @@ const ExpertForm = ({ formValues, handleChange, errors }) => {
         )}
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
           Upload Degree
         </label>
         <input
           type="file"
           name="degree"
-          className="w-full p-2 border rounded-md"
+          className="w-full p-2 border rounded-md dark:bg-slate-900"
           onChange={handleChange}
         />
         {errors.degree && (
@@ -40,14 +40,14 @@ const ExpertForm = ({ formValues, handleChange, errors }) => {
         )}
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
           Years of Experience
         </label>
         <input
           type="number"
           name="yearsOfExperience"
           placeholder="Enter your years of experience"
-          className="w-full p-2 border rounded-md"
+          className="w-full p-2 border rounded-md dark:bg-slate-900"
           value={formValues.yearsOfExperience}
           onChange={handleChange}
         />
@@ -58,14 +58,14 @@ const ExpertForm = ({ formValues, handleChange, errors }) => {
         )}
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
           Area of Expertise
         </label>
         <input
           type="text"
           name="expertise"
           placeholder="Enter your area of expertise"
-          className="w-full p-2 border rounded-md"
+          className="w-full p-2 border rounded-md dark:bg-slate-900"
           value={formValues.expertise}
           onChange={handleChange}
         />

@@ -90,7 +90,7 @@ const PostQuery = () => {
                             {/* Image Upload */}
                             <div>
                                 <label htmlFor="images" className="block text-sm font-medium text-gray-700">
-                                    Upload Images (Optional)
+                                    Upload Image
                                 </label>
                                 <input
                                     type="file"

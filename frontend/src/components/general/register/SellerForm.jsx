@@ -10,14 +10,14 @@ const SellerForm = ({ formValues, handleChange, errors }) => {
         errors={errors}
       />
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
           Business Name
         </label>
         <input
           type="text"
           name="businessName"
           placeholder="Enter your business name"
-          className="w-full p-2 border rounded-md"
+          className="w-full p-2 border rounded-md dark:bg-slate-900"
           value={formValues.businessName}
           onChange={handleChange}
         />
@@ -26,14 +26,14 @@ const SellerForm = ({ formValues, handleChange, errors }) => {
         )}
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
           Registration No.
         </label>
         <input
           type="text"
           name="registrationNo"
           placeholder="Enter your registration number"
-          className="w-full p-2 border rounded-md"
+          className="w-full p-2 border rounded-md dark:bg-slate-900"
           value={formValues.registrationNo}
           onChange={handleChange}
         />
@@ -42,13 +42,13 @@ const SellerForm = ({ formValues, handleChange, errors }) => {
         )}
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
           Business Logo
         </label>
         <input
           type="file"
           name="businessLogo"
-          className="w-full p-2 border rounded-md"
+          className="w-full p-2 border rounded-md dark:bg-slate-900"
           onChange={handleChange}
         />
         {errors.logo && (

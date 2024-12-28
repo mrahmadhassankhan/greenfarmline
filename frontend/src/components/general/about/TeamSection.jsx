@@ -8,9 +8,9 @@ const teamMembers = [
 
 const TeamSection = () => {
   return (
-    <section className="bg-base-300 py-16">
+    <section className="bg-base-300 dark:bg-slate-900 dark:border-t py-16">
       <div className="container mx-auto px-4 text-center">
-        <h2 className="text-3xl font-bold text-gray-800 mb-10">
+        <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-500 mb-10">
           Meet Our Team
         </h2>
         <div className="flex justify-around">
@@ -21,10 +21,10 @@ const TeamSection = () => {
                 alt={member.name}
                 className="w-48 h-48 rounded-full object-cover mx-auto shadow-2xl bg-lime-500"
               />
-              <h3 className="text-2xl font-semibold text-gray-800 mt-4">
+              <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-500 mt-4">
                 {member.name}
               </h3>
-              <p className="text-gray-600">{member.title}</p>
+              <p className="text-gray-600 dark:text-gray-300">{member.title}</p>
             </div>
           ))}
         </div>

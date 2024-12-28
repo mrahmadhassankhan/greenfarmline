@@ -7,12 +7,12 @@ function ContactForm() {
       <div className="min-h-screen flex items-center justify-center px-4 md:px-20">
         <div className="max-w-7xl w-full space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-lg">
+            <div className="bg-white dark:bg-slate-900 dark:border dark:text-white p-6 rounded-lg shadow-lg">
               <form className="space-y-6">
                 <div>
                   <label
                     htmlFor="name"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium dark:text-white text-gray-700"
                   >
                     Full Name
                   </label>
@@ -21,14 +21,14 @@ function ContactForm() {
                     name="name"
                     type="text"
                     required
-                    className="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+                    className="mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
                     placeholder="Enter Your Name"
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium dark:text-white text-gray-700"
                   >
                     Email Address
                   </label>
@@ -37,14 +37,14 @@ function ContactForm() {
                     name="email"
                     type="email"
                     required
-                    className="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+                    className="mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
                     placeholder="Enter Your Email Address"
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="phone"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium dark:text-white text-gray-700"
                   >
                     Phone Number (Optional)
                   </label>
@@ -52,14 +52,14 @@ function ContactForm() {
                     id="phone"
                     name="phone"
                     type="text"
-                    className="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+                    className="mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
                     placeholder="Enter Your Phone Number"
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="subject"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium dark:text-white text-gray-700"
                   >
                     Subject
                   </label>
@@ -68,14 +68,14 @@ function ContactForm() {
                     name="subject"
                     type="text"
                     required
-                    className="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+                    className="mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
                     placeholder="Enter Subject"
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="message"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium dark:text-white text-gray-700"
                   >
                     Message
                   </label>
@@ -84,7 +84,7 @@ function ContactForm() {
                     name="message"
                     rows="4"
                     required
-                    className="mt-1 p-2 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+                    className="mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
                     placeholder="Type Your Message Here"
                   />
                 </div>

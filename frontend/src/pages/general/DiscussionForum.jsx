@@ -1,93 +1,65 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
-import Navbar from '../../components/Navbar'
-import Footer from '../../components/Footer'
-import QueryCard from '../../components/general/discussionForum/QueryCard';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import QueryCard from "../../components/general/discussionForum/QueryCard";
 
 function DiscussionForum() {
-    const queries = [
-        {
-            id: 1,
-            title: "How to prevent pests in wheat crops?",
-            description: "I’ve noticed some damage in my wheat crops. What is the best way to deal with pests and ensure a healthy yield?",
-            author: "Farmer John",
-            date: "2024-12-19",
-            image: "https://via.placeholder.com/150",
-            status: "Approved",
-        },
-        {
-            id: 2,
-            title: "How to prevent pests in cotton crops?",
-            description: "I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?",
-            author: "Farmer smith",
-            date: "2024-12-20",
-            image: "https://via.placeholder.com/150",
-            status: "Approved",
-        },
-        {
-            id: 3,
-            title: "How to prevent pests in cotton crops?",
-            description: "I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?",
-            author: "Farmer smith",
-            date: "2024-12-20",
-            image: "https://via.placeholder.com/150",
-            status: "Approved",
-        },
-        {
-            id: 4,
-            title: "How to prevent pests in cotton crops?",
-            description: "I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?",
-            author: "Farmer smith",
-            date: "2024-12-20",
-            image: "https://via.placeholder.com/150",
-            status: "Approved",
-        },
-        {
-            id: 5,
-            title: "How to prevent pests in cotton crops?",
-            description: "I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?",
-            author: "Farmer smith",
-            date: "2024-12-20",
-            image: "https://via.placeholder.com/150",
-            status: "Approved",
-        },
-        {
-            id: 6,
-            title: "How to prevent pests in cotton crops?",
-            description: "I’ve noticed some damage in my cotton crops. What is the best way to deal with pests and ensure a healthy yield?",
-            author: "Farmer smith",
-            date: "2024-12-20",
-            image: "https://via.placeholder.com/150",
-            status: "Approved",
-        },
-    ];
+  const [queries, setQueries] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  // Fetch approved queries from backend
+  useEffect(() => {
+    axios
+      .get("http://localhost:1783/api/query/getapprovedqueries")
+      .then((response) => {
+        setQueries(response.data); // Set the fetched queries to state
+        setLoading(false); // Stop the loading spinner
+      })
+      .catch((error) => {
+        console.error("Error fetching approved queries:", error);
+        setError("Failed to load approved queries. Please try again.");
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <>
-        <Navbar />
-        <div className="max-w-7xl mx-auto p-6 mt-16 dark:border">
-            <h1 className="text-3xl font-bold text-center mb-6">Discussion Forum</h1>
-            <div className="space-y-4">
-                <h2 className="text-lg font-semibold">Leatest Queries</h2>
-                {queries.map((query) => (
-                    <QueryCard
-                        key={query.id}
-                        title={query.title}
-                        description={query.description}
-                        author={query.author}
-                        date={query.date}
-                        image={query.image}
-                        status={query.status}
-                        onClick={() => navigate('/login')}
-                    />
-                ))}
-            </div>
+      <Navbar />
+      <div className="max-w-7xl mx-auto p-6 mt-16 dark:border">
+        <h1 className="text-3xl font-bold text-center mb-6">
+          Discussion Forum
+        </h1>
+        <div className="space-y-4">
+          <h2 className="text-lg font-semibold">Latest Queries</h2>
+          {loading ? (
+            <p className="text-gray-500">Loading queries...</p>
+          ) : error ? (
+            <p className="text-red-500">{error}</p>
+          ) : queries.length > 0 ? (
+            queries.map((query) => (
+              <QueryCard
+                key={query.id}
+                title={query.title}
+                description={query.description}
+                author={query.username}
+                date={new Date(query.datePosted).toLocaleDateString()}
+                image={`http://localhost:1783/Images/${query.image}`}
+                status={query.status}
+                onClick={() => navigate("/login")}
+              />
+            ))
+          ) : (
+            <p className="text-gray-500">No approved queries available.</p>
+          )}
         </div>
-        <Footer />
+      </div>
+      <Footer />
     </>
-  )
+  );
 }
 
-export default DiscussionForum
+export default DiscussionForum;

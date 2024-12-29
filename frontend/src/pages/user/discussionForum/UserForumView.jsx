@@ -1,32 +1,33 @@
-import React, { useState, useEffect } from "react"; // Import useEffect
-import axios from "axios"; // Import axios for API calls
-import UserNav from "../UserNav";
-import QueryCard from "../../../components/general/discussionForum/QueryCard";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import QueryCard from "../../../components/general/discussionForum/QueryCard";
+import UserNav from "../UserNav";
 import SideBar from "../../../components/user/discussionforum/SideBar";
 
 function UserForumView() {
-  const [queries, setQueries] = useState([]); // State for storing queries
-  const [search, setSearch] = useState(""); // State for search input
+  const [queries, setQueries] = useState([]);
+  const [search, setSearch] = useState(""); // Search state
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  // Fetch approved queries from backend
   useEffect(() => {
-    // Fetch approved queries from the backend when the component is mounted
-    const fetchQueries = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:1783/api/query/getapprovedqueries" // Replace with your backend API endpoint
-        );
-        setQueries(response.data); // Assuming the response contains approved queries
-      } catch (error) {
-        console.error("Error fetching queries:", error);
-      }
-    };
+    axios
+      .get("http://localhost:1783/api/query/getapprovedqueries") // Replace with your API endpoint
+      .then((response) => {
+        setQueries(response.data); // Set fetched queries to state
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching approved queries:", err);
+        setError("Failed to load queries. Please try again.");
+        setLoading(false);
+      });
+  }, []);
 
-    fetchQueries();
-  }, []); // Run the effect only once when the component is mounted
-
-  // Filter queries based on search input
+  // Filter queries based on the search input
   const searchedQueries = queries.filter((query) => {
     const matchesSearch =
       query.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -41,41 +42,50 @@ function UserForumView() {
         {/* Side Panel */}
         <SideBar />
 
-        {/* Main Content */}
         <main className="w-3/4 max-w-7xl mx-auto p-6">
-          <div className="flex flex-row justify-between items-center">
-            <h1 className="text-3xl font-bold">Discussion Forum</h1>
-            <div className="join">
-              {/* Search Input */}
-              <input
-                type="text"
-                className="input input-bordered join-item"
-                placeholder="Search"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="space-y-4 mt-6">
-            <h2 className="text-2xl font-semibold">Latest Queries</h2>
-            {searchedQueries.length > 0 ? (
-              searchedQueries.map((query) => (
-                <QueryCard
-                  key={query.id}
-                  title={query.title}
-                  description={query.description}
-                  author={query.username}
-                  date={new Date(query.datePosted).toLocaleDateString()}
-                  image={`http://localhost:1783/Images/${query.image}`}
-                  status={query.status}
-                  onClick={() => navigate("/query-detailed-view")}
+          <div className="max-w-7xl mx-auto p-6 mt-5">
+            <div className="flex flex-row justify-between items-center mb-5">
+              <h1 className="text-3xl font-bold text-lime-500">
+                Discussion Forum
+              </h1>
+              <div className="join">
+                {/* Search Input */}
+                <input
+                  type="text"
+                  className="input input-bordered join-item"
+                  placeholder="Search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
                 />
-              ))
-            ) : (
-              <p className="text-gray-500">
-                No queries match your search or filter.
-              </p>
-            )}
+              </div>
+            </div>
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold">Latest Queries</h2>
+              {loading ? (
+                <p className="text-gray-500">Loading queries...</p>
+              ) : error ? (
+                <p className="text-red-500">{error}</p>
+              ) : searchedQueries.length > 0 ? (
+                searchedQueries.map((query) => (
+                  <QueryCard
+                    key={query.id}
+                    title={query.title}
+                    description={query.description}
+                    author={query.username}
+                    date={new Date(query.datePosted).toLocaleDateString()}
+                    image={`http://localhost:1783/Images/${query.image}`}
+                    status={query.status}
+                    onClick={() =>
+                      navigate("/query-detailed-view", { state: { query } })
+                    }
+                  />
+                ))
+              ) : (
+                <p className="text-gray-500">
+                  No queries match your search or filter.
+                </p>
+              )}
+            </div>
           </div>
         </main>
       </div>

@@ -36,7 +36,70 @@ const QuerySchema = new mongoose.Schema({
     required: true,
     enum: ["farmer", "expert", "seller"],
   },
+  answers: [
+    {
+      username: {
+        type: String,
+        required: true,
+        trim: true,
+      },
+      useremail: {
+        type: String,
+        required: true,
+      },
+      role: {
+        type: String,
+        required: true,
+        default: "Expert",
+      },
+      answer: {
+        type: String,
+        required: true,
+        trim: true,
+      },
+      dateAnswered: {
+        type: Date,
+        default: Date.now,
+      },
+      noOfVotes: {
+        type: Number,
+        default: 0,
+      },
+      voters: [
+        {
+          type: String, // Store the user email or ID to track who voted
+        },
+      ],
+    },
+  ],
 });
+
+// Method to add vote
+QuerySchema.methods.addVote = function (answerId, userEmail) {
+  // Find the answer by its ID
+  const answer = this.answers.id(answerId);
+  if (!answer) return;
+
+  // Add the vote
+  answer.noOfVotes += 1;
+  answer.voters.push(userEmail);
+
+  return this.save(); // Save the query document
+};
+
+// Method to downvote
+QuerySchema.methods.downvote = function (answerId, userEmail) {
+  // Find the answer by its ID
+  const answer = this.answers.id(answerId);
+  if (!answer) return;
+
+  // Decrease the vote count
+  answer.noOfVotes -= 1;
+
+  answer.voters.push(userEmail);
+
+  return this.save(); // Save the query document
+};
 
 const QueryModel = mongoose.model("Queries", QuerySchema);
 module.exports = QueryModel;

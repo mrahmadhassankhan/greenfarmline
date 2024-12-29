@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios"; // Import axios
 import ExpertNav from "../ExpertNav";
 import AnswerCard from "../../../components/general/discussionForum/AnswerCard";
-import QueryCard from "../../../components/general/discussionForum/QueryCard";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import QueryDetailsCard from "../../../components/general/discussionForum/QueryDetailsCard";
 
 function ExpertAnswerView() {
   const location = useLocation();
@@ -85,7 +85,7 @@ function ExpertAnswerView() {
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold">Query#</h2>
 
-          <QueryCard
+          <QueryDetailsCard
             key={query._id}
             title={query.title}
             description={query.description}

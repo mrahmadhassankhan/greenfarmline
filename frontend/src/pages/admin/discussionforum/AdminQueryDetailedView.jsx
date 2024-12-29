@@ -1,14 +1,14 @@
 import React from 'react'
 import AdminNav from '../AdminNav'
 import SideNav from '../../../components/admin/discussionforum/SideNav'
-import QueryCard from '../../../components/general/discussionForum/QueryCard';
+import QueryDetailsCard from '../../../components/general/discussionForum/QueryDetailsCard';
 
 function AdminQueryDetailedView() {
   const queries = [
     {
         id: 1,
-        title: "How to prevent pests in wheat crops?",
-        description: "I’ve noticed some damage in my wheat crops. What is the best way to deal with pests and ensure a healthy yield?",
+        title: "How to get documents that contain certain word in some fields with filtered query?",
+        description: "2 I want to find all books with Agriculture category. the books should contain word paddy in the title OR abstract field. Here is my query : GET /books/_search { query: { bool: { should: [ { match: { abstract: paddy } }, { match: { title: paddy } } ], filter: { term: { category: Agriculture } }}} } those query return all books with Agriculture category, even it's contain word paddy or not. What did I do wrong?",
         author: "Farmer John",
         date: "2024-12-19",
         image: "https://via.placeholder.com/150",
@@ -28,7 +28,7 @@ function AdminQueryDetailedView() {
             <div className="space-y-4">
               <h2 className="text-2xl font-semibold">Query#</h2>
               {queries.map((query) => (
-                <QueryCard
+                <QueryDetailsCard
                   key={query.id}
                   title={query.title}
                   description={query.description}

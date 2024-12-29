@@ -78,7 +78,7 @@ const AnswerCard = ({
   };
 
   return (
-    <div className="flex flex-row justify-between bg-gray-50 border border-gray-300 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
+    <div className="flex flex-row h-fit justify-between bg-gray-50 border border-gray-300 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex flex-col items-start">
         <div className="flex flex-row items-start">
           <span className="font-bold text-gray-700">{username}</span>

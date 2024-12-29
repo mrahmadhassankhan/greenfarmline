@@ -75,8 +75,8 @@ function UserQueries() {
                   key={query.id}
                   title={query.title}
                   description={query.description}
-                  author={query.author}
-                  date={query.date}
+                  author={query.username}
+                  date={new Date(query.datePosted).toLocaleDateString()}
                   image={`http://localhost:1783/Images/${query.image}`}
                   status={query.status}
                   onClick={() => navigate("/query-detailed-view")}

@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const LoginPage = () => {
@@ -8,6 +9,7 @@ const LoginPage = () => {
     password: "",
     role: "farmer",
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,6 +61,15 @@ const LoginPage = () => {
       localStorage.setItem("userEmail", response.data.user.userEmail);
       localStorage.setItem("userName", response.data.user.userName);
       localStorage.setItem("userType", response.data.user.userType);
+      if (role === "farmer") {
+        navigate("/userdashboard");
+      }
+      if (role === "expert") {
+        navigate("/expertdashboard");
+      }
+      if (role === "seller") {
+        navigate("/sellerdashboard");
+      }
     } catch (error) {
       console.error("Error during login:", error);
       toast.error("Invalid Username or Password");

@@ -26,42 +26,47 @@ import AdminQueryDetailedView from "./pages/admin/discussionforum/AdminQueryDeta
 import { ToastContainer, toast } from "react-toastify";
 import ApprovedQueries from "./pages/admin/discussionforum/ApprovedQueries";
 import RejectedQueries from "./pages/admin/discussionforum/RejectedQueries";
+import SellerDashboard from "./pages/seller/dashboard/SellerDashboard";
 
 const App = () => {
   return (
     <>
       <div className="dark:bg-slate-900 dark:text-white">
-      <ToastContainer />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/privacypolicy" element={<PrivacyPolicy />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/faq" element={<FAQ />} />
-        <Route path="/register" element={<RegisterUser />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgetpassword" element={<ForgetPassword />} />
-        <Route path="/verify" element={<OTPVerification />} />
-        <Route path="/discussionforum" element={<DiscussionForum />} />
-
-        <Route path="/username" element={<UserDashboard />} />
-        <Route path="/userforumview" element={<UserForumView />} />
-        <Route path="/post-query" element={<PostQuery />} />
-        <Route path="/query-detailed-view" element={<QueryDetailedView />} />
-        <Route path="/your-queries" element={<UserQueries />} />
-
-          <Route path="/expertname" element={<ExpertDashboard />} />
+        <ToastContainer />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/register" element={<RegisterUser />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgetpassword" element={<ForgetPassword />} />
+          <Route path="/verify" element={<OTPVerification />} />
+          <Route path="/discussionforum" element={<DiscussionForum />} />
+          <Route path="/userdashboard" element={<UserDashboard />} />
+          <Route path="/userforumview" element={<UserForumView />} />
+          <Route path="/post-query" element={<PostQuery />} />
+          <Route path="/query-detailed-view" element={<QueryDetailedView />} />
+          <Route path="/your-queries" element={<UserQueries />} />
+          <Route path="/expertdashboard" element={<ExpertDashboard />} />
           <Route path="/expertforumview" element={<ExpertForumView />} />
           <Route path="/write-your-answer" element={<ExpertAnswerView />} />
-          <Route path="/your-answered-queries" element={<ExpertAnsweredQueries />} />
+          <Route
+            path="/your-answered-queries"
+            element={<ExpertAnsweredQueries />}
+          />
 
+          <Route path="/sellerdashboard" element={<SellerDashboard />} />
           <Route path="/admin-panel" element={<AdminDashboard />} />
           <Route path="/pending-queries" element={<PendingQueries />} />
-          <Route path="/admin-query-detailed-view" element={<AdminQueryDetailedView />} />
+          <Route
+            path="/admin-query-detailed-view"
+            element={<AdminQueryDetailedView />}
+          />
           <Route path="/approved-queries" element={<ApprovedQueries />} />
           <Route path="/rejected-queries" element={<RejectedQueries />} />
-
         </Routes>
       </div>
     </>

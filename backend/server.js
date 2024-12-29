@@ -16,6 +16,7 @@ const productrouter = require("./Routers/ProductsRouter");
 const registerRouter = require("./Routers/RegisterationRouter");
 const loginRouter = require("./Routers/LoginRouter");
 const queryRouter = require("./Routers/QueryRouter");
+const answerrouter = require("./Routers/AnswerRouter");
 const PORT = process.env.PORT || 1783;
 
 app.use(
@@ -38,6 +39,9 @@ app.use("/api/login", loginRouter);
 
 //Query
 app.use("/api/query", queryRouter);
+
+//Answer
+app.use("/api/answer", answerrouter);
 
 //Error Handlers
 app.use(notFound);

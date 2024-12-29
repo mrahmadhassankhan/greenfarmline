@@ -4,6 +4,7 @@ import AdminNav from "../AdminNav";
 import SideNav from "../../../components/admin/discussionforum/SideNav";
 import PendingQueryCard from "../../../components/admin/discussionforum/PendingQueryCard";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function PendingQueries() {
   const [queries, setQueries] = useState([]); // State to hold queries
@@ -42,7 +43,7 @@ function PendingQueries() {
         "http://localhost:1783/api/query/getpendingqueries"
       );
       setQueries(response.data);
-      console.log("All queries approved");
+      toast.success("All Queries Approved");
     } catch (error) {
       console.error("Error approving queries:", error);
     }
@@ -59,7 +60,7 @@ function PendingQueries() {
         "http://localhost:1783/api/query/getpendingqueries"
       );
       setQueries(response.data);
-      console.log("All queries rejected");
+      toast.success("All Queries Rejected");
     } catch (error) {
       console.error("Error rejecting queries:", error);
     }
@@ -131,6 +132,7 @@ function PendingQueries() {
                       q._id === query._id ? { ...q, status: "Approved" } : q
                     );
                     setQueries(updatedQueries);
+                    toast.success("Query approved successfully!");
                   }}
                   onReject={async () => {
                     await axios.put(
@@ -144,6 +146,7 @@ function PendingQueries() {
                       q._id === query._id ? { ...q, status: "Rejected" } : q
                     );
                     setQueries(updatedQueries);
+                    toast.success("Query rejected successfully!");
                   }}
                 />
               ))

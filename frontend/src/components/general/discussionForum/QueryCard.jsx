@@ -26,12 +26,12 @@ const QueryCard = ({ title, description, author, date, image, status, onClick })
                     className="w-full md:w-1/3 h-40 object-cover rounded-lg md:mr-4"
                 />
             )}
-            <div className="flex-1">
-                <h3 className="text-xl font-bold text-lime-600">{title}</h3>
-                <p className="text-sm dark:text-white text-gray-600 overflow-hidden break-words max-h-20 max-w-96 my-2">
+            <div className="flex-1 w-full md:w-1/2">
+                <h3 className="text-xl font-bold text-lime-600 overflow-hidden break-words max-h-8 max-w-full">{title}</h3>
+                <p className="text-sm dark:text-white text-gray-600 overflow-hidden break-words max-h-20 max-w-full my-2">
                     {description.length > 120 ? `${description.slice(0, 120)}...` : description}
                 </p>
-                <div className="flex justify-between items-center mt-4 text-gray-500 text-sm">
+                <div className="absolute bottom-4 flex gap-28 items-center text-gray-500 text-sm">
                     <span>Posted by: {author}</span>
                     <span>{date}</span>
                 </div>

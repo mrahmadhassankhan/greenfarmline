@@ -9,7 +9,6 @@ function UserQueries() {
   const [queries, setQueries] = useState([]); // State to store fetched queries
   const [filter, setFilter] = useState("All"); // Filter state
   const [search, setSearch] = useState(""); // Search state
-  const navigate = useNavigate();
 
   useEffect(() => {
     const userEmail = localStorage.getItem("userEmail");

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import UserNav from "../UserNav";
 import QueryCard from "../../../components/general/discussionForum/QueryCard";
-import { useNavigate } from "react-router-dom";
 import SideBar from "../../../components/user/discussionforum/SideBar";
 import axios from "axios";
 

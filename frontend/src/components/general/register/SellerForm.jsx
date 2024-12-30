@@ -17,7 +17,7 @@ const SellerForm = ({ formValues, handleChange, errors }) => {
           type="text"
           name="businessName"
           placeholder="Enter your business name"
-          className="w-full p-2 border rounded-md dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white  dark:text-white text-black dark:bg-slate-900"
           value={formValues.businessName}
           onChange={handleChange}
         />
@@ -33,7 +33,7 @@ const SellerForm = ({ formValues, handleChange, errors }) => {
           type="text"
           name="registrationNo"
           placeholder="Enter your registration number"
-          className="w-full p-2 border rounded-md dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white  dark:text-white text-black dark:bg-slate-900"
           value={formValues.registrationNo}
           onChange={handleChange}
         />
@@ -48,7 +48,7 @@ const SellerForm = ({ formValues, handleChange, errors }) => {
         <input
           type="file"
           name="businessLogo"
-          className="w-full p-2 border rounded-md dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white  dark:text-white text-black dark:bg-slate-900"
           onChange={handleChange}
         />
         {errors.logo && (

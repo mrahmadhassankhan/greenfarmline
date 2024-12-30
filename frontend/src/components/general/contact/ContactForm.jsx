@@ -7,7 +7,7 @@ function ContactForm() {
       <div className="min-h-screen flex items-center justify-center px-4 md:px-20">
         <div className="max-w-7xl w-full space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white dark:bg-slate-900 dark:border dark:text-white p-6 rounded-lg shadow-lg">
+            <div className="bg-white text-black dark:bg-slate-900 dark:border dark:text-white p-6 rounded-lg shadow-lg">
               <form className="space-y-6">
                 <div>
                   <label
@@ -21,7 +21,7 @@ function ContactForm() {
                     name="name"
                     type="text"
                     required
-                    className="mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+                    className=" bg-white text-black mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 dark:text-white rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
                     placeholder="Enter Your Name"
                   />
                 </div>
@@ -37,7 +37,7 @@ function ContactForm() {
                     name="email"
                     type="email"
                     required
-                    className="mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+                    className=" bg-white text-black mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 dark:text-white rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
                     placeholder="Enter Your Email Address"
                   />
                 </div>
@@ -52,7 +52,7 @@ function ContactForm() {
                     id="phone"
                     name="phone"
                     type="text"
-                    className="mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+                    className=" bg-white text-black mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 dark:text-white rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
                     placeholder="Enter Your Phone Number"
                   />
                 </div>
@@ -68,7 +68,7 @@ function ContactForm() {
                     name="subject"
                     type="text"
                     required
-                    className="mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+                    className=" bg-white text-black mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 dark:text-white rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
                     placeholder="Enter Subject"
                   />
                 </div>
@@ -84,7 +84,7 @@ function ContactForm() {
                     name="message"
                     rows="4"
                     required
-                    className="mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+                    className=" bg-white text-black mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
                     placeholder="Type Your Message Here"
                   />
                 </div>

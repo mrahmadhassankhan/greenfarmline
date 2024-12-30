@@ -8,7 +8,7 @@ const teamMembers = [
 
 const TeamSection = () => {
   return (
-    <section className="bg-base-300 dark:bg-slate-900 dark:border-t py-16">
+    <section className="bg-gray-200 dark:bg-slate-900 dark:border-t py-16">
       <div className="container mx-auto px-4 text-center">
         <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-500 mb-10">
           Meet Our Team

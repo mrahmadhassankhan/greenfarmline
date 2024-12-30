@@ -11,7 +11,7 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
           type="text"
           name="fullName"
           placeholder="Enter your full name"
-          className="w-full p-2 border rounded-md dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white  text-black dark:bg-slate-900 dark:text-white"
           value={formValues.fullName}
           onChange={handleChange}
         />
@@ -27,7 +27,7 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
           type="email"
           name="email"
           placeholder="Enter your email address"
-          className="w-full p-2 border rounded-md dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white  text-black dark:text-white dark:bg-slate-900"
           value={formValues.email}
           onChange={handleChange}
         />
@@ -43,7 +43,7 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
           type="tel"
           name="phoneNumber"
           placeholder="Enter your phone number"
-          className="w-full p-2 border rounded-md dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white  dark:text-white text-black dark:bg-slate-900"
           value={formValues.phoneNumber}
           onChange={handleChange}
         />
@@ -59,7 +59,7 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
           type="text"
           name="address"
           placeholder="Enter your address"
-          className="w-full p-2 border rounded-md dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white  dark:text-white text-black dark:bg-slate-900"
           value={formValues.address}
           onChange={handleChange}
         />
@@ -75,7 +75,7 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
           type="password"
           name="password"
           placeholder="Enter your password"
-          className="w-full p-2 border rounded-md dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white  dark:text-white text-black dark:bg-slate-900"
           value={formValues.password}
           onChange={handleChange}
         />
@@ -91,7 +91,7 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
           type="password"
           name="confirmPassword"
           placeholder="Confirm your password"
-          className="w-full p-2 border rounded-md dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white  dark:text-white text-black dark:bg-slate-900"
           value={formValues.confirmPassword}
           onChange={handleChange}
         />

@@ -10,7 +10,7 @@ function Services() {
         <div className="w-full flex-col">
           <div className="text-4xl font-bold text-center">Our Services</div>
           <div className="w-full mt-12 flex flex-col items-center md:flex-row gap-2">
-            <div className="card bg-base-100 dark:bg-slate-900 dark:border w-96 shadow-xl">
+            <div className="card bg-base-900 dark:bg-slate-900 dark:border w-96 shadow-xl">
               <figure className="px-10 pt-10">
                 <img
                   src={storeImage}
@@ -28,7 +28,7 @@ function Services() {
                 </div>
               </div>
             </div>
-            <div className="card bg-base-100 dark:bg-slate-900 dark:border w-96 shadow-xl">
+            <div className="card bg-base-900 dark:bg-slate-900 dark:border w-96 shadow-xl">
               <figure className="px-10 pt-10">
                 <img
                   src={forumImage}
@@ -46,7 +46,7 @@ function Services() {
                 </div>
               </div>
             </div>
-            <div className="card bg-base-100 dark:bg-slate-900 dark:border w-96 shadow-xl">
+            <div className="card bg-base-900 dark:bg-slate-900 dark:border w-96 shadow-xl">
               <figure className="px-10 pt-10">
                 <img
                   src={detectorImage}

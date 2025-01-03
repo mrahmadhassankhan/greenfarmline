@@ -32,7 +32,7 @@ import EcommerceStore from "./pages/general/EcommerceStore";
 const App = () => {
   return (
     <>
-      <div className="dark:bg-slate-900 dark:text-white">
+      <div className=" bg-white text-black dark:bg-slate-900 dark:text-white">
         <ToastContainer />
         <Routes>
           <Route path="/" element={<Home />} />

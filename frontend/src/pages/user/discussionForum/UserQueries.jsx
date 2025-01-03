@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import UserNav from "../UserNav";
 import QueryCard from "../../../components/general/discussionForum/QueryCard";
-import { useNavigate } from "react-router-dom";
 import SideBar from "../../../components/user/discussionforum/SideBar";
 import axios from "axios";
 
@@ -9,7 +8,6 @@ function UserQueries() {
   const [queries, setQueries] = useState([]); // State to store fetched queries
   const [filter, setFilter] = useState("All"); // Filter state
   const [search, setSearch] = useState(""); // Search state
-  const navigate = useNavigate();
 
   useEffect(() => {
     const userEmail = localStorage.getItem("userEmail");
@@ -79,7 +77,6 @@ function UserQueries() {
                   date={new Date(query.datePosted).toLocaleDateString()}
                   image={`http://localhost:1783/Images/${query.image}`}
                   status={query.status}
-                  onClick={() => navigate("/query-detailed-view")}
                 />
               ))
             ) : (

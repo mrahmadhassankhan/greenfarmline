@@ -6,7 +6,7 @@ function Footer() {
       <footer className="footer bg-gray-200 text-black dark:bg-slate-600 dark:text-white p-10">
         <nav>
           <h6 className="footer-title">Services</h6>
-          <a className="link link-hover">Ecommerce Store</a>
+          <a className="link link-hover" href="/ecommerce-store">Ecommerce Store</a>
           <a className="link link-hover" href="/discussionforum">
             Discussion Forum
           </a>

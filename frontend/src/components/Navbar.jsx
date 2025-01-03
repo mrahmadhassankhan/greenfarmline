@@ -39,7 +39,7 @@ function Navbar() {
         <a href="/">Home</a>
       </li>
       <li>
-        <a>Shop</a>
+        <a href="/ecommerce-store">Shop</a>
       </li>
       <li>
         <a href="/discussionforum">Forum</a>

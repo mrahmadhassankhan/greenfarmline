@@ -1,24 +1,9 @@
 import React from "react";
 
 const features = [
-  {
-    title: "E-commerce",
-    description: "Access a vast marketplace for agricultural products.",
-    icon: "🛒",
-    link: "#",
-  },
-  {
-    title: "Forum",
-    description: "Engage in discussions with experts and fellow farmers.",
-    icon: "💬",
-    link: "/discussionforum",
-  },
-  {
-    title: "Crop Detection",
-    description: "Use AI to detect crop diseases through image uploads.",
-    icon: "🌱",
-    link: "#",
-  },
+    { title: "E-commerce", description: "Access a vast marketplace for agricultural products.", icon: "🛒", link: "/ecommerce-store"},
+    { title: "Forum", description: "Engage in discussions with experts and fellow farmers.", icon: "💬", link: "/discussionforum" },
+    { title: "Crop Detection", description: "Use AI to detect crop diseases through image uploads.", icon: "🌱", link: "#" },
 ];
 
 const FeaturesSection = () => {

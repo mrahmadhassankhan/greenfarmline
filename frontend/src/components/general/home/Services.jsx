@@ -23,7 +23,7 @@ function Services() {
                 <p>Here you can buy the things you need.</p>
                 <div className="card-actions">
                   <button className="bg-lime-500 text-white p-2 mt-6 rounded-md hover:bg-lime-600 duration-200 cursor-pointer">
-                    Explore
+                    <a href="/ecommerce-store">Explore</a>
                   </button>
                 </div>
               </div>

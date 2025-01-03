@@ -27,6 +27,7 @@ import { ToastContainer, toast } from "react-toastify";
 import ApprovedQueries from "./pages/admin/discussionforum/ApprovedQueries";
 import RejectedQueries from "./pages/admin/discussionforum/RejectedQueries";
 import SellerDashboard from "./pages/seller/dashboard/SellerDashboard";
+import EcommerceStore from "./pages/general/EcommerceStore";
 
 const App = () => {
   return (
@@ -44,29 +45,33 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/forgetpassword" element={<ForgetPassword />} />
           <Route path="/verify" element={<OTPVerification />} />
+
+
+          {/* All Discussion Forum Related Routes Below */}
           <Route path="/discussionforum" element={<DiscussionForum />} />
+          
           <Route path="/userdashboard" element={<UserDashboard />} />
           <Route path="/userforumview" element={<UserForumView />} />
           <Route path="/post-query" element={<PostQuery />} />
           <Route path="/query-detailed-view" element={<QueryDetailedView />} />
           <Route path="/your-queries" element={<UserQueries />} />
+
           <Route path="/expertdashboard" element={<ExpertDashboard />} />
           <Route path="/expertforumview" element={<ExpertForumView />} />
           <Route path="/write-your-answer" element={<ExpertAnswerView />} />
-          <Route
-            path="/your-answered-queries"
-            element={<ExpertAnsweredQueries />}
-          />
+          <Route path="/your-answered-queries" element={<ExpertAnsweredQueries />} />
 
-          <Route path="/sellerdashboard" element={<SellerDashboard />} />
           <Route path="/admin-panel" element={<AdminDashboard />} />
           <Route path="/pending-queries" element={<PendingQueries />} />
-          <Route
-            path="/admin-query-detailed-view"
-            element={<AdminQueryDetailedView />}
-          />
+          <Route path="/admin-query-detailed-view" element={<AdminQueryDetailedView />} />
           <Route path="/approved-queries" element={<ApprovedQueries />} />
           <Route path="/rejected-queries" element={<RejectedQueries />} />
+
+          {/* All Ecommerce Related Routes Below */}
+          <Route path="/ecommerce-store" element={<EcommerceStore />} />
+
+          <Route path="/sellerdashboard" element={<SellerDashboard />} />
+
         </Routes>
       </div>
     </>

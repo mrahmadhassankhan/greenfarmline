@@ -3,10 +3,10 @@ import React from 'react'
 function Footer() {
     return (
         <>
-            <footer className="footer bg-base-200 text-base-content dark:bg-slate-600 dark:text-white p-10">
+            <footer className="footer bg-base-200 text-base-content dark:bg-slate-600 dark:text-white p-10 border dark:border-none">
                 <nav>
                     <h6 className="footer-title">Services</h6>
-                    <a className="link link-hover">Ecommerce Store</a>
+                    <a className="link link-hover" href='/ecommerce-store'>Ecommerce Store</a>
                     <a className="link link-hover" href='/discussionforum'>Discussion Forum</a>
                     <a className="link link-hover">Crop Disease Detection</a>
                 </nav>

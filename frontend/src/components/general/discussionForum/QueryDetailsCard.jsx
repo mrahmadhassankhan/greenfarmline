@@ -25,7 +25,7 @@ const QueryDetailsCard = ({
   return (
     <div
       onClick={onClick}
-      className=" bg-white text-black   text-blackrelative h-fit flex flex-col dark:bg-slate-900 dark:border md:flex-row items-start  shadow-lg rounded-lg p-4 hover:shadow-xl transition-shadow cursor-pointer"
+      className=" bg-white text-black relative h-fit flex flex-col dark:bg-slate-900 dark:border md:flex-row items-start  shadow-lg rounded-lg p-4 hover:shadow-xl transition-shadow cursor-pointer"
     >
       {image && (
         <img

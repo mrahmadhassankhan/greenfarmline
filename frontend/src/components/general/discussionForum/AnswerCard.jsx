@@ -82,7 +82,7 @@ const AnswerCard = ({
       <div className="flex flex-col items-start">
         <div className="flex flex-row items-start">
           <span className="font-bold text-gray-700">{username}</span>
-          {isExpert && (
+          {isExpert === "expert" && (
             <span className="ml-2 px-2 py-1 text-xs bg-lime-500 text-white rounded-full">
               Expert
             </span>

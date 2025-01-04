@@ -115,7 +115,7 @@ function QueryDetailedView() {
                   queryId={query._id}
                   answerId={answer._id}
                   username={answer.username}
-                  isExpert={answer.role === "Farmer"}
+                  isExpert={answer.role}
                   content={answer.answer}
                   date={new Date(answer.dateAnswered).toLocaleDateString()}
                   initialVotes={answer.noOfVotes} // Pass initial votes

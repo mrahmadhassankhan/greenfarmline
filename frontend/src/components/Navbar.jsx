@@ -45,7 +45,7 @@ function Navbar() {
         <a href="/discussionforum">Forum</a>
       </li>
       <li>
-        <a>Detector</a>
+        <a href="/image-detection">Detector</a>
       </li>
       <li>
         <a href="/contact">Contact</a>

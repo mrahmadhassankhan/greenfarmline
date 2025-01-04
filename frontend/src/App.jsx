@@ -27,6 +27,7 @@ import ApprovedQueries from "./pages/admin/discussionforum/ApprovedQueries";
 import RejectedQueries from "./pages/admin/discussionforum/RejectedQueries";
 import SellerDashboard from "./pages/seller/dashboard/SellerDashboard";
 import EcommerceStore from "./pages/general/EcommerceStore";
+import CropImageDetection from "./pages/general/CropImageDetection";
 
 const App = () => {
   return (
@@ -69,6 +70,11 @@ const App = () => {
           <Route path="/ecommerce-store" element={<EcommerceStore />} />
 
           <Route path="/sellerdashboard" element={<SellerDashboard />} />
+          
+          {/* All Crop Image Detection Related Routes Below */}
+          <Route path="/image-detection" element={<CropImageDetection />} />
+
+
 
         </Routes>
       </div>

@@ -6,18 +6,11 @@ import ProductDetailView from "../../components/general/ecommerceStore/ProductDe
 import Footer from "../../components/Footer";
 import image1 from "../../images/ourMissionImage.jpg"
 import image2 from "../../images/contactPageImage.jpg"
-import image3 from "../../images/contactPageImage.jpg"
-import image5 from "../../images/contactPageImage.jpg"
-import image4 from "../../images/contactPageImage.jpg"
 
 const dummyProducts = [
     {
         id: 1,
-        images: [
-            image1,
-            image2,
-            image3,
-        ],
+        image: image1,
         title: "High-Quality Wheat Seeds",
         description: "Best wheat seeds for your agricultural needs. High yield guaranteed.",
         price: 1200,
@@ -32,22 +25,18 @@ const dummyProducts = [
             {
                 user: "Ali",
                 comment: "Great quality product!",
-                images: [image4, image5],
+                image: image2,
             },
             {
                 user: "Ayesha",
                 comment: "Timely delivery and amazing results.",
-                images: [],
+                image: '',
             },
         ],
     },
     {
         id: 2,
-        images: [
-            image1,
-            image2,
-            image3,
-        ],
+        image: image1,
         title: "High-Quality Wheat Seeds",
         description: "Best wheat seeds for your agricultural needs. High yield guaranteed.",
         price: 1200,
@@ -62,22 +51,18 @@ const dummyProducts = [
             {
                 user: "Ali",
                 comment: "Great quality product!",
-                images: [image4, image5],
+                image: image2,
             },
             {
                 user: "Ayesha",
                 comment: "Timely delivery and amazing results.",
-                images: [],
+                image: '',
             },
         ],
     },
     {
         id: 3,
-        images: [
-            image1,
-            image2,
-            image3,
-        ],
+        image: image1,
         title: "High-Quality Wheat Seeds",
         description: "Best wheat seeds for your agricultural needs. High yield guaranteed.",
         price: 1200,
@@ -92,22 +77,18 @@ const dummyProducts = [
             {
                 user: "Ali",
                 comment: "Great quality product!",
-                images: [image4, image5],
+                image: image2,
             },
             {
                 user: "Ayesha",
                 comment: "Timely delivery and amazing results.",
-                images: [],
+                image: '',
             },
         ],
     },
     {
         id: 4,
-        images: [
-            image1,
-            image2,
-            image3,
-        ],
+        image: image1,
         title: "High-Quality Wheat Seeds",
         description: "Best wheat seeds for your agricultural needs. High yield guaranteed.",
         price: 1200,
@@ -122,22 +103,18 @@ const dummyProducts = [
             {
                 user: "Ali",
                 comment: "Great quality product!",
-                images: [image4, image5],
+                image: image2,
             },
             {
                 user: "Ayesha",
                 comment: "Timely delivery and amazing results.",
-                images: [],
+                image: '',
             },
         ],
     },
     {
         id: 5,
-        images: [
-            image1,
-            image2,
-            image3,
-        ],
+        image: image1,
         title: "High-Quality Wheat Seeds",
         description: "Best wheat seeds for your agricultural needs. High yield guaranteed.",
         price: 1200,
@@ -152,22 +129,18 @@ const dummyProducts = [
             {
                 user: "Ali",
                 comment: "Great quality product!",
-                images: [image4, image5],
+                image: image2,
             },
             {
                 user: "Ayesha",
                 comment: "Timely delivery and amazing results.",
-                images: [],
+                image: '',
             },
         ],
     },
     {
         id: 6,
-        images: [
-            image1,
-            image2,
-            image3,
-        ],
+        image: image1,
         title: "High-Quality Wheat Seeds",
         description: "Best wheat seeds for your agricultural needs. High yield guaranteed.",
         price: 1200,
@@ -182,12 +155,38 @@ const dummyProducts = [
             {
                 user: "Ali",
                 comment: "Great quality product!",
-                images: [image4, image5],
+                image: image2,
             },
             {
                 user: "Ayesha",
                 comment: "Timely delivery and amazing results.",
-                images: [],
+                images: '',
+            },
+        ],
+    },
+    {
+        id: 7,
+        image: image1,
+        title: "High-Quality Wheat Seeds",
+        description: "Best wheat seeds for your agricultural needs. High yield guaranteed.",
+        price: 1200,
+        rating: 4.5,
+        category: "Seeds",
+        storeName: "Green Farm Store",
+        storeLocation: "Lahore, Pakistan",
+        deliveryCharges: 200,
+        codAvailable: true,
+        sellerInfo: "John Doe - Experienced Seller",
+        reviews: [
+            {
+                user: "Ali",
+                comment: "Great quality product!",
+                image: image2,
+            },
+            {
+                user: "Ayesha",
+                comment: "Timely delivery and amazing results.",
+                image: '',
             },
         ],
     },

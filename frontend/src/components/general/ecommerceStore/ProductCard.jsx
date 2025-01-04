@@ -5,7 +5,7 @@ const ProductCard = ({ product, onBuyNow }) => {
         <div className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow cursor-pointer">
             {/* Product Image */}
             <img
-                src={product.images[0]}
+                src={product.image}
                 alt={product.title}
                 className="h-40 w-full object-cover"
             />

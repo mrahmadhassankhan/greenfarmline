@@ -115,11 +115,12 @@ function PendingQueries() {
                   date={new Date(query.datePosted).toLocaleDateString()} // Format date
                   image={`http://localhost:1783/Images/${query.image}`}
                   status={query.status}
-                  onClick={() =>
-                    navigate("/admin-query-detailed-view", {
-                      state: { queryId: query._id },
-                    })
-                  } // Pass query ID to detailed view
+                  onClick={console.log(`Navigating to query ID: ${query._id}`)}
+                  // onClick={() =>
+                  //   navigate("/admin-query-detailed-view", {
+                  //     state: { queryId: query._id },
+                  //   })
+                  // } // Pass query ID to detailed view
                   onApprove={async () => {
                     await axios.put(
                       `http://localhost:1783/api/query/approverejectquery/${query._id}`,

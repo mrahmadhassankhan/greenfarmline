@@ -14,14 +14,11 @@ const ProductDetailView = ({ product, onBack }) => {
                 {/* Product Images Carousel */}
                 <div className="col-span-1">
                     <div className="space-y-4">
-                        {product.images.map((image, index) => (
                             <img
-                                key={index}
-                                src={image}
-                                alt={`${product.title} - ${index + 1}`}
+                                src={product.image}
+                                alt={`${product.title}`}
                                 className="w-full rounded-lg shadow-lg"
                             />
-                        ))}
                     </div>
                 </div>
 
@@ -78,16 +75,13 @@ const ProductDetailView = ({ product, onBack }) => {
                             </div>
 
                             {/* Review Images */}
-                            {review.images && (
+                            {review.image && (
                                 <div className="flex flex-wrap gap-2 w-1/3 justify-end">
-                                    {review.images.map((image, imgIndex) => (
                                         <img
-                                            key={imgIndex}
-                                            src={image}
-                                            alt={`Review by ${review.user} - ${imgIndex + 1}`}
+                                            src={review.image}
+                                            alt={`Review by ${review.user}`}
                                             className="w-16 h-16 rounded-lg object-cover shadow-sm"
                                         />
-                                    ))}
                                 </div>
                             )}
                         </div>

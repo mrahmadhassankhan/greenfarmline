@@ -22,7 +22,6 @@ import ExpertAnswerView from "./pages/expert/discussionforum/ExpertAnswerView";
 import ExpertAnsweredQueries from "./pages/expert/discussionforum/ExpertAnsweredQueries";
 import AdminDashboard from "./pages/admin/dashboard/AdminDashboard";
 import PendingQueries from "./pages/admin/discussionforum/PendingQueries";
-import AdminQueryDetailedView from "./pages/admin/discussionforum/AdminQueryDetailedView";
 import { ToastContainer, toast } from "react-toastify";
 import ApprovedQueries from "./pages/admin/discussionforum/ApprovedQueries";
 import RejectedQueries from "./pages/admin/discussionforum/RejectedQueries";
@@ -63,7 +62,6 @@ const App = () => {
 
           <Route path="/admin-panel" element={<AdminDashboard />} />
           <Route path="/pending-queries" element={<PendingQueries />} />
-          <Route path="/admin-query-detailed-view" element={<AdminQueryDetailedView />} />
           <Route path="/approved-queries" element={<ApprovedQueries />} />
           <Route path="/rejected-queries" element={<RejectedQueries />} />
 

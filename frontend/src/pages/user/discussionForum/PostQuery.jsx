@@ -38,15 +38,19 @@ const PostQuery = () => {
     const formData = new FormData();
     formData.append("title", queryData.title);
     formData.append("description", queryData.description);
-    formData.append("role", localStorage.getItem("userType"));
-    formData.append("email", localStorage.getItem("userEmail"));
-    formData.append("username", localStorage.getItem("userName"));
+    formData.append("role", localStorage.getItem("role"));
+    formData.append("email", localStorage.getItem("email"));
+    formData.append("name", localStorage.getItem("name"));
 
     // Append images if they exist
     queryData.queryImage.forEach((file) => {
-      formData.append("queryImage", file);
+      formData.append("document", file);
     });
 
+    // Log FormData entries
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    });
     try {
       // Send the POST request
       const response = await axios.post(
@@ -139,7 +143,7 @@ const PostQuery = () => {
                   <input
                     type="file"
                     id="images"
-                    name="queryImage"
+                    name="document"
                     accept="image/*"
                     multiple
                     onChange={handleFileChange}

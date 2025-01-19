@@ -9,8 +9,8 @@ const AnswerCard = ({
   content,
   date,
   initialVotes,
-  userEmail,
-  username,
+  email,
+  name,
   onVoteChange,
 }) => {
   const [votes, setVotes] = useState(initialVotes); // Manage votes locally
@@ -29,7 +29,7 @@ const AnswerCard = ({
         {
           queryId,
           answerId,
-          userEmail,
+          email,
         }
       );
       if (response.status === 200) {
@@ -59,7 +59,7 @@ const AnswerCard = ({
         {
           queryId,
           answerId,
-          userEmail,
+          email,
         }
       );
       if (response.status === 200) {
@@ -81,7 +81,7 @@ const AnswerCard = ({
     <div className="flex flex-row h-fit justify-between bg-gray-50 border border-gray-300 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex flex-col items-start">
         <div className="flex flex-row items-start">
-          <span className="font-bold text-gray-700">{username}</span>
+          <span className="font-bold text-gray-700">{name}</span>
           {isExpert === "expert" && (
             <span className="ml-2 px-2 py-1 text-xs bg-lime-500 text-white rounded-full">
               Expert

@@ -111,7 +111,7 @@ function PendingQueries() {
                   key={query._id} // Use MongoDB _id
                   title={query.title}
                   description={query.description}
-                  author={query.username}
+                  author={query.name}
                   date={new Date(query.datePosted).toLocaleDateString()} // Format date
                   image={`http://localhost:1783/Images/${query.image}`}
                   status={query.status}

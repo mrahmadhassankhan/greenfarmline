@@ -35,15 +35,15 @@ function ExpertAnswerView() {
     setIsSubmitting(true);
 
     const userData = {
-      username: localStorage.getItem("userName"),
-      useremail: localStorage.getItem("userEmail"),
-      role: localStorage.getItem("userType"),
+      name: localStorage.getItem("name"),
+      email: localStorage.getItem("email"),
+      role: localStorage.getItem("role"),
     };
 
     const newAnswerObj = {
       queryId: query._id,
-      username: userData.username,
-      useremail: userData.useremail,
+      name: userData.name,
+      email: userData.email,
       answer: newAnswer,
       role: userData.role,
     };
@@ -89,7 +89,7 @@ function ExpertAnswerView() {
             key={query._id}
             title={query.title}
             description={query.description}
-            author={query.username}
+            author={query.name}
             date={new Date(query.datePosted).toLocaleDateString()}
             image={`http://localhost:1783/Images/${query.image}`}
             status={query.status}
@@ -105,12 +105,12 @@ function ExpertAnswerView() {
               key={answer._id}
               queryId={query._id}
               answerId={answer._id}
-              username={answer.username}
+              name={answer.name}
               isExpert={answer.role}
               content={answer.answer}
               date={new Date(answer.dateAnswered).toLocaleDateString()}
               initialVotes={answer.noOfVotes} // Pass initial votes
-              userEmail={answer.useremail}
+              email={answer.email}
               onVoteChange={() => {
                 axios
                   .get(`http://localhost:1783/api/answer/answers/${query._id}`)

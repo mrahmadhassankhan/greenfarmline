@@ -9,10 +9,10 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
         </label>
         <input
           type="text"
-          name="fullName"
+          name="name"
           placeholder="Enter your full name"
           className="w-full p-2 border rounded-md bg-white  text-black dark:bg-slate-900 dark:text-white"
-          value={formValues.fullName}
+          value={formValues.name}
           onChange={handleChange}
         />
         {errors.fullName && (
@@ -104,7 +104,7 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
 };
 CommonFields.propTypes = {
   formValues: PropTypes.shape({
-    fullName: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,

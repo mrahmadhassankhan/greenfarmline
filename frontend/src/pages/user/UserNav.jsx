@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import logo from "../../images/logo-icon.png";
+import { useNavigate } from "react-router-dom";
 function UserNav() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+  const navigate = useNavigate();
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
@@ -149,6 +150,10 @@ function UserNav() {
                       href="#"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       role="menuitem"
+                      onClick={() => {
+                        localStorage.removeItem("token");
+                        navigate("/");
+                      }}
                     >
                       Sign out
                     </a>

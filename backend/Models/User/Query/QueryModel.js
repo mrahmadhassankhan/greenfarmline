@@ -10,7 +10,7 @@ const QuerySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  username: {
+  name: {
     type: String,
     required: true,
   },
@@ -38,12 +38,12 @@ const QuerySchema = new mongoose.Schema({
   },
   answers: [
     {
-      username: {
+      name: {
         type: String,
         required: true,
         trim: true,
       },
-      useremail: {
+      email: {
         type: String,
         required: true,
       },
@@ -75,20 +75,20 @@ const QuerySchema = new mongoose.Schema({
 });
 
 // Method to add vote
-QuerySchema.methods.addVote = function (answerId, userEmail) {
+QuerySchema.methods.addVote = function (answerId, email) {
   // Find the answer by its ID
   const answer = this.answers.id(answerId);
   if (!answer) return;
 
   // Add the vote
   answer.noOfVotes += 1;
-  answer.voters.push(userEmail);
+  answer.voters.push(email);
 
   return this.save(); // Save the query document
 };
 
 // Method to downvote
-QuerySchema.methods.downvote = function (answerId, userEmail) {
+QuerySchema.methods.downvote = function (answerId, email) {
   // Find the answer by its ID
   const answer = this.answers.id(answerId);
   if (!answer) return;
@@ -96,7 +96,7 @@ QuerySchema.methods.downvote = function (answerId, userEmail) {
   // Decrease the vote count
   answer.noOfVotes -= 1;
 
-  answer.voters.push(userEmail);
+  answer.voters.push(email);
 
   return this.save(); // Save the query document
 };

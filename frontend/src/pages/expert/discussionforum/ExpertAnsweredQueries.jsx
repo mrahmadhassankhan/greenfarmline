@@ -8,7 +8,7 @@ function ExpertAnsweredQueries() {
   const [queries, setQueries] = useState([]);
   const [search, setSearch] = useState(""); // Search state
   const navigate = useNavigate();
-  const expertEmail = localStorage.getItem("userEmail"); // You can replace this with a dynamic value
+  const expertEmail = localStorage.getItem("email"); // You can replace this with a dynamic value
 
   useEffect(() => {
     // Fetch the queries answered by the expert
@@ -17,7 +17,7 @@ function ExpertAnsweredQueries() {
       .then((response) => {
         // Filter the queries where the expert has provided an answer
         const expertAnsweredQueries = response.data.filter((query) =>
-          query.answers.some((answer) => answer.useremail === expertEmail)
+          query.answers.some((answer) => answer.email === expertEmail)
         );
         setQueries(expertAnsweredQueries);
       })
@@ -59,7 +59,7 @@ function ExpertAnsweredQueries() {
                 key={query._id} // Use _id as the key
                 title={query.title}
                 description={query.description}
-                author={query.username}
+                author={query.name}
                 date={new Date(query.datePosted).toLocaleDateString()}
                 image={`http://localhost:1783/Images/${query.image}`}
                 status={query.status}

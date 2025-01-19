@@ -62,7 +62,7 @@ function ApprovedQueries() {
                   key={query.id}
                   title={query.title}
                   description={query.description}
-                  author={query.username}
+                  author={query.name}
                   date={new Date(query.datePosted).toLocaleDateString()}
                   image={`http://localhost:1783/Images/${query.image}`}
                   status={query.status}

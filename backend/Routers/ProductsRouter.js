@@ -6,10 +6,13 @@ const {
   deleteproduct,
 } = require("../Controllers/Admin/ProductController");
 
-const { productUploadMiddleware } = require("../middlewares/ImageMiddleware");
+const {
+  productUploadMiddleware,
+  UploadingFileMiddleware,
+} = require("../middlewares/ImageMiddleware");
 
 //Product Routes
-productrouter.route("/postproduct").post(productUploadMiddleware, postproduct);
+productrouter.route("/postproduct").post(UploadingFileMiddleware, postproduct);
 productrouter.route("/getproduct").get(getproduct);
 productrouter.route("/deleteproduct/:productId").delete(deleteproduct);
 

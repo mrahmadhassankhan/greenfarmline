@@ -1,7 +1,17 @@
 import React from "react";
 import { useState, useEffect } from "react";
-
+import { FiSearch, FiMenu } from "react-icons/fi";
+import { FaShoppingCart } from "react-icons/fa";
+import { CgProfile, CgClose } from "react-icons/cg";
+import { BiLogIn } from "react-icons/bi";
+import { Link, useNavigate } from "react-router-dom";
+import Axios from "../Axios";
 function Navbar() {
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const [auth, setAuth] = useState(
+    localStorage.getItem("token") ? true : false
+  );
   const [theme, setTheme] = useState(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
   );
@@ -33,6 +43,25 @@ function Navbar() {
     };
   }, []);
 
+  useEffect(() => {
+    const fetchCartSize = async () => {
+      try {
+        const response = await Axios.get("/cart/cartSize", {
+          params: {
+            email: localStorage.getItem("email"),
+          },
+        });
+        if (response.status === 200) {
+          localStorage.removeItem("cartsize");
+          localStorage.setItem("cartsize", response.data.cartSize);
+        }
+        // handle response here
+      } catch (error) {
+        console.error("Error fetching cart size:", error);
+      }
+    };
+    fetchCartSize();
+  }, []);
   const navItems = (
     <>
       <li>
@@ -57,18 +86,45 @@ function Navbar() {
   );
   const navButtons = (
     <>
-      <a
-        className="bg-lime-500 text-white p-2 rounded-md hover:bg-lime-600 duration-200 cursor-pointer"
-        href="/register"
-      >
-        Register
-      </a>
-      <a
-        className="bg-lime-500 text-white p-2 rounded-md hover:bg-lime-600 duration-200 cursor-pointer"
-        href="/login"
-      >
-        Login
-      </a>
+      <div className="flex items-center space-x-3 ">
+        <div className="btnIcon">
+          <Link to="/cart" style={{ color: "#1a1a1a" }}>
+            <FaShoppingCart />
+            <div className="navAmount">
+              {localStorage.getItem("cartsize") || 0}
+            </div>
+          </Link>
+        </div>
+
+        <div className="btnIcon">
+          {auth ? (
+            <>
+              <CgProfile />
+              <ul className="dropdown">
+                <li>
+                  <Link to="/orders">Orders</Link>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      localStorage.clear();
+                      setAuth(null);
+                      navigate("/");
+                    }}
+                  >
+                    Logout
+                  </button>
+                </li>
+              </ul>
+            </>
+          ) : (
+            <Link to="/login" style={{ color: "#1a1a1a", fontSize: "30px" }}>
+              <BiLogIn />
+            </Link>
+          )}
+        </div>
+      </div>
     </>
   );
   return (

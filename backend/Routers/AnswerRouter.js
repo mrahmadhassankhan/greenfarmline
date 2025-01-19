@@ -18,9 +18,6 @@ answerrouter.post("/postAnswer", answerController.postAnswerToQuery);
 answerrouter.get("/votes/:answerId", answerController.getVoteCount);
 
 // Route to get all answers by a specific expert user
-answerrouter.get(
-  "/expert/:userEmail",
-  answerController.getQueriesByExpertEmail
-);
+answerrouter.get("/expert/:email", answerController.getQueriesByExpertEmail);
 
 module.exports = answerrouter;

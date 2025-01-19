@@ -11,15 +11,11 @@ const {
   getPendingQueries,
   getRejectedQueries,
   getUserQueriesByEmail,
-} = require("../Controllers/User/Query/QueryController");
-const {
-  queryImageUploadMiddleware,
-} = require("../middlewares/ImageMiddleware");
+} = require("../Controllers/User/QueryController");
+const { UploadingFileMiddleware } = require("../middlewares/ImageMiddleware");
 
 // Define routes
-queryRouter
-  .route("/postquery")
-  .post(queryImageUploadMiddleware, createPostQuery); // Create a new query
+queryRouter.route("/postquery").post(UploadingFileMiddleware, createPostQuery); // Create a new query
 queryRouter.route("/getqueries").get(getAllPostQueries); // Get all queries
 queryRouter.route("/getapprovedqueries").get(getApprovedQueries); // Get all Approved queries
 queryRouter.route("/getpendingqueries").get(getPendingQueries); // Get all Pending queries

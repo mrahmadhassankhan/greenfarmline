@@ -1,38 +1,114 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import Home from "./pages/general/Home";
-import Contact from "./pages/general/Contact";
-import About from "./pages/general/About";
-import PrivacyPolicy from "./pages/general/PrivacyPolicy";
-import Terms from "./pages/general/Terms";
-import FAQ from "./pages/general/FAQ";
-import RegisterUser from "./pages/general/RegisterUser";
-import Login from "./pages/general/Login";
-import ForgetPassword from "./pages/general/ForgetPassword";
-import OTPVerification from "./pages/general/OTPVerification";
-import DiscussionForum from "./pages/general/DiscussionForum";
-import UserForumView from "./pages/user/discussionForum/UserForumView";
-import UserDashboard from "./pages/user/dashboard/UserDashboard";
-import PostQuery from "./pages/user/discussionForum/PostQuery";
-import QueryDetailedView from "./pages/user/discussionForum/QueryDetailedView";
-import UserQueries from "./pages/user/discussionForum/UserQueries";
-import ExpertDashboard from "./pages/expert/dashboard/ExpertDashboard";
-import ExpertForumView from "./pages/expert/discussionforum/ExpertForumView";
-import ExpertAnswerView from "./pages/expert/discussionforum/ExpertAnswerView";
-import ExpertAnsweredQueries from "./pages/expert/discussionforum/ExpertAnsweredQueries";
-import AdminDashboard from "./pages/admin/dashboard/AdminDashboard";
-import PendingQueries from "./pages/admin/discussionforum/PendingQueries";
-import { ToastContainer, toast } from "react-toastify";
-import ApprovedQueries from "./pages/admin/discussionforum/ApprovedQueries";
-import RejectedQueries from "./pages/admin/discussionforum/RejectedQueries";
-import SellerDashboard from "./pages/seller/dashboard/SellerDashboard";
-import EcommerceStore from "./pages/general/EcommerceStore";
-import CropImageDetection from "./pages/general/CropImageDetection";
+import React, { Suspense, lazy, useEffect } from "react";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import TriangleLoader from "./components/seller/TriangleLoader";
+
+// Lazy load components
+const Home = lazy(() => import("./pages/general/Home"));
+const Contact = lazy(() => import("./pages/general/Contact"));
+const About = lazy(() => import("./pages/general/About"));
+const PrivacyPolicy = lazy(() => import("./pages/general/PrivacyPolicy"));
+const Terms = lazy(() => import("./pages/general/Terms"));
+const FAQ = lazy(() => import("./pages/general/FAQ"));
+const RegisterUser = lazy(() => import("./pages/general/RegisterUser"));
+const Login = lazy(() => import("./pages/general/Login"));
+const ForgetPassword = lazy(() => import("./pages/general/ForgetPassword"));
+const OTPVerification = lazy(() => import("./pages/general/OTPVerification"));
+const ErrorPage = lazy(() => import("./pages/sellerpages/pages/ErrorPage"));
+const AdminLogin = lazy(() => import("./pages/sellerpages/pages/AdminLogin"));
+const UserDashboard = lazy(() =>
+  import("./pages/user/dashboard/UserDashboard")
+);
+const DiscussionForum = lazy(() => import("./pages/general/DiscussionForum"));
+const MyOrders = lazy(() => import("./pages/sellerpages/pages/MyOrders"));
+const EcommerceStore = lazy(() =>
+  import("./pages/sellerpages/pages/EcommerceStore")
+);
+const UserForumView = lazy(() =>
+  import("./pages/user/discussionForum/UserForumView")
+);
+const PostQuery = lazy(() => import("./pages/user/discussionForum/PostQuery"));
+const QueryDetailedView = lazy(() =>
+  import("./pages/user/discussionForum/QueryDetailedView")
+);
+const UserQueries = lazy(() =>
+  import("./pages/user/discussionForum/UserQueries")
+);
+const ExpertDashboard = lazy(() =>
+  import("./pages/expert/dashboard/ExpertDashboard")
+);
+const ExpertForumView = lazy(() =>
+  import("./pages/expert/discussionforum/ExpertForumView")
+);
+const ExpertAnswerView = lazy(() =>
+  import("./pages/expert/discussionforum/ExpertAnswerView")
+);
+const ExpertAnsweredQueries = lazy(() =>
+  import("./pages/expert/discussionforum/ExpertAnsweredQueries")
+);
+const PendingQueries = lazy(() =>
+  import("./pages/admin/discussionforum/PendingQueries")
+);
+const ApprovedQueries = lazy(() =>
+  import("./pages/admin/discussionforum/ApprovedQueries")
+);
+const RejectedQueries = lazy(() =>
+  import("./pages/admin/discussionforum/RejectedQueries")
+);
+const CropImageDetection = lazy(() =>
+  import("./pages/general/CropImageDetection")
+);
+const ProductDetails = lazy(() =>
+  import("./pages/sellerpages/pages/ProductDetails")
+);
+const Product = lazy(() => import("./pages/sellerpages/pages/Product"));
+const CartLayout = lazy(() => import("./pages/sellerpages/pages/CartLayout"));
+const AdminLayout = lazy(() => import("./pages/sellerpages/pages/AdminLayout"));
+const AdminRoute = lazy(() => import("./utils/adminRoute"));
+const CustomerList = lazy(() =>
+  import("./pages/sellerpages/pages/CustomerList")
+);
+const CouponList = lazy(() => import("./pages/sellerpages/pages/CouponList"));
+const AdminOrders = lazy(() => import("./pages/sellerpages/pages/AdminOrders"));
+const AdminProductList = lazy(() =>
+  import("./pages/sellerpages/pages/AdminProductList")
+);
+const AddProducts = lazy(() => import("./pages/sellerpages/pages/AddProducts"));
+const UpdateProducts = lazy(() =>
+  import("./pages/sellerpages/pages/UpdateProducts")
+);
+const BrandList = lazy(() => import("./pages/sellerpages/pages/BrandList"));
+const CategoryList = lazy(() =>
+  import("./pages/sellerpages/pages/CategoryList")
+);
+const ProfileLayout = lazy(() =>
+  import("./pages/sellerpages/pages/ProfileLayout")
+);
+const Dashboard = lazy(() => import("./pages/sellerpages/pages/Dashboard"));
+const CheckoutSuccess = lazy(() =>
+  import("./pages/sellerpages/pages/CheckoutSuccess")
+);
+const ProtectedRoute = lazy(() => import("./utils/protectedRoute"));
+const AdminDashboard = lazy(() =>
+  import("./pages/admin/dashboard/AdminDashboard")
+);
 
 const App = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Scroll to top functionality
+  const ScrollToTop = () => {
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [location.pathname]);
+    return null;
+  };
+
   return (
-    <>
-      <div className=" bg-white text-black dark:bg-slate-900 dark:text-white">
+    <div className="bg-white text-black dark:bg-slate-900 dark:text-white">
+      <Suspense fallback={<TriangleLoader height="100vh" />}>
+        <ScrollToTop />
         <ToastContainer />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -45,40 +121,75 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/forgetpassword" element={<ForgetPassword />} />
           <Route path="/verify" element={<OTPVerification />} />
-
-
-          {/* All Discussion Forum Related Routes Below */}
           <Route path="/discussionforum" element={<DiscussionForum />} />
-          
           <Route path="/userdashboard" element={<UserDashboard />} />
           <Route path="/userforumview" element={<UserForumView />} />
           <Route path="/post-query" element={<PostQuery />} />
           <Route path="/query-detailed-view" element={<QueryDetailedView />} />
           <Route path="/your-queries" element={<UserQueries />} />
-
           <Route path="/expertdashboard" element={<ExpertDashboard />} />
           <Route path="/expertforumview" element={<ExpertForumView />} />
           <Route path="/write-your-answer" element={<ExpertAnswerView />} />
-          <Route path="/your-answered-queries" element={<ExpertAnsweredQueries />} />
-
+          <Route
+            path="/your-answered-queries"
+            element={<ExpertAnsweredQueries />}
+          />
           <Route path="/admin-panel" element={<AdminDashboard />} />
           <Route path="/pending-queries" element={<PendingQueries />} />
           <Route path="/approved-queries" element={<ApprovedQueries />} />
           <Route path="/rejected-queries" element={<RejectedQueries />} />
-
-          {/* All Ecommerce Related Routes Below */}
           <Route path="/ecommerce-store" element={<EcommerceStore />} />
-
-          <Route path="/sellerdashboard" element={<SellerDashboard />} />
-          
-          {/* All Crop Image Detection Related Routes Below */}
+          <Route path="/orders" element={<MyOrders />} />
           <Route path="/image-detection" element={<CropImageDetection />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="customers" element={<CustomerList />} />
+            <Route path="coupons" element={<CouponList />} />
+            <Route path="orders" element={<AdminOrders />} />
+            <Route path="products" element={<AdminProductList />} />
+            <Route path="product/add" element={<AddProducts />} />
+            <Route path="product/update/:slug" element={<UpdateProducts />} />
+            <Route path="brands" element={<BrandList />} />
+            <Route path="category" element={<CategoryList />} />
+          </Route>
 
+          <Route path="product/:slug" element={<ProductDetails />} />
+          <Route path="products" element={<Product />} />
+          <Route path="cart" element={<CartLayout />} />
 
-
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <ProfileLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<MyOrders />} />
+          </Route>
+          <Route
+            path="/admin"
+            element={
+              <AdminRoute>
+                <AdminLayout />
+              </AdminRoute>
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="customers" element={<CustomerList />} />
+            <Route path="coupons" element={<CouponList />} />
+            <Route path="orders" element={<AdminOrders />} />
+            <Route path="products" element={<AdminProductList />} />
+            <Route path="product/add" element={<AddProducts />} />
+            <Route path="product/update/:slug" element={<UpdateProducts />} />
+            <Route path="brands" element={<BrandList />} />
+            <Route path="category" element={<CategoryList />} />
+          </Route>
+          <Route path="/adminLogin" element={<AdminLogin />} />
+          <Route path="checkout-success" element={<CheckoutSuccess />} />
+          <Route path="/*" element={<ErrorPage />} />
         </Routes>
-      </div>
-    </>
+      </Suspense>
+    </div>
   );
 };
 

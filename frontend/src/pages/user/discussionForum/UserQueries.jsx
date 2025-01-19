@@ -10,10 +10,10 @@ function UserQueries() {
   const [search, setSearch] = useState(""); // Search state
 
   useEffect(() => {
-    const userEmail = localStorage.getItem("userEmail");
+    const email = localStorage.getItem("email");
 
     axios
-      .get(`http://localhost:1783/api/query/getuserquery?email=${userEmail}`)
+      .get(`http://localhost:1783/api/query/getuserquery?email=${email}`)
       .then((response) => {
         setQueries(response.data); // Set the fetched queries to state
       })
@@ -73,7 +73,7 @@ function UserQueries() {
                   key={query.id}
                   title={query.title}
                   description={query.description}
-                  author={query.username}
+                  author={query.name}
                   date={new Date(query.datePosted).toLocaleDateString()}
                   image={`http://localhost:1783/Images/${query.image}`}
                   status={query.status}

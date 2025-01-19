@@ -1,7 +1,7 @@
 const QueryModel = require("../../Models/User/Query/QueryModel");
 
 const addVoteToAnswer = async (req, res) => {
-  const { queryId, answerId, userEmail } = req.body;
+  const { queryId, answerId, email } = req.body;
 
   try {
     // Find the query by its ID
@@ -17,7 +17,7 @@ const addVoteToAnswer = async (req, res) => {
     }
 
     // Add the vote
-    await query.addVote(answerId, userEmail); // Pass the answerId and userEmail
+    await query.addVote(answerId, email); // Pass the answerId and email
 
     // Return the updated answer object
     const updatedAnswer = query.answers.id(answerId);
@@ -30,7 +30,7 @@ const addVoteToAnswer = async (req, res) => {
 };
 
 const downvoteAnswer = async (req, res) => {
-  const { queryId, answerId, userEmail } = req.body;
+  const { queryId, answerId, email } = req.body;
 
   try {
     // Find the query by its ID
@@ -46,7 +46,7 @@ const downvoteAnswer = async (req, res) => {
     }
 
     // Downvote the answer
-    await query.downvote(answerId, userEmail); // Pass the answerId and userEmail
+    await query.downvote(answerId, email); // Pass the answerId and email
 
     // Return the updated answer object
     const updatedAnswer = query.answers.id(answerId);
@@ -97,10 +97,10 @@ const getAnswersByQueryId = async (req, res) => {
 // Method to post an answer to a query
 const postAnswerToQuery = async (req, res) => {
   try {
-    const { queryId, username, useremail, answer, role } = req.body;
+    const { queryId, name, email, answer, role } = req.body;
 
     // Validate input
-    if (!queryId || !username || !useremail || !answer || !role) {
+    if (!queryId || !name || !email || !answer || !role) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
@@ -112,8 +112,8 @@ const postAnswerToQuery = async (req, res) => {
 
     // Add the answer to the query's answers array
     query.answers.push({
-      username,
-      useremail,
+      name,
+      email,
       answer,
       role,
       dateAnswered: new Date(),
@@ -132,12 +132,12 @@ const postAnswerToQuery = async (req, res) => {
 };
 
 const getQueriesByExpertEmail = async (req, res) => {
-  const { userEmail } = req.params;
+  const { email } = req.params;
 
   try {
     // Find all queries where the expert has answered
     const queries = await QueryModel.find({
-      "answers.useremail": userEmail, // Match answers by the specified expert email
+      "answers.email": email, // Match answers by the specified expert email
     });
 
     if (queries.length === 0) {

@@ -10,7 +10,6 @@ function UserForumView() {
   const [search, setSearch] = useState(""); // Search state
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
   // Fetch approved queries from backend
   useEffect(() => {
@@ -26,6 +25,7 @@ function UserForumView() {
         setLoading(false);
       });
   }, []);
+  const navigate = useNavigate();
 
   // Filter queries based on the search input
   const searchedQueries = queries.filter((query) => {
@@ -71,7 +71,7 @@ function UserForumView() {
                     key={query.id}
                     title={query.title}
                     description={query.description}
-                    author={query.username}
+                    author={query.name}
                     date={new Date(query.datePosted).toLocaleDateString()}
                     image={`http://localhost:1783/Images/${query.image}`}
                     status={query.status}

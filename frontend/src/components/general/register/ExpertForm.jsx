@@ -27,16 +27,16 @@ const ExpertForm = ({ formValues, handleChange, errors }) => {
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
-          Upload Degree
+          Upload document
         </label>
         <input
           type="file"
-          name="degree"
+          name="document"
           className="w-full p-2 border rounded-md bg-white  text-black  dark:text-white dark:bg-slate-900"
           onChange={handleChange}
         />
-        {errors.degree && (
-          <p className="text-red-500 text-xs mt-1">{errors.degree}</p>
+        {errors.document && (
+          <p className="text-red-500 text-xs mt-1">{errors.document}</p>
         )}
       </div>
       <div className="mb-4">

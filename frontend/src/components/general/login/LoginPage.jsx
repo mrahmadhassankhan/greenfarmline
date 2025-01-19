@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
 const LoginPage = () => {
   const [credentials, setCredentials] = useState({
     email: "",
@@ -31,48 +30,27 @@ const LoginPage = () => {
 
     const { email, password, role } = credentials;
 
-    let apiUrl;
-    switch (role) {
-      case "farmer":
-        apiUrl = "http://localhost:1783/api/login/loginAsFarmer";
-        break;
-      case "seller":
-        apiUrl = "http://localhost:1783/api/login/loginAsSeller";
-        break;
-      case "expert":
-        apiUrl = "http://localhost:1783/api/login/loginAsExpert";
-        break;
-      default:
-        return;
-    }
-
     try {
       // Sending login credentials as JSON
       const response = await axios.post(
-        apiUrl,
+        "http://localhost:1783/api/v1/login",
         { email, password },
         {
           headers: {
             "Content-Type": "application/json", // Set Content-Type to application/json
           },
+          withCredentials: true,
         }
       );
       toast.success("Login Successful");
-      localStorage.setItem("userEmail", response.data.user.userEmail);
-      localStorage.setItem("userName", response.data.user.userName);
-      localStorage.setItem("userType", response.data.user.userType);
-      if (role === "farmer") {
-        navigate("/userdashboard");
-      }
-      if (role === "expert") {
-        navigate("/expertdashboard");
-      }
-      if (role === "seller") {
-        navigate("/sellerdashboard");
-      }
+      localStorage.setItem("email", response.data.user.email);
+      localStorage.setItem("name", response.data.user.name);
+      localStorage.setItem("role", response.data.user.role);
+      localStorage.setItem("token", response.data.token);
+      navigate("/");
     } catch (error) {
       console.error("Error during login:", error);
-      toast.error("Invalid Username or Password");
+      toast.error("Invalid name or Password");
     }
   };
   return (

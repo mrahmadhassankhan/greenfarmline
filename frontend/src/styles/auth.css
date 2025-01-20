@@ -167,6 +167,7 @@
 .Error-div-center img {
   height: 450px;
   object-fit: contain;
+  margin: 0 auto;
   @media screen and (max-width: 500px) {
     height: 350px;
   }

@@ -130,7 +130,7 @@ const CartLayout = () => {
                 <p>
                   <span>Sub Total</span>
                   <span>
-                    ₹{" "}
+                    RS.{" "}
                     {(data?.totalPrice - data?.totalPrice * 0.12 || 0).toFixed(
                       2
                     )}
@@ -138,7 +138,7 @@ const CartLayout = () => {
                 </p>
                 <p>
                   <span>Tax</span>
-                  <span>₹ {(data?.totalPrice * 0.12 || 0).toFixed(2)}</span>
+                  <span>RS. {(data?.totalPrice * 0.12 || 0).toFixed(2)}</span>
                 </p>
                 <p>
                   <span>Shipping Charge</span>
@@ -146,7 +146,7 @@ const CartLayout = () => {
                 </p>
                 <p>
                   <span>Giftcard/Discount code</span>
-                  {/* <span>- ₹ 0</span> */}
+                  {/* <span>- RS. 0</span> */}
                 </p>
                 <div className="couponInput">
                   <input
@@ -170,7 +170,7 @@ const CartLayout = () => {
                 </div>
                 <p className="cart-total">
                   <span>Total</span>
-                  <span>₹ {(data?.totalPrice || 0).toFixed(2)}</span>
+                  <span>RS. {(data?.totalPrice || 0).toFixed(2)}</span>
                 </p>
               </div>
               <button

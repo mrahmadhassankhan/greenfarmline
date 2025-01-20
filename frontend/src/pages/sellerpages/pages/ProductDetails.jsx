@@ -8,6 +8,7 @@ import Star from "../../../components/seller/Star";
 import RatingContainer from "../../../components/seller/RatingContainer";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
+import "../../../styles/productDetails.css"
 
 const ProductDetails = () => {
   const { slug } = useParams();
@@ -69,18 +70,20 @@ const ProductDetails = () => {
 
   if (loading) return <TriangleLoader height="500px" />;
 
+  const pImage = `http:\\\\localhost:1783\\Images\\${data.document.split('\\').pop()}`;
+
   return (
     <>
       <Navbar />
       <section className="product-bg">
         <div className="prod-images-cont">
           <div className="prod-image">
-            <img src={data.image} alt="img" />
+            <img src={pImage} alt="img"/>
           </div>
           <div className="pRow">
-            <img src={data.image} alt="img" />
-            <img src={data.image} alt="img" />
-            <img src={data.image} alt="img" />
+            <img src={pImage} alt="img"/>
+            <img src={pImage} alt="img"/>
+            <img src={pImage} alt="img"/>
           </div>
         </div>
         <div className="prod-details-cont">
@@ -88,15 +91,16 @@ const ProductDetails = () => {
             {data.brand + " " + data.name.toLowerCase()}
           </h1>
           <h3 className="pprize">
-            ₹ {data.price} <span>3000 </span>
+            RS. {data.price} <span>3000 </span>
           </h3>
           <div className="pStar">
             <Star rating={data.ratingScore / data.ratings.length || 0} />
           </div>
 
           <div className="quantity-selector">
-            <label htmlFor="quantity">Quantity:</label>
+            <label htmlFor="quantity" style={{ fontWeight: "bold" }}>Quantity:</label>
             <input
+              style={{ marginLeft: "10px" }}
               type="number"
               id="quantity"
               min="1"
@@ -126,17 +130,17 @@ const ProductDetails = () => {
             </p>
           )}
 
-          <h3 className="pDescTitle">Product Details</h3>
+          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>Product Details</h3>
           <p>{data.description}</p>
-          <h3 className="pDescTitle">
+          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>
             Color:{" "}
             <p style={{ fontWeight: "normal", display: "inline" }}>
               {data.color}
             </p>
           </h3>
-          <h3 className="pDescTitle">Material: </h3>
-          <h3 className="pDescTitle">Features:</h3>
-          <div style={{ marginLeft: "15px" }}>
+          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>Material: </h3>
+          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>Features:</h3>
+          <div>
             <ol>
               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
               <li>Integer ut justo quis diam finibus lobortis vel at dui.</li>
@@ -159,7 +163,7 @@ const ProductDetails = () => {
             </ol>
           </div>
 
-          <h3 className="pDescTitle">Delivery Option</h3>
+          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>Delivery Option</h3>
           <div>
             <div>
               <input
@@ -180,7 +184,7 @@ const ProductDetails = () => {
               Please enter PIN code to check delivery time & Pay on Delivery
               Availability
             </h5>
-            <ul type="none">
+            <ul style={{ listStyleType: "disc", padding: '10px' }}>
               <li>100% Original Products</li>
               <li>Pay on delivery might be available</li>
               <li>Easy 30 days returns and exchanges</li>
@@ -188,7 +192,7 @@ const ProductDetails = () => {
             </ul>
           </div>
 
-          <h3 className="pDescTitle">Offers</h3>
+          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>Offers</h3>
           <ul type="none">
             <li>Use &apos;SUMILSUTHAR197&apos; to avail flat 20% Off</li>
           </ul>

@@ -11,6 +11,9 @@ function DiscussionForum() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  // Example: Simulating user authentication and role
+  const user = localStorage.getItem("email"); // Assume user info is stored in localStorage
+
   // Fetch approved queries from backend
   useEffect(() => {
     axios
@@ -25,6 +28,20 @@ function DiscussionForum() {
         setLoading(false);
       });
   }, []);
+
+  // Handle query click
+  const handleQueryClick = (query) => {
+    if (!user) {
+      // If user is not logged in, redirect to login
+      navigate("/login");
+    } else if (localStorage.getItem("role") !== "farmer") {
+      // If user role is not "farmer", show a toast or message
+      alert("You are not allowed to access this page.");
+    } else {
+      // If user is a logged-in farmer, redirect to the query details page
+        navigate("/query-detailed-view", { state: { query } })
+    }
+  };
 
   return (
     <>
@@ -49,7 +66,7 @@ function DiscussionForum() {
                 date={new Date(query.datePosted).toLocaleDateString()}
                 image={`http://localhost:1783/Images/${query.image}`}
                 status={query.status}
-                onClick={() => navigate("/login")}
+                onClick={() => handleQueryClick(query)}
               />
             ))
           ) : (

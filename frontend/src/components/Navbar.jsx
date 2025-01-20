@@ -5,6 +5,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { CgProfile, CgClose } from "react-icons/cg";
 import { BiLogIn } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
+import "../styles/navicons.css"
 import Axios from "../Axios";
 function Navbar() {
   const navigate = useNavigate();
@@ -101,6 +102,9 @@ function Navbar() {
             <>
               <CgProfile />
               <ul className="dropdown">
+                <li>
+                  <Link to="/userdashboard">Dashboard</Link>
+                </li>
                 <li>
                   <Link to="/orders">Orders</Link>
                 </li>

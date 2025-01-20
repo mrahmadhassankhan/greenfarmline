@@ -39,7 +39,7 @@ const Card = (data) => {
       )}
       <Link to={`/product/${data.slug}`} style={{ textDecoration: "none" }}>
         <div className="image-div">
-          <img src={data.image} alt="image" height="240px" loading="lazy" />
+          <img src={`http:\\\\localhost:1783\\Images\\${data.document.split('\\').pop()}`} alt="image" style={{ objectFit: "cover", aspectRatio: "1", width: "100%", height: "100%", padding: "0" }} height="240px" loading="lazy" />
         </div>
       </Link>
       <div className="desc">
@@ -50,7 +50,7 @@ const Card = (data) => {
         <div className="star">
           {<Star rating={data.ratingScore / data.ratings.length || 0} />}
         </div>
-        <h4>₹ {data.price}</h4>
+        <h4>RS. {data.price}</h4>
       </div>
       <button
         className="btn-cart"

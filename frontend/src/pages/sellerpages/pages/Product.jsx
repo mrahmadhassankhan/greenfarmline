@@ -58,14 +58,14 @@ const Product = () => {
   return (
     <>
       <div className="Header_title search_header">
-        <h1>Find your favorite Shoes Today</h1>
+        <h1>Find Your Best Match Here Today</h1>
         <div className="searchBar">
           <div className="searchForm">
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="What shoes are you looking for ?"
+              placeholder="What product are you looking for ?"
             />
             <div>
               <FiSearch />

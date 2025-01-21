@@ -8,7 +8,7 @@ const RatingContainer = ({ ratings }) => {
     <div style={{ marginTop: "15px" }}>
       {ratings.length > 0 && (
         <>
-          <h3 className="pDescTitle">Ratings </h3>
+          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>Ratings </h3>
           {ratings.slice(0, visibleReviews).map((data, index) => (
             <RatingCard key={index} data={data} />
           ))}

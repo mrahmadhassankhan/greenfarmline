@@ -1,4 +1,6 @@
 import React, { useRef, useState } from "react";
+import "../../styles/order.css";
+import "../../styles/products.css";
 import { FaStar } from "react-icons/fa";
 const FormReviews = ({ onClose, onSubmit }) => {
   const modelRef = useRef();

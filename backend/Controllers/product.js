@@ -1,4 +1,6 @@
 const product = require("../Models/product");
+const user = require("../Models/user");
+const order = require("../Models/order");
 const asyncErrorHandler = require("../middlewares/asyncErrorHandler");
 const errorHandler = require("../utils/errorHandler");
 const brandsModel = require("../Models/brands");
@@ -250,27 +252,56 @@ const getFilterOptions = asyncErrorHandler(async (req, res, next) => {
     category,
   });
 });
+
 const updateReview = asyncErrorHandler(async (req, res, next) => {
-  console.log("called", req.query);
   const { rating, review, productId, orderId } = req.body;
   const { email } = req.query;
-  const userObj = await user.findOne(email).select("name");
-  const productObj = await ProductModel.findById(productId);
-  if (!productObj) {
-    return next(new errorHandler("Invalid Product id", 404));
-  }
-  productObj.ratings.push({ rating, review, name: userObj.name });
-  productObj.ratingScore += rating;
-  await productObj.save();
 
+  // Validate inputs
+  if (!email) {
+    return next(new errorHandler("Email is required", 400));
+  }
+  if (!productId || !orderId) {
+    return next(new errorHandler("Product ID and Order ID are required", 400));
+  }
+
+  // Find the user by email
+  const userObj = await user.findOne({ email });
+  if (!userObj) {
+    return next(new errorHandler("User not found", 404));
+  }
+
+  // Find the product
+  const productObj = await product.findById(productId);
+  if (!productObj) {
+    return next(new errorHandler("Invalid Product ID", 404));
+  }
+
+  // Update product ratings
+  productObj.ratings.push({ name: userObj.name, rating, review, date: Date.now() });
+  productObj.ratingScore += rating;
+
+  await productObj.save().catch(err => {
+    console.error("Error Saving Product:", err);
+  });
+
+  // Find the order and update product status
   const orderObj = await order.findById(orderId);
+  if (!orderObj) {
+    return next(new errorHandler("Invalid Order ID", 404));
+  }
+
   orderObj.products = orderObj.products.map((item) => {
     if (String(item.productId) === String(productId)) {
       item.isReviewed = true;
     }
     return item;
   });
-  await orderObj.save();
+
+  await orderObj.save().catch(err => {
+    console.error("Error Saving Order:", err);
+  });
+
   return res.status(200).json({
     success: true,
     message: "Review added successfully",

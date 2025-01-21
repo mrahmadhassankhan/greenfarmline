@@ -95,6 +95,8 @@
 }
 .modal {
   position: fixed;
+  opacity: 1;
+  pointer-events: auto;
   inset: 0;
   z-index: 100000;
   backdrop-filter: blur(1px);

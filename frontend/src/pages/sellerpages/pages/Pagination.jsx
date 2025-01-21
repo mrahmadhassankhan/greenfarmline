@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import '../../../styles/products.css'
 
 const Pagination = ({
   totalPageCount,

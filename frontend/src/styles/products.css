@@ -1,11 +1,11 @@
 .search_header {
-  background-image: url("../images/1.jpg");
+  background-image: url("../images/store-banner.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   align-items: flex-start;
   text-align: initial;
-  margin-top: 70px;
+  margin-top: 64px;
 }
 .searchForm {
   width: 43%;
@@ -95,6 +95,8 @@
 }
 .modal {
   position: fixed;
+  opacity: 1;
+  pointer-events: auto;
   inset: 0;
   z-index: 100000;
   backdrop-filter: blur(1px);

@@ -154,7 +154,7 @@ const AdminProductList = () => {
                 </td>
                 <td className="order-td">{item.brand}</td>
                 <td className="order-td">{item.status}</td>
-                <td className="order-td">₹{item.price}</td>
+                <td className="order-td">RS.{item.price}</td>
                 <td className="order-td">
                   <div
                     className="order-btn-cont"

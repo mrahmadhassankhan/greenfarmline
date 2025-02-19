@@ -1,4 +1,5 @@
 import "../../../styles/order.css";
+import "../../../styles/cartlayout.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import TriangleLoader from "../../../components/seller/TriangleLoader";
@@ -13,6 +14,7 @@ const MyOrders = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentProductId, setCurrentProductId] = useState(null);
   const [currentOrderId, setCurrentOrderId] = useState(null);
+  const [productDetails, setProductDetails] = useState(null);
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -40,6 +42,41 @@ const MyOrders = () => {
     setCurrentProductId(id1);
     setCurrentOrderId(id2);
   };
+
+
+  useEffect(() => {
+    const fetchDetails = async () => {
+      if (data?.length > 0) {
+        try {
+          // Create an array of promises for fetching details of all products
+          const promises = data.flatMap(order =>
+            order.items.map(async product => {
+              const response = await Axios.get(`/product/${product.slug}`);
+              // console.log(`Response for slug ${product.slug}:`, response.data);
+              return { slug: product.slug, document: response.data.data.document }; // Map slug to document only
+            })
+          );
+  
+          // Wait for all promises to resolve
+          const fetchedDetails = await Promise.all(promises);
+  
+          // Create a map for easy lookup by slug
+          const detailsMap = Object.fromEntries(
+            fetchedDetails.map(detail => [detail.slug, detail.document])
+          );
+  
+          // Update productDetails state
+          setProductDetails(detailsMap);
+  
+          console.log("Fetched Product Details Map:", detailsMap);
+        } catch (error) {
+          console.error("Error fetching product details:", error);
+        }
+      }
+    };
+  
+    fetchDetails();
+  }, [data]);  
 
   const submitReview = async (review, productId, orderId) => {
     try {
@@ -92,17 +129,18 @@ const MyOrders = () => {
             </tr>
           </thead>
           <tbody className="order-table-tbody">
-            {data?.length > 0 ? (
-              data.map((item, index) => (
-                <tr key={index}>
+              {data.map((order, orderIndex) => (
+                <tr key={orderIndex}>
                   <td className="order-td">
-                    {item.items.map((product, key) => (
+                    {order.items.map((product, productIndex) => (
                       <div key={product.id} className="order-td-div">
                         <div className="cart-product-cont">
                           <div className="cart-image-cont">
                             <img
-                              src={product.image}
-                              alt="product"
+                              src={`http://localhost:1783/Images/${
+                                productDetails?.[product.slug]?.split("\\").pop()
+                              }`}
+                              alt={product.name}
                               className="cart-image"
                             />
                           </div>
@@ -120,76 +158,57 @@ const MyOrders = () => {
                             </p>
                           </div>
                         </div>
+                        <div className="order-btn-cont">
+                          <button
+                            className="cart-delete-btn"
+                            disabled={product.isReviewed}
+                            style={
+                              product.isReviewed
+                                ? { cursor: "not-allowed", opacity: "0.5" }
+                                : {}
+                            }
+                            onClick={() =>{
+                              openReviewModal(order.delivered, product.id, order.id)
+                              // console.log(order.delivered +","+ product.id +","+ order.id)
+                            }
+                            }
+                          >
+                            {product.isReviewed ? "Reviewed" : "Review"}
+                          </button>
+                          <button
+                            className="cart-delete-btn"
+                            onClick={() => navigate(`/product/${product.slug}`)}
+                          >
+                            Buy Again
+                          </button>
+                        </div>
                       </div>
                     ))}
                   </td>
-
-                  <td className="order-td">{item.createdAt}</td>
-                  <td className="order-td">{item.delivered}</td>
-                  <td className="order-td">PKR {item.totalPrice}</td>
-                  <td className="order-td">
-                    <div
-                      className="order-btn-cont"
-                      style={{ flexDirection: "column" }}
-                    >
-                      <button
-                        className="cart-delete-btn"
-                        disabled={item.delivered === "pending"}
-                        style={
-                          item.delivered == "pending"
-                            ? { cursor: "not-allowed", opacity: "0.5" }
-                            : {}
-                        }
-                        onClick={() =>
-                          updateOrderStatus(
-                            item._id,
-                            "Delivered",
-                            item.paymentId
-                          )
-                        }
-                      >
-                        Delivered
-                      </button>
-                      <button
-                        className="cart-delete-btn"
-                        disabled={item.delivered !== "pending"}
-                        style={
-                          item.delivered !== "pending"
-                            ? { cursor: "not-allowed", opacity: "0.5" }
-                            : {}
-                        }
-                        onClick={() =>
-                          updateOrderStatus(
-                            item._id,
-                            "Cancelled",
-                            item.paymentId
-                          )
-                        }
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </td>
+                  <td className="order-td">{order.createdAt}</td>
+                  <td className="order-td">{order.delivered}</td>
+                  <td className="order-td">PKR {order.totalPrice}</td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={6} style={{ textAlign: "center" }}>
-                  No orders available.
-                </td>
-              </tr>
-            )}
+              ))}
           </tbody>
         </table>
+        {(!data || data.length <= 0) && (
+          <div className="empty-cart">
+            <img src={EmptyImage} alt="empty-cart" />
+            <p>Looks like you haven't purchased any items yet.</p>
+          </div>
+        )}
       </div>
-
+      
       {showModal && (
+        <>
         <FormReviews
           onClose={() => setShowModal(false)}
           onSubmit={(review) =>
             submitReview(review, currentProductId, currentOrderId)
           }
-        />
+          />
+        </>
       )}
     </div>
   );

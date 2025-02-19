@@ -73,7 +73,9 @@ const addToCart = asyncErrorHandler(async (req, res, next) => {
 
 const deleteCart = asyncErrorHandler(async (req, res, next) => {
   const { email } = req.query;
-  const userObj = await user.findOne(email).populate({
+  const itemId = req.params.id;
+  // console.log(itemId);
+  const userObj = await user.findOne({ email }).populate({
     path: "cart.items.productId",
     select: "name price brand image slug",
   });
@@ -83,8 +85,9 @@ const deleteCart = asyncErrorHandler(async (req, res, next) => {
   }
 
   const itemToRemove = userObj.cart.items.find(
-    (item) => String(item._id) === String(_id)
+    (item) => String(item._id) === String(itemId)
   );
+  // console.log(itemToRemove);
 
   if (!itemToRemove) {
     return next(new errorHandler("Item not found in cart", 404));
@@ -94,7 +97,7 @@ const deleteCart = asyncErrorHandler(async (req, res, next) => {
     itemToRemove.productId.price * itemToRemove.quantity;
 
   userObj.cart.items = userObj.cart.items.filter(
-    (item) => String(item._id) !== String(_id)
+    (item) => String(item._id) !== String(itemId)
   );
 
   await userObj.save();

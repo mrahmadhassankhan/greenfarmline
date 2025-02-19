@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import successImage from "../../../images/success-transaction.gif";
+import '../../../styles/auth.css'
 const CheckoutSuccess = () => {
   return (
     <section className="Error-cont">

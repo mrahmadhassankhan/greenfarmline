@@ -95,23 +95,45 @@ const AdminOrders = () => {
             {data && data.length > 0 ? (
               data.map((order) => (
                 <tr key={order._id}>
-                  <td>{order.name}</td>
-                  <td>{order.createdAt}</td>
-                  <td>{order.productDetails}</td>
-                  <td>{order.delivered}</td>
-                  <td>{order.totalPrice}</td>
-                  <td>
-                    <button
-                      onClick={() =>
-                        updateOrderStatus(
-                          order._id,
-                          "Delivered",
-                          order.paymentId
-                        )
-                      }
+                  <td className="order-td">{order.productDetails}</td>
+                  <td className="order-td">{order.name}</td>
+                  <td className="order-td">{order.createdAt}</td>
+                  <td className="order-td">{order.delivered}</td>
+                  <td className="order-td">RS.{order.totalPrice}</td>
+                  <td className="order-td">
+                    <div
+                      className="order-btn-cont"
+                      style={{ flexDirection: "column" }}
                     >
-                      Mark as Delivered
-                    </button>
+                      <button
+                        className="cart-delete-btn"
+                        disabled={order.delivered !== "pending"}
+                        style={
+                          order.delivered !== "pending"
+                            ? { cursor: "not-allowed", opacity: "0.5" }
+                            : {}
+                        }
+                        onClick={() =>
+                          updateOrderStatus(order._id, "Delivered", order.paymentId)
+                        }
+                      >
+                        Delivered
+                      </button>
+                      <button
+                        className="cart-delete-btn"
+                        disabled={order.delivered !== "pending"}
+                        style={
+                          order.delivered !== "pending"
+                            ? { cursor: "not-allowed", opacity: "0.5" }
+                            : {}
+                        }
+                        onClick={() =>
+                          updateOrderStatus(order._id, "Cancelled", order.paymentId)
+                        }
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))

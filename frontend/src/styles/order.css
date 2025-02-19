@@ -1,6 +1,7 @@
 .orderMainContainer {
   font-family: "Inter", sans-serif;
-  margin: 2% 3% 4%;
+  margin: 4.7% 3% 4%;
+  padding-top: 10px;
 }
 .orderContainer {
   display: flex;
@@ -83,6 +84,7 @@
   border-radius: 0.75rem;
   box-shadow: 8px 8px 30px rgba(0, 0, 0, 0.05);
   text-align: center;
+  z-index: 10001;
 }
 .formReview h3 {
   font-size: 1.3rem;

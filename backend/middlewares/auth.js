@@ -26,4 +26,19 @@ const verifyToken = asyncErrorHandler(async (req, res, next) => {
   req.tokenEmail = email;
   next();
 });
-module.exports = { adminOnly, verifyToken };
+
+const isAuthenticated = async (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) return next(new errorHandler("Unauthorized", 401));
+
+  try {
+    const decoded = jwt.verify(token, secret);
+    req.user = await user.findById(decoded.id);
+    if (!req.user) return next(new errorHandler("User not found", 401));
+    next();
+  } catch (error) {
+    next(new errorHandler("Invalid token", 401));
+  }
+};
+
+module.exports = { adminOnly, verifyToken, isAuthenticated };

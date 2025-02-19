@@ -119,6 +119,47 @@ const verifyUser = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
+// Fetch User Profile
+const getUserProfile = asyncErrorHandler(async (req, res, next) => {
+  // DEBUGGING..
+  console.log("User Profile API Called");
+  console.log("Authenticated User:", req.user);
+  
+  const user = await User.findById(req.user.id).select("-password");
+  if (!user) {
+    return next(new errorHandler("User not found", 404));
+  }
+  res.status(200).json({ success: true, user });
+});
+
+// Update User Profile
+const updateUserProfile = asyncErrorHandler(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+  if (!user) {
+    return next(new errorHandler("User not found", 404));
+  }
+
+  const { name, phoneNumber, address, businessName, registrationNo, qualification, yearsOfExperience, expertise } = req.body;
+
+  user.name = name || user.name;
+  user.phoneNumber = phoneNumber || user.phoneNumber;
+  user.address = address || user.address;
+
+  if (user.role === "seller") {
+    user.businessName = businessName || user.businessName;
+    user.registrationNo = registrationNo || user.registrationNo;
+  }
+
+  if (user.role === "expert") {
+    user.qualification = qualification || user.qualification;
+    user.yearsOfExperience = yearsOfExperience || user.yearsOfExperience;
+    user.expertise = expertise || user.expertise;
+  }
+
+  await user.save();
+  res.status(200).json({ success: true, message: "Profile updated successfully", user });
+});
+
 const getOrder = asyncErrorHandler(async (req, res, next) => {
   // Extract email from query parameters
   const { email } = req.query;
@@ -210,4 +251,6 @@ module.exports = {
   verifyUser,
   getOrder,
   forgetPassword,
+  getUserProfile,
+  updateUserProfile,
 };

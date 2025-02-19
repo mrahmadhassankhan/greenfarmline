@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { memo, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import Axios from "../../Axios";
+import '../../styles/cartlayout.css';
 
 const CartItems = ({
   cartId,
@@ -15,41 +16,67 @@ const CartItems = ({
 }) => {
   const [currentquantity, setCurrentquantity] = useState(quantity);
   const [debouncequantity, setDebouncequantity] = useState(null);
+  const [productDetails, setProductDetails] = useState(null);
   const firstUpdate = useRef(true);
+
+  useEffect(() => {
+    const fetchDetails = async () => {
+      if (data?.slug) {
+        try {
+          const response = await Axios.get(`/product/${data.slug}`);
+          const fetchedDetails = response.data.data; // Access the actual product details
+  
+          console.log("Fetched Product Details:", fetchedDetails); // Log the correct product details
+  
+          // Update state with the correct product details
+          setProductDetails((prevDetails) => {
+            if (JSON.stringify(prevDetails) !== JSON.stringify(fetchedDetails)) {
+              console.log("Updating productDetails state");
+              return fetchedDetails;
+            }
+            console.log("No changes detected in product details");
+            return prevDetails;
+          });
+        } catch (error) {
+          console.error("Error fetching product details:", error);
+        }
+      }
+    };
+    fetchDetails();
+  }, [data?.slug]);    
+
+  // Debounce mechanism for quantity updates
   useEffect(() => {
     const handler = setTimeout(() => {
-      console.log("debounce");
       if (firstUpdate.current) {
         firstUpdate.current = false;
         return;
       }
       setDebouncequantity(currentquantity);
     }, 450);
-    return () => {
-      clearTimeout(handler);
-    };
+    return () => clearTimeout(handler);
   }, [currentquantity]);
+
+  // Update quantity in the backend
   const changequantity = async () => {
     try {
       const response = await Axios.put(`/cart/update/${cartId}`, {
         quantity: debouncequantity,
         email: localStorage.getItem("email"),
       });
-      console.log(response.data);
       updateData(response.data.cart);
-      // if (response.data.success === true) {
       toast.success("Quantity updated successfully");
-
-      // }
     } catch (error) {
       toast.error("Something went wrong");
     }
   };
+
   useEffect(() => {
     if (debouncequantity !== null) {
       changequantity();
     }
   }, [debouncequantity]);
+
   return (
     <tr>
       <td>
@@ -59,12 +86,15 @@ const CartItems = ({
               to={`/product/${data.slug}`}
               style={{ textDecoration: "none" }}
             >
-              <img src={data.image} alt="cart-img" />
+              <img
+                src={`http:\\\\localhost:1783\\Images\\${productDetails?.document.split('\\').pop()}`} // Use the document from productDetails
+                alt="cart-img"
+              />
             </Link>
           </div>
           <div className="cart-name-cont">
             <p style={{ textAlign: "left" }}>
-              {data.brand} {data.name}
+              {productDetails?.brand} {productDetails?.name}
             </p>
             <div className="cart-name-cont-btn">
               <button onClick={deleteItem}>
@@ -78,7 +108,7 @@ const CartItems = ({
         </div>
         <div className="cart-mobile-info">
           <p>Quantity: {size}</p>
-          <p>Price: ₹ {data.price}/item</p>
+          <p>Price: RS. {productDetails?.price}/item</p>
         </div>
       </td>
 
@@ -98,7 +128,7 @@ const CartItems = ({
         </div>
       </td>
       <td className="cart-subheader">
-        <p>₹ {quantity * data.price}</p>
+        <p>RS. {quantity * (productDetails?.price || 0)}</p>
       </td>
     </tr>
   );

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import logo from "../../images/logo-icon.png";
+import { useNavigate } from "react-router-dom";
 function ExpertNav() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+  const navigate = useNavigate();
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
@@ -126,22 +127,22 @@ function ExpertNav() {
                     aria-labelledby="user-menu-button"
                   >
                     <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => navigate("/profile")}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                       role="menuitem"
                     >
                       Your Profile
                     </a>
                     <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => navigate("/settings")}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                       role="menuitem"
                     >
                       Settings
                     </a>
                     <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => { localStorage.removeItem("token"); navigate("/"); }}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                       role="menuitem"
                     >
                       Sign out

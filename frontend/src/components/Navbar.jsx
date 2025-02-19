@@ -103,7 +103,13 @@ function Navbar() {
               <CgProfile />
               <ul className="dropdown">
                 <li>
-                  <Link to="/userdashboard">Dashboard</Link>
+                  <Link to={
+                      localStorage.getItem("role") === "farmer" ? "/userdashboard" :
+                      localStorage.getItem("role") === "seller" ? "/sellerdashboard" :
+                      localStorage.getItem("role") === "expert" ? "/expertdashboard" :
+                      localStorage.getItem("role") === "admin" ? "/admin-panel" :
+                      "/"
+                  }>Dashboard</Link>
                 </li>
                 <li>
                   <Link to="/orders">Orders</Link>

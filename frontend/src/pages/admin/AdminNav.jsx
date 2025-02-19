@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import logo from '../../images/logo-icon.png'
-
+import { useNavigate } from "react-router-dom";
 function AdminNav() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+    const navigate = useNavigate();
     const toggleDropdown = () => {
         setIsDropdownOpen((prev) => !prev);
     };
@@ -54,9 +54,9 @@ function AdminNav() {
                                 </div>
                                 {isDropdownOpen && (
                                     <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button">
-                                        <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Profile</a>
-                                        <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Settings</a>
-                                        <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sign out</a>
+                                        <a onClick={() => navigate("/profile")} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" role="menuitem">Profile</a>
+                                        <a onClick={() => navigate("/settings")} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" role="menuitem">Settings</a>
+                                        <a onClick={() => { localStorage.removeItem("token"); navigate("/"); }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" role="menuitem">Sign out</a>
                                     </div>
                                 )}
                             </div>

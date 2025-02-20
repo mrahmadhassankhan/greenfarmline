@@ -35,41 +35,41 @@ const AdminSideBar = ({ toggleOpen }) => {
         </div>
       </div>
       <ul className="sideItemList p-2 list-none flex-1">
-        <SideItems iconName={<FaHome size={20} />} text="Home" to="/admin" />
+        <SideItems iconName={<FaHome size={20} />} text="Home" to="/seller" />
         <SideItems
           iconName={<FaUser size={17} />}
           text="Customers"
-          to="/admin/customers"
+          to="/seller/customers"
         />
         <SideItems
           iconName={<MdWindow size={20} />}
           text="Products"
-          to="/admin/products"
+          to="/seller/products"
         />
         <SideItems
           iconName={<FaClipboardList size={18} />}
           text="Orders"
-          to="/admin/orders"
+          to="/seller/orders"
         />
         <SideItems
           iconName={<BiSolidDiscount size={20} />}
           text="Coupons"
-          to="/admin/coupons"
+          to="/seller/coupons"
         />
         <SideItems
           iconName={<TbBrandBooking size={22} />}
           text="Brands"
-          to="/admin/brands"
+          to="/seller/brands"
         />
         <SideItems
           iconName={<MdCategory size={20} />}
           text="Category"
-          to="/admin/category"
+          to="/seller/category"
         />
         <li
           onClick={() => {
-            localStorage.removeItem("jwtAdmin");
-            navigate("/adminlogin");
+            localStorage.clear();
+            navigate("/");
           }}
           className="sideItemLink hover:cursor-pointer hover:bg-[#ffffff0d] flex items-center gap-3 px-4 py-2 rounded-md mb-1 text-[14px]"
         >

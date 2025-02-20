@@ -35,7 +35,7 @@ const QueryDetailsCard = ({
         />
       )}
       <div className="flex-1">
-        <h3 className="text-xl font-bold text-lime-600">{title}</h3>
+        <h3 className="text-xl font-bold text-green-600">{title}</h3>
         <p className="text-sm dark:text-white text-gray-600 my-2 mb-9">
           {description}
         </p>

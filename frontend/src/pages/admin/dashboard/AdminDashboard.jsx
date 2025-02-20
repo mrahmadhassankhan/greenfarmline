@@ -1,7 +1,95 @@
 import React from "react";
 import AdminNav from "../AdminNav";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function AdminDashboard() {
+  const [pendingQueriesCount, setPendingQueriesCount] = useState(0);
+  const [userCount, setUserCount] = useState(0);
+  const [sellerCount, setSellerCount] = useState(0);
+  const [activities, setActivities] = useState([]);
+  const [systemUptime, setSystemUptime] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch only pending queries count from the backend when the component is mounted
+    const fetchQueries = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:1783/api/query/getpendingqueries"
+        );
+        // console.log("Pending queries response:", response.data);
+
+        // If response.data is an array, get its length
+        if (Array.isArray(response.data)) {
+          setPendingQueriesCount(response.data.length);
+        } else {
+          console.error("Unexpected response format:", response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching pending queries:", error);
+      }
+    };
+
+    fetchQueries();
+  }, []);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get("http://localhost:1783/api/v1/admin/users");
+
+        // console.log("Total Users:", response.data.count); // Debug total users count
+        // console.log("Total Sellers:", response.data.sellersCount); // Debug sellers count
+
+        setUserCount(response.data.count);
+        setSellerCount(response.data.sellersCount);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  // Fetch recent activities
+  useEffect(() => {
+    const fetchRecentActivities = async () => {
+      try {
+        const response = await axios.get("http://localhost:1783/api/v1/admin/recent-activities");
+        setActivities(response.data);
+      } catch (error) {
+        console.error("Error fetching activities:", error);
+      }
+    };
+
+    fetchRecentActivities();
+
+    // Fetch new activities every 10 seconds
+    const interval = setInterval(fetchRecentActivities, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const fetchUptime = async () => {
+      try {
+        const response = await axios.get("http://localhost:1783/api/uptime");
+        setSystemUptime(response.data.uptime);
+      } catch (error) {
+        console.error("Error fetching uptime:", error);
+      }
+    };
+
+    fetchUptime();
+
+    // Refresh uptime every 10 seconds
+    const interval = setInterval(fetchUptime, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
       <AdminNav />
@@ -16,45 +104,59 @@ function AdminDashboard() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-xl font-bold text-gray-700">Pending Queries</h2>
-              <p className="text-3xl font-semibold text-blue-600">12</p>
+              <p className="text-3xl font-semibold text-blue-600">{pendingQueriesCount}</p>
             </div>
 
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-xl font-bold text-gray-700">Total Users</h2>
-              <p className="text-3xl font-semibold text-green-600">2,356</p>
+              <p className="text-3xl font-semibold text-green-600">{userCount}</p>
             </div>
 
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-xl font-bold text-gray-700">Active Sellers</h2>
-              <p className="text-3xl font-semibold text-orange-600">28</p>
+              <p className="text-3xl font-semibold text-orange-600">{sellerCount}</p>
             </div>
 
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-xl font-bold text-gray-700">System Uptime</h2>
-              <p className="text-3xl font-semibold text-purple-600">99.8%</p>
+              <p className="text-3xl font-semibold text-purple-600">{systemUptime}</p>
+              {/* <p className="text-3xl font-semibold text-purple-600">99.8%</p> */}
             </div>
           </div>
 
           {/* Admin Controls */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8">
-            <button className="bg-blue-600 text-white p-4 rounded-lg shadow-md hover:bg-blue-700">
+            <button onClick={() => navigate('/pending-queries')} className="bg-blue-600 text-white p-4 rounded-lg shadow-md hover:bg-blue-700">
               Manage Queries
             </button>
-            <button className="bg-green-600 text-white p-4 rounded-lg shadow-md hover:bg-green-700">
+            <button onClick={() => navigate('/seller-management')} className="bg-green-600 text-white p-4 rounded-lg shadow-md hover:bg-green-700">
               Manage Sellers
             </button>
-            <button className="bg-red-600 text-white p-4 rounded-lg shadow-md hover:bg-red-700">
+            <button onClick={() => navigate('/user-management')} className="bg-red-600 text-white p-4 rounded-lg shadow-md hover:bg-red-700">
               Manage Users
             </button>
           </div>
 
-          {/* Recent Activities */}
+          {/* // Recent Activities
           <div className="bg-white p-6 mt-8 rounded-lg shadow-md">
             <h2 className="text-xl font-bold text-gray-700 mb-4">Recent Activities</h2>
             <ul className="list-disc pl-5 text-gray-600">
               <li>Admin approved 3 pending queries</li>
               <li>New seller "AgroTech Supplies" registered</li>
               <li>User "John Doe" updated account details</li>
+            </ul>
+          </div> */}
+          {/* Recent Activities Section */}
+          <div className="bg-white p-6 mt-8 rounded-lg shadow-md">
+            <h2 className="text-xl font-bold text-gray-700 mb-4">Recent Activities</h2>
+            <ul className="list-disc pl-5 text-gray-600">
+              {activities.length > 0 ? (
+                activities.map((activity, index) => (
+                  <li key={index}>{activity.message} - <span className="text-sm text-gray-500">{new Date(activity.timestamp).toLocaleString()}</span></li>
+                ))
+              ) : (
+                <li>No recent activities.</li>
+              )}
             </ul>
           </div>
         </div>

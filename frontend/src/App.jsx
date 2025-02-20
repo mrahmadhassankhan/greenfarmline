@@ -50,6 +50,8 @@ const Dashboard = lazy(() => import("./pages/sellerpages/pages/Dashboard"));
 const CheckoutSuccess = lazy(() => import("./pages/sellerpages/pages/CheckoutSuccess"));
 const ProtectedRoute = lazy(() => import("./utils/protectedRoute"));
 const AdminDashboard = lazy(() => import("./pages/admin/dashboard/AdminDashboard"));
+const SellerManagement = lazy(() => import("./pages/admin/seller-control/SellerManagement"))
+const UserManagement = lazy(() => import("./pages/admin/user-control/UserManagement"))
 const YourProfile = lazy(() => import("./pages/YourProfile"));
 const Settings = lazy(() => import("./pages/Settings"));
 
@@ -95,6 +97,8 @@ const App = () => {
           <Route path="/your-answered-queries" element={<ExpertAnsweredQueries />} />
           <Route path="/admin-panel" element={<AdminDashboard />} />
           <Route path="/pending-queries" element={<PendingQueries />} />
+          <Route path="/seller-management" element={<SellerManagement />} />
+          <Route path="/user-management" element={<UserManagement />} />
           <Route path="/approved-queries" element={<ApprovedQueries />} />
           <Route path="/rejected-queries" element={<RejectedQueries />} />
           <Route path="/ecommerce-store" element={<EcommerceStore />} />

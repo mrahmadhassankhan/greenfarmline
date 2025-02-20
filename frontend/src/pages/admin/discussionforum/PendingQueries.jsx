@@ -92,13 +92,13 @@ function PendingQueries() {
               <h2 className="text-2xl font-semibold">Pending Queries</h2>
               <div>
                 <button
-                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition mx-2"
+                  className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition mx-2"
                   onClick={handleApproveAll}
                 >
                   Approve All
                 </button>
                 <button
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+                  className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
                   onClick={handleRejectAll}
                 >
                   Reject All

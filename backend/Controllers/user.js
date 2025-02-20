@@ -1,5 +1,6 @@
 const User = require("../Models/user");
 const Order = require("../Models/order");
+const Activity = require("../Models/Activity");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const sendEmail = require("../utils/sendEmail");
@@ -36,6 +37,7 @@ const register = asyncErrorHandler(async (req, res, next) => {
   const userData = { name, email, password, role, ...extraFields };
 
   const newUser = await User.create(userData);
+  await Activity.create({ message: `New ${role} "${name}" is registered` });
 
   res.status(201).json({
     success: true,
@@ -157,6 +159,7 @@ const updateUserProfile = asyncErrorHandler(async (req, res, next) => {
   }
 
   await user.save();
+  await Activity.create({ message: `The ${user.role} ${name} updated account details` });
   res.status(200).json({ success: true, message: "Profile updated successfully", user });
 });
 

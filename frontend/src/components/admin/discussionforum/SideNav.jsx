@@ -12,7 +12,7 @@ function SideNav() {
                     <li>
                         <button
                             onClick={() => navigate('/pending-queries')}
-                            className="w-full text-left px-4 py-2 bg-lime-500 text-white rounded hover:bg-lime-600"
+                            className="w-full text-left px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
                         >
                             Pending Queries
                         </button>
@@ -20,7 +20,7 @@ function SideNav() {
                     <li>
                         <button
                             onClick={() => navigate('/approved-queries')}
-                            className="w-full text-left px-4 py-2 bg-lime-500 text-white rounded hover:bg-lime-600"
+                            className="w-full text-left px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
                         >
                             Approved Queries
                         </button>
@@ -28,7 +28,7 @@ function SideNav() {
                     <li>
                         <button
                             onClick={() => navigate('/rejected-queries')}
-                            className="w-full text-left px-4 py-2 bg-lime-500 text-white rounded hover:bg-lime-600"
+                            className="w-full text-left px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
                         >
                             Rejected Queries
                         </button>

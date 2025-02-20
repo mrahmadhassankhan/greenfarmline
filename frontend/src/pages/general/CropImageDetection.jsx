@@ -4,10 +4,13 @@ import Footer from '../../components/Footer'
 import CropDetectionLayout from '../../components/general/cropImageDetection/CropDetectionLayout'
 
 function CropImageDetection() {
+  const userEmail = localStorage.getItem('email');
+  const userName = localStorage.getItem('name');
+  const userRole = localStorage.getItem('role');
   return (
     <>
         <Navbar />
-        <CropDetectionLayout user={{ id: '123', name: 'John Doe', role: 'farmer' }} />
+        <CropDetectionLayout user={{ email: userEmail, name: userName, role: userRole }} />
         <Footer />
     </>
   )

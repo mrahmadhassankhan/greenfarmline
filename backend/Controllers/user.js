@@ -53,17 +53,17 @@ const register = asyncErrorHandler(async (req, res, next) => {
 // Login user
 const login = asyncErrorHandler(async (req, res, next) => {
   console.log(req.body);
-  const { email, password } = req.body;
-
+  const { email, password, role } = req.body;
   if (!email || !password) {
     return next(new errorHandler("Please provide email and password", 400));
   }
-
   const userExists = await User.findOne({ email });
   if (!userExists) {
     return next(new errorHandler("Invalid credentials", 401));
   }
-
+  if(userExists.role !== role){
+    return next(new errorHandler("Access denied", 401));
+  }
   const isMatch = await userExists.comparePassword(password);
   if (!isMatch) {
     return next(new errorHandler("Invalid credentials", 401));

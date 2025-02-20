@@ -20,9 +20,9 @@ function UserDashboard() {
             <h3 className="text-xl font-semibold mb-4">Quick Actions</h3>
             <div className="space-y-3">
               <Link to="/userforumview" className="block bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700">Visit Forum</Link>
-              <Link to="/userorders" className="block bg-green-600 text-white text-center py-2 rounded-md hover:bg-green-700">View Orders</Link>
-              <Link to="/cropdisease" className="block bg-yellow-500 text-white text-center py-2 rounded-md hover:bg-yellow-600">Check Crop Disease</Link>
-              <Link to="/shop" className="block bg-gray-700 text-white text-center py-2 rounded-md hover:bg-gray-800">Go to Store</Link>
+              <Link to="/orders" className="block bg-green-600 text-white text-center py-2 rounded-md hover:bg-green-700">View Orders</Link>
+              <Link to="/image-detection" className="block bg-yellow-500 text-white text-center py-2 rounded-md hover:bg-yellow-600">Check Crop Disease</Link>
+              <Link to="/ecommerce-store" className="block bg-gray-700 text-white text-center py-2 rounded-md hover:bg-gray-800">Go to Store</Link>
             </div>
           </div>
 
@@ -74,6 +74,9 @@ function UserDashboard() {
             <div className="border-dashed border-2 border-gray-300 p-6 text-center">
               <p className="text-gray-500">Drag & Drop Image Here</p>
               <button className="mt-3 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Upload Image</button>
+            </div>
+            <div className="text-right">
+              <button className="mt-3 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">Predict</button>
             </div>
           </div>
         </div>

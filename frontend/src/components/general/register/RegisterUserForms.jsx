@@ -62,6 +62,7 @@ const RegisterUserForms = () => {
           }
         );
         toast.success("Registration Successful");
+        navigate("/login");
       } catch (error) {
         console.error("Error during registration:", error);
         toast.error("User Already Exists");

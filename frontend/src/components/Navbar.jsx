@@ -140,7 +140,7 @@ function Navbar() {
   return (
     <>
       <div
-        className={` bg-white text-black max-w-screen-2xl container mx-auto md:px-20 px-4 fixed top-0 left-0 right-0 z-10 dark:bg-slate-600 dark:text-white ${
+        className={` bg-white text-black max-w-full container mx-auto md:px-20 px-4 fixed top-0 left-0 right-0 z-10 dark:bg-slate-600 dark:text-white ${
           sticky
             ? "sticky-navbar bg-gray-200 shadow-md duration-300 transition-all ease-in-out dark:bg-slate-700 dark:text-white"
             : ""

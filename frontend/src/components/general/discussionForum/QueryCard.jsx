@@ -35,7 +35,7 @@ const QueryCard = ({
         />
       )}
       <div className="flex-1 w-full md:w-1/2">
-        <h3 className="text-xl font-bold text-lime-600 overflow-hidden break-words max-h-8 max-w-full">
+        <h3 className="text-xl font-bold text-green-600 overflow-hidden break-words max-h-8 max-w-full">
           {title}
         </h3>
         <p className="text-sm dark:text-white text-gray-600 overflow-hidden break-words max-h-20 max-w-full my-2">

@@ -1,4 +1,5 @@
 const QueryModel = require("../../Models/User/Query/QueryModel");
+const Activity = require("../../Models/Activity");
 
 const createPostQuery = async (req, res) => {
   try {
@@ -174,7 +175,7 @@ const approverejectSpecificQuery = async (req, res) => {
 
     query.status = status; // Update the status
     await query.save(); // Save the changes
-
+    await Activity.create({ message: `Admin ${status} query ID ${id}` });
     res.status(200).json({ message: `Query status updated to ${status}` });
   } catch (error) {
     console.error(error);

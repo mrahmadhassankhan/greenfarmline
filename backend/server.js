@@ -12,6 +12,7 @@ const {
   notFound,
 } = require("../backend/middlewares/errorMiddleware");
 
+const uptimeRoutes = require("./Routers/uptimeRoutes"); // Import the uptime route
 const queryRouter = require("./Routers/QueryRouter");
 const answerrouter = require("./Routers/AnswerRouter");
 
@@ -38,6 +39,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, "./public/Images/")));
 app.use(express.static("public"));
 app.use(cookieParser());
+// Register the uptime route
+app.use("/api/uptime", uptimeRoutes);
 
 //Routers
 //Query

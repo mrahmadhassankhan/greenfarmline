@@ -3,6 +3,7 @@ const asyncErrorHandler = require("../middlewares/asyncErrorHandler");
 const errorHandler = require("../utils/errorHandler");
 const order = require("../Models/order");
 const product = require("../Models/product");
+const Activity = require("../Models/Activity");
 const Stripe = require("stripe");
 const brands = require("../Models/brands");
 const jwt = require("jsonwebtoken");
@@ -61,23 +62,62 @@ const adminLogin = asyncErrorHandler(async (req, res, next) => {
 });
 
 const getAllUsers = asyncErrorHandler(async (req, res) => {
-  const users = await user.find().select("name email createdAt");
-  const maxIndex = Math.max(users.length, 100);
-  const usersWithFormattedDate = users.map((user) => ({
+  // Fetch all users and select required fields
+  const users = await user.find().select("name email createdAt role");
+
+  // Filter users to get only sellers
+  const sellers = users.filter((user) => user.role === "seller");
+
+  // Get total counts
+  const totalUsers = users.length;
+  const totalSellers = sellers.length;
+
+  console.log("Total Users:", totalUsers); // Debugging
+  console.log("Total Sellers:", totalSellers); // Debugging
+
+  // Format users with indexed and formatted date
+  const usersWithFormattedDate = users.map((user, index) => ({
     ...user._doc,
     createdAt: new Date(user.createdAt).toLocaleDateString("en-GB", {
       day: "numeric",
       month: "long",
       year: "numeric",
     }),
-    index: `#${(users.indexOf(user) + 1)
-      .toString()
-      .padStart(maxIndex.toString().length, "0")}`,
+    index: `#${(index + 1).toString().padStart(totalUsers.toString().length, "0")}`,
   }));
+
   res.status(200).json({
     success: true,
-    users: usersWithFormattedDate,
+    count: totalUsers, // Total users count
+    sellersCount: totalSellers, // Sellers count
+    users: usersWithFormattedDate, // Users list
   });
+});
+
+const deleteUser = asyncErrorHandler(async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const deletedUser = await user.findByIdAndDelete(userId);
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting user", error });
+  }
+});
+
+// Get the latest 5 activities
+const getRecentActivities = asyncErrorHandler(async (req, res) => {
+  try {
+    const activities = await Activity.find().sort({ createdAt: -1 }).limit(5);
+    res.status(200).json(activities);
+  } catch (error) {
+    console.error("Error fetching activities:", error);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 const getAllOrders = asyncErrorHandler(async (req, res, next) => {
@@ -360,4 +400,6 @@ module.exports = {
   getAllProducts,
   productStatus,
   getAdminDetails,
+  deleteUser,
+  getRecentActivities,
 };

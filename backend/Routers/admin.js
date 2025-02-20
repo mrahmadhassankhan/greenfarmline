@@ -10,6 +10,8 @@ const {
   productStatus,
   getAdminDetails,
   adminLogin,
+  deleteUser,
+  getRecentActivities,
 } = require("../Controllers/admin");
 const router = express.Router();
 
@@ -21,5 +23,7 @@ router.route("/coupons/:id").delete(deleteCoupon);
 router.route("/products").get(getAllProducts);
 router.route("/product/:id").put(productStatus);
 router.route("/info").get(getAdminDetails);
+router.route("/user/:id").delete(deleteUser);
+router.route("/recent-activities").get(getRecentActivities);
 
 module.exports = router;

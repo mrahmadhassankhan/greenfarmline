@@ -36,7 +36,7 @@ const PendingQueryCard = ({
                 />
             )}
             <div className="flex-1 w-full md:w-1/2">
-                    <h3 onClick={onClick} className="text-xl font-bold text-lime-600 cursor-pointer overflow-hidden break-words max-h-8">{title}</h3>
+                    <h3 onClick={onClick} className="text-xl font-bold text-green-600 cursor-pointer overflow-hidden break-words max-h-8">{title}</h3>
                     <p className="text-sm text-gray-600 my-2 overflow-hidden break-words max-h-20 max-w-full">
                         {description.length > 120 ? `${description.slice(0, 120)}...` : description}
                     </p>
@@ -58,13 +58,13 @@ const PendingQueryCard = ({
                 <div className="mt-4 flex flex-col space-y-2">
                     <button
                         onClick={onApprove}
-                        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
+                        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
                     >
                         Approve
                     </button>
                     <button
                         onClick={onReject}
-                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+                        className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
                     >
                         Reject
                     </button>

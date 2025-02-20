@@ -57,7 +57,9 @@ const userSchema = new mongoose.Schema({
   qualification: { type: String },
   yearsOfExperience: { type: Number },
   expertise: { type: String },
-});
+},
+  { timestamps: true } // ✅ Enables createdAt & updatedAt
+);
 
 // Add role-based validation
 userSchema.pre("save", function (next) {

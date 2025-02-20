@@ -83,7 +83,7 @@ const AnswerCard = ({
         <div className="flex flex-row items-start">
           <span className="font-bold text-gray-700">{name}</span>
           {isExpert === "expert" && (
-            <span className="ml-2 px-2 py-1 text-xs bg-lime-500 text-white rounded-full">
+            <span className="ml-2 px-2 py-1 text-xs bg-green-600 text-white rounded-full">
               Expert
             </span>
           )}
@@ -95,7 +95,7 @@ const AnswerCard = ({
         <div className="flex flex-col gap-5 items-center">
           <svg
             onClick={handleUpvote}
-            className={`cursor-pointer ${hasUpvoted ? "text-lime-500" : ""}`}
+            className={`cursor-pointer ${hasUpvoted ? "text-green-600" : ""}`}
             fill="#000000"
             height="32px"
             width="32px"
@@ -108,7 +108,7 @@ const AnswerCard = ({
           <span className="text-sm text-gray-600 text-center">{votes}</span>
           <svg
             onClick={handleDownvote}
-            className={`cursor-pointer ${hasDownvoted ? "text-red-500" : ""}`}
+            className={`cursor-pointer ${hasDownvoted ? "text-red-600" : ""}`}
             fill="#000000"
             height="32px"
             width="32px"

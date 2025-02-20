@@ -32,8 +32,8 @@ function AdminNav() {
                                 <div class="flex space-x-4">
                                     <a href="/admin-panel" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Dashboard</a>
                                     <a href="/pending-queries" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Queries Control</a>
-                                    <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Seller Control</a>
-                                    <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">User Control</a>
+                                    <a href="/seller-management" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Seller Control</a>
+                                    <a href="/user-management" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">User Control</a>
                                 </div>
                             </div>
                         </div>
@@ -67,8 +67,8 @@ function AdminNav() {
                     <div class="space-y-1 px-2 pb-3 pt-2">
                         <a href="/admin-panel" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
                         <a href="/pending-queries" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Queries Control</a>
-                        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Seller Cotrol</a>
-                        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">User Control</a>
+                        <a href="/seller-management" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Seller Cotrol</a>
+                        <a href="/user-management" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">User Control</a>
                     </div>
                 </div>
             </nav>

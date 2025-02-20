@@ -1,17 +1,73 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ExpertNav from "../ExpertNav";
 import { FaRegCheckCircle, FaClock, FaClipboardList } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const ExpertDashboard = () => {
+  const expertEmail = localStorage.getItem("email");
+  const expertName = localStorage.getItem("name");
+
+  const navigate = useNavigate();
+
+  // State for counts
+  const [totalQueries, setTotalQueries] = useState(0);
+  const [answeredQueries, setAnsweredQueries] = useState(0);
+  const [pendingQueries, setPendingQueries] = useState(0);
+  const [recentQueries, setRecentQueries] = useState([]);
+
+  // Fetch data on component mount
+  useEffect(() => {
+    fetchCounts();
+    fetchRecentQueries();
+  }, []);
+
+  const fetchCounts = async () => {
+    try {
+      // Fetch total approved queries
+      const approvedResponse = await axios.get(
+        "http://localhost:1783/api/query/getapprovedqueries"
+      );
+
+      // Fetch answered queries by expert
+      const answeredResponse = await axios.get(
+        `http://localhost:1783/api/answer/expert/${expertEmail}`
+      );
+
+      const approvedQueries = approvedResponse.data || [];
+      const answeredQueriesData = answeredResponse.data || [];
+
+      // Calculate counts
+      setTotalQueries(approvedQueries.length);
+      setAnsweredQueries(answeredQueriesData.length);
+      setPendingQueries(approvedQueries.length - answeredQueriesData.length);
+    } catch (error) {
+      console.error("Error fetching counts:", error);
+    }
+  };
+
+  const fetchRecentQueries = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:1783/api/query/getapprovedqueries"
+      );
+      setRecentQueries(response.data.slice(0, 3)); // Show latest 3 queries
+    } catch (error) {
+      console.error("Error fetching recent queries:", error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       <ExpertNav />
-      
+
       {/* Dashboard Header */}
       <div className="p-6 text-gray-800 dark:text-gray-200">
         <h1 className="text-3xl font-bold">Expert Dashboard</h1>
-        <p className="text-gray-600 dark:text-gray-400">Welcome back, Expert! Here's an overview of your activity.</p>
+        <p className="text-gray-600 dark:text-gray-400">
+          Welcome back, {expertName}! Here's an overview of your activity.
+        </p>
       </div>
 
       {/* Statistics Cards */}
@@ -20,7 +76,7 @@ const ExpertDashboard = () => {
           <FaRegCheckCircle className="text-green-500 text-4xl mr-4" />
           <div>
             <h2 className="text-lg font-semibold">Answered Queries</h2>
-            <p className="text-2xl font-bold">34</p>
+            <p className="text-2xl font-bold">{answeredQueries}</p>
           </div>
         </div>
 
@@ -28,7 +84,7 @@ const ExpertDashboard = () => {
           <FaClock className="text-yellow-500 text-4xl mr-4" />
           <div>
             <h2 className="text-lg font-semibold">Pending Queries</h2>
-            <p className="text-2xl font-bold">7</p>
+            <p className="text-2xl font-bold">{pendingQueries}</p>
           </div>
         </div>
 
@@ -36,14 +92,16 @@ const ExpertDashboard = () => {
           <FaClipboardList className="text-blue-500 text-4xl mr-4" />
           <div>
             <h2 className="text-lg font-semibold">Total Queries</h2>
-            <p className="text-2xl font-bold">41</p>
+            <p className="text-2xl font-bold">{totalQueries}</p>
           </div>
         </div>
       </div>
 
       {/* Recent Queries Section */}
       <div className="mt-8 px-6">
-        <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">Recent Queries</h2>
+        <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">
+          Recent Queries
+        </h2>
         <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4">
           <table className="w-full border-collapse">
             <thead>
@@ -55,52 +113,63 @@ const ExpertDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b">
-                <td className="p-3">Ali Khan</td>
-                <td className="p-3">How to prevent fungal infections in wheat?</td>
-                <td className="p-3 text-yellow-500">Pending</td>
-                <td className="p-3">
-                  <Link to="/expert/write-your-answer" className="text-blue-500 font-semibold">
-                    Answer
-                  </Link>
-                </td>
-              </tr>
-              <tr className="border-b">
-                <td className="p-3">Sara Ahmed</td>
-                <td className="p-3">Best pesticide for tomato leaf miners?</td>
-                <td className="p-3 text-green-500">Answered</td>
-                <td className="p-3">
-                  <Link to="/expert/your-answered-queries" className="text-blue-500 font-semibold">
-                    View Answer
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td className="p-3">Mohsin Raza</td>
-                <td className="p-3">How to improve soil fertility naturally?</td>
-                <td className="p-3 text-yellow-500">Pending</td>
-                <td className="p-3">
-                  <Link to="/expert/write-your-answer" className="text-blue-500 font-semibold">
-                    Answer
-                  </Link>
-                </td>
-              </tr>
+              {recentQueries.length > 0 ? (
+                recentQueries.map((query) => (
+                  <tr key={query._id} className="border-b">
+                    <td className="p-3">{query.name || "Unknown"}</td>
+                    <td className="p-3">{query.title}</td>
+                    <td
+                      className={`p-3 ${query.answers.length > 0 ? "text-green-500" : "text-yellow-500"
+                        }`}
+                    >
+                      {query.answers.length > 0 ? "Answered" : "Pending"}
+                    </td>
+                    <td className="p-3">
+                      <button
+                        onClick={() =>
+                          navigate("/write-your-answer", { state: { query } })
+                        }
+                        className="text-blue-500 font-semibold"
+                      >
+                        {query.answers.length > 0 ? "View Answer" : "Answer"}
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" className="text-center p-3">
+                    No recent queries found.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
       </div>
 
       {/* Quick Actions */}
-      <div className="mt-8 px-6">
-        <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">Quick Actions</h2>
+      <div className="mt-8 px-6 mb-8">
+        <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">
+          Quick Actions
+        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <Link to="/expert/forum" className="bg-blue-500 text-white font-semibold py-3 px-6 rounded-lg text-center shadow-lg">
+          <Link
+            to="/discussionforum"
+            className="bg-blue-500 text-white font-semibold py-3 px-6 rounded-lg text-center shadow-lg"
+          >
             View Discussion Forum
           </Link>
-          <Link to="/expert/write-your-answer" className="bg-green-500 text-white font-semibold py-3 px-6 rounded-lg text-center shadow-lg">
+          <Link
+            to="/expertforumview"
+            className="bg-green-500 text-white font-semibold py-3 px-6 rounded-lg text-center shadow-lg"
+          >
             Answer a Query
           </Link>
-          <Link to="/expert/your-answered-queries" className="bg-gray-700 text-white font-semibold py-3 px-6 rounded-lg text-center shadow-lg">
+          <Link
+            to="/your-answered-queries"
+            className="bg-gray-700 text-white font-semibold py-3 px-6 rounded-lg text-center shadow-lg"
+          >
             Your Answered Queries
           </Link>
         </div>

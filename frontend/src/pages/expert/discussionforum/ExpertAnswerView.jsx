@@ -131,7 +131,7 @@ function ExpertAnswerView() {
               required
               rows="4"
               placeholder="Write your answer here..."
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
             />
             <button
               type="submit"
@@ -139,7 +139,7 @@ function ExpertAnswerView() {
               className={`w-full p-3 text-white font-semibold rounded-lg ${
                 isSubmitting
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-lime-500 hover:bg-lime-600"
+                  : "bg-green-600 hover:bg-green-700"
               }`}
             >
               {isSubmitting ? "Submitting..." : "Submit Answer"}

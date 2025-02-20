@@ -12,7 +12,7 @@ function UserManagement() {
   const fetchUsers = async () => {
     try {
       const response = await axios.get("http://localhost:1783/api/v1/admin/users");
-      setUsers(response.data.users);
+      setUsers(response.data.users.filter((user) => user.role !== "admin"));
     } catch (error) {
       console.error("Error fetching users:", error);
     }

@@ -85,7 +85,7 @@ function AdminDashboard() {
     fetchUptime();
 
     // Refresh uptime every 10 seconds
-    const interval = setInterval(fetchUptime, 10000);
+    const interval = setInterval(fetchUptime, 1000);
 
     return () => clearInterval(interval);
   }, []);

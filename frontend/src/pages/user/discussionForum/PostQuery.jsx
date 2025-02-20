@@ -108,7 +108,7 @@ const PostQuery = () => {
                     onChange={handleChange}
                     required
                     placeholder="Enter the title of your query"
-                    className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-lime-500 focus:border-lime-500"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"
                   />
                 </div>
 
@@ -128,7 +128,7 @@ const PostQuery = () => {
                     required
                     rows="4"
                     placeholder="Describe your query in detail"
-                    className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-lime-500 focus:border-lime-500"
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"
                   />
                 </div>
 
@@ -165,7 +165,7 @@ const PostQuery = () => {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full p-3 text-white bg-lime-500 rounded-lg font-semibold hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500"
+                  className="w-full p-3 text-white bg-green-600 rounded-lg font-semibold hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600"
                 >
                   Submit Query
                 </button>

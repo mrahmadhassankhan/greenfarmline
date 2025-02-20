@@ -1,16 +1,138 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import UserNav from "../UserNav";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 function UserDashboard() {
+  const userEmail = localStorage.getItem('email');
+  const userName = localStorage.getItem("name");
+  const userRole = localStorage.getItem('role');
+  const user = { email: userEmail, name: userName, role: userRole }
+
+  // State for handling image upload and detection results
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [detectionResult, setDetectionResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  // State for orders and forum queries
+  const [orders, setOrders] = useState([]);
+  const [queries, setQueries] = useState([]);
+
+  // Handle image selection and preview
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedImage(file);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
+
+  // Send image to backend for detection
+  const handleDetectDisease = async () => {
+    if (!selectedImage) {
+      alert("Please upload an image first.");
+      return;
+    }
+
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("file", selectedImage);
+
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:5000/predict",  // Your API endpoint
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      setDetectionResult(response.data);  // Store prediction result
+      // If user is a farmer, store detection result in database
+      if (user.role === 'farmer') {
+        await axios.post('http://localhost:1783/api/detections/save', {
+          user,
+          disease: detectionResult.prediction,
+          confidence: detectionResult.confidence * 100,
+          recommendations: detectionResult.recommendations,
+          imageUrl: previewUrl, // Temporary URL for preview
+        }, {
+          headers: { 'Content-Type': 'application/json' }
+        });
+
+        toast.success("Detection result saved successfully.");
+      }
+    } catch (error) {
+      console.error("Error detecting disease:", error);
+      alert("Failed to detect disease. Please try again.");
+    }
+
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    // Fetch user's orders using admin orders API
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:1783/api/v1/admin/order?email=${userEmail}`
+        );
+        setOrders(response.data.orders);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    };
+
+    // Fetch latest 3 approved queries and their replies count
+    const fetchQueries = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:1783/api/query/getapprovedqueries"
+        );
+
+        let latestQueries = response.data.slice(-3); // Get last 3 approved queries
+
+        // Fetch replies count for each query
+        const queriesWithReplies = await Promise.all(
+          latestQueries.map(async (query) => {
+            try {
+              const replyResponse = await axios.get(
+                `http://localhost:1783/api/answer/answers/${query._id}`
+              );
+              return {
+                ...query,
+                replyCount: replyResponse.data.answers.length,
+              };
+            } catch (error) {
+              console.error("Error fetching replies:", error);
+              return { ...query, replyCount: 0 };
+            }
+          })
+        );
+
+        setQueries(queriesWithReplies);
+      } catch (error) {
+        console.error("Error fetching approved queries:", error);
+      }
+    };
+
+    fetchOrders();
+    fetchQueries();
+  }, [userEmail]);
+
   return (
     <>
       <UserNav />
       <div className="bg-gray-100 min-h-screen p-6">
         {/* Welcome Message */}
         <div className="bg-white shadow-md rounded-lg p-6 mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800">Welcome, Farmer!</h2>
-          <p className="text-gray-600">Manage your orders, participate in discussions, and check your crop health.</p>
+          <h2 className="text-2xl font-semibold text-gray-800">
+            Welcome, {userName}!
+          </h2>
+          <p className="text-gray-600">
+            Manage your orders, participate in discussions, and check your crop health.
+          </p>
         </div>
 
         {/* Grid Layout for Quick Actions & Overview */}
@@ -19,10 +141,18 @@ function UserDashboard() {
           <div className="col-span-1 bg-white shadow-md rounded-lg p-6">
             <h3 className="text-xl font-semibold mb-4">Quick Actions</h3>
             <div className="space-y-3">
-              <Link to="/userforumview" className="block bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700">Visit Forum</Link>
-              <Link to="/orders" className="block bg-green-600 text-white text-center py-2 rounded-md hover:bg-green-700">View Orders</Link>
-              <Link to="/image-detection" className="block bg-yellow-500 text-white text-center py-2 rounded-md hover:bg-yellow-600">Check Crop Disease</Link>
-              <Link to="/ecommerce-store" className="block bg-gray-700 text-white text-center py-2 rounded-md hover:bg-gray-800">Go to Store</Link>
+              <Link to="/userforumview" className="block bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700">
+                Visit Forum
+              </Link>
+              <Link to="/user-orders" className="block bg-green-600 text-white text-center py-2 rounded-md hover:bg-green-700">
+                View Orders
+              </Link>
+              <Link to="/crop-image-model" className="block bg-yellow-500 text-white text-center py-2 rounded-md hover:bg-yellow-600">
+                Check Crop Disease
+              </Link>
+              <Link to="/ecommerce-store" className="block bg-gray-700 text-white text-center py-2 rounded-md hover:bg-gray-800">
+                Go to Store
+              </Link>
             </div>
           </div>
 
@@ -30,18 +160,19 @@ function UserDashboard() {
           <div className="col-span-2 bg-white shadow-md rounded-lg p-6">
             <h3 className="text-xl font-semibold mb-4">Recent Orders</h3>
             <div className="space-y-3">
-              <div className="flex justify-between bg-gray-50 p-3 rounded-md border">
-                <span>Order #12345 - Machinery</span>
-                <span className="text-green-600">Delivered</span>
-              </div>
-              <div className="flex justify-between bg-gray-50 p-3 rounded-md border">
-                <span>Order #12346 - Fertilizers</span>
-                <span className="text-yellow-500">In Transit</span>
-              </div>
-              <div className="flex justify-between bg-gray-50 p-3 rounded-md border">
-                <span>Order #12347 - Pesticides</span>
-                <span className="text-red-500">Pending</span>
-              </div>
+              {orders.length > 0 ? (
+                orders.slice(0, 3).map((order) => (
+                  <div key={order._id} className="flex justify-between bg-gray-50 p-3 rounded-md border">
+                    {/* <span>Order #{order._id} - {order.items[0]?.name || "Item"}</span> */}
+                    <span>Order #{order._id} - {order.createdAt || "Invalid Date"}</span>
+                    <span className={`text-${order.delivered === 'Delivered' ? 'green' : order.delivered === 'in transit' ? 'yellow' : 'red'}-500`}>
+                      {order.delivered}
+                    </span>
+                  </div>
+                ))
+              ) : (
+                <p>No recent orders found.</p>
+              )}
             </div>
           </div>
         </div>
@@ -49,35 +180,71 @@ function UserDashboard() {
         {/* Forum Activity & Crop Disease Detection */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           {/* Forum Activity */}
-          <div className="bg-white shadow-md rounded-lg p-6">
+          <div className="bg-white shadow-md rounded-lg p-6 mt-6">
             <h3 className="text-xl font-semibold mb-4">Latest Forum Discussions</h3>
             <div className="space-y-3">
-              <div className="flex justify-between bg-gray-50 p-3 rounded-md border">
-                <span>How to protect wheat from pests?</span>
-                <span className="text-gray-500">2 Replies</span>
-              </div>
-              <div className="flex justify-between bg-gray-50 p-3 rounded-md border">
-                <span>Best fertilizers for soil health?</span>
-                <span className="text-gray-500">5 Replies</span>
-              </div>
-              <div className="flex justify-between bg-gray-50 p-3 rounded-md border">
-                <span>Crop rotation benefits?</span>
-                <span className="text-gray-500">3 Replies</span>
-              </div>
+              {queries.length > 0 ? (
+                queries.map((query) => (
+                  <div
+                    key={query._id}
+                    className="flex justify-between bg-gray-50 p-3 rounded-md border"
+                  >
+                    <span>{query.title}</span>
+                    <span className="text-gray-500">
+                      {query.replyCount} Replies
+                    </span>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-500">No recent forum queries found.</p>
+              )}
             </div>
           </div>
 
-          {/* Crop Disease Detection */}
+          {/* Crop Disease Detection Section */}
           <div className="bg-white shadow-md rounded-lg p-6">
             <h3 className="text-xl font-semibold mb-4">Crop Disease Detection</h3>
-            <p className="text-gray-600 mb-4">Upload an image of your crop, and our AI will detect any diseases.</p>
-            <div className="border-dashed border-2 border-gray-300 p-6 text-center">
-              <p className="text-gray-500">Drag & Drop Image Here</p>
-              <button className="mt-3 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Upload Image</button>
-            </div>
+            <p className="text-gray-600 mb-4">
+              Upload an image of your crop, and our AI will detect any diseases.
+            </p>
+
+            {/* Image Upload & Preview */}
+            <input type="file" accept="image/*" onChange={handleImageChange} className="mb-4" />
+            {previewUrl && (
+              <div className="mb-4">
+                <img src={previewUrl} alt="Preview" className="w-full h-40 object-cover rounded-md border" />
+              </div>
+            )}
+
             <div className="text-right">
-              <button className="mt-3 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">Predict</button>
+              <button
+                onClick={handleDetectDisease}
+                className="mt-3 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+                disabled={loading}
+              >
+                {loading ? "Detecting..." : "Predict"}
+              </button>
             </div>
+
+            {/* Display Detection Result */}
+            {detectionResult && (
+              <div className="mt-4 p-4 bg-gray-100 rounded-md">
+                <h4 className="text-xl font-semibold text-gray-800">Prediction Result</h4>
+                <p className="text-gray-700"><strong>Disease:</strong> {detectionResult.prediction}</p>
+                <p className="text-gray-700"><strong>Confidence:</strong> {detectionResult.confidence * 100}%</p>
+                <hr />
+                {detectionResult.recommendations && (
+                  <div className="mt-2">
+                    <strong className="text-green-500">Recommendations:</strong>
+                    <ul className="list-disc list-inside text-gray-700">
+                      {detectionResult.recommendations.map((rec, index) => (
+                        <li key={index}>{rec}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

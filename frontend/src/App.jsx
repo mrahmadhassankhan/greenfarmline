@@ -32,6 +32,7 @@ const PendingQueries = lazy(() => import("./pages/admin/discussionforum/PendingQ
 const ApprovedQueries = lazy(() => import("./pages/admin/discussionforum/ApprovedQueries"));
 const RejectedQueries = lazy(() => import("./pages/admin/discussionforum/RejectedQueries"));
 const CropImageDetection = lazy(() => import("./pages/general/CropImageDetection"));
+const CropImageModel = lazy(() => import("./pages/user/cropImageModel/userCropImageModel"));
 const ProductDetails = lazy(() => import("./pages/sellerpages/pages/ProductDetails"));
 const Product = lazy(() => import("./pages/sellerpages/pages/Product"));
 const CartLayout = lazy(() => import("./pages/sellerpages/pages/CartLayout"));
@@ -54,6 +55,7 @@ const SellerManagement = lazy(() => import("./pages/admin/seller-control/SellerM
 const UserManagement = lazy(() => import("./pages/admin/user-control/UserManagement"))
 const YourProfile = lazy(() => import("./pages/YourProfile"));
 const Settings = lazy(() => import("./pages/Settings"));
+const UserOrders = lazy(() => import("./pages/user/e-commerce/Orders"));
 
 const App = () => {
   const navigate = useNavigate();
@@ -103,7 +105,9 @@ const App = () => {
           <Route path="/rejected-queries" element={<RejectedQueries />} />
           <Route path="/ecommerce-store" element={<EcommerceStore />} />
           <Route path="/orders" element={<MyOrders />} />
+          <Route path="/user-orders" element={<UserOrders />} />
           <Route path="/image-detection" element={<CropImageDetection />} />
+          <Route path="/crop-image-model" element={<CropImageModel />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="customers" element={<CustomerList />} />
             <Route path="coupons" element={<CouponList />} />

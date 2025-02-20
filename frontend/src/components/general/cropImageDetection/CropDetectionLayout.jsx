@@ -16,41 +16,57 @@ const CropDetectionLayout = ({ user }) => {
     };
 
     const handleDetect = async () => {
-        if (!user || user.role !== 'farmer') {
-            navigate('/login'); // Redirect to login if the user is not logged in
+        if (!user) {
+            navigate('/login'); // Redirect to login if user is not logged in
             return;
         }
-
+        
         if (!image) {
             alert('Please upload an image first.');
             return;
         }
-
+    
         setLoading(true);
-        setDetectionResult(null); // Reset previous results
-
+        setDetectionResult(null);
+    
         const formData = new FormData();
-        formData.append('file', image); // Attach the image file
-
+        formData.append('file', image);
+    
         try {
-            // Send POST request to the backend API
+            // Send image to Flask API for detection
             const response = await axios.post('http://127.0.0.1:5000/predict', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
-
-            // Update the detection result from the API response
-            setDetectionResult(response.data);
+    
+            const resultData = response.data;
+            setDetectionResult(resultData);
+    
+            // If user is a farmer, store detection result in database
+            if (user.role === 'farmer') {
+                await axios.post('http://localhost:1783/api/detections/save', {
+                    user,
+                    disease: resultData.prediction,
+                    confidence: resultData.confidence * 100,
+                    recommendations: resultData.recommendations,
+                    imageUrl: URL.createObjectURL(image), // Temporary URL for preview
+                }, {
+                    headers: { 'Content-Type': 'application/json' }
+                });
+    
+                console.log("Detection result saved successfully.");
+            }
+    
         } catch (error) {
             console.error('Error during detection:', error);
             alert('Failed to detect crop disease. Please try again later.');
         } finally {
             setLoading(false);
         }
-    };
+    };    
 
     return (
-        <div className="flex flex-col items-center justify-center p-6 bg-gray-100 min-h-screen mt-16">
-            <h1 className="text-2xl text-center font-bold text-lime-600 mb-4">Crop Image Detection</h1>
+        <div className="flex flex-col items-center justify-center p-6 bg-gray-100 min-h-screen">
+            <h1 className="text-2xl text-center font-bold text-green-600 mb-4 mt-16">Crop Image Detection</h1>
             <div className="w-1/2 bg-white p-6 shadow-md rounded-lg">
                 {/* Image Upload Section */}
                 <div className="mb-4">
@@ -83,7 +99,7 @@ const CropDetectionLayout = ({ user }) => {
                 {/* Detect Button */}
                 <button
                     onClick={handleDetect}
-                    className="bg-lime-600 text-white px-4 py-2 rounded-lg hover:bg-lime-700"
+                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
                     disabled={loading} // Disable button while loading
                 >
                     {loading ? 'Detecting...' : 'Detect'}
@@ -102,7 +118,7 @@ const CropDetectionLayout = ({ user }) => {
                         <hr />
                         {detectionResult.recommendations && (
                             <div className="mt-2">
-                                <strong className="text-lime-500">Recommendations:</strong>
+                                <strong className="text-green-500">Recommendations:</strong>
                                 <ul className="list-disc list-inside text-gray-700">
                                     {detectionResult.recommendations.map((rec, index) => (
                                         <li key={index}>{rec}</li>

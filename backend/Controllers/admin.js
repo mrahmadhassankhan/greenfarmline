@@ -5,7 +5,60 @@ const order = require("../Models/order");
 const product = require("../Models/product");
 const Stripe = require("stripe");
 const brands = require("../Models/brands");
+const jwt = require("jsonwebtoken");
+const secret = process.env.JWT_SECRET;
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+
+const generateToken = (id, email, role) => {
+  return jwt.sign({ id, email, role }, secret, { expiresIn: "48h" });
+};
+
+const adminLogin = asyncErrorHandler(async (req, res, next) => {
+  const { email, password, role } = req.body;
+  console.log(req.body, role);
+
+  if (!email || !password) {
+    return next(new errorHandler("Please provide email and password", 400));
+  }
+
+  if (role !== "admin"){
+    return next(new errorHandler("Access Denied", 401));
+  }
+
+  const userExists = await user.findOne({ email });
+  if (!userExists) {
+    return next(new errorHandler("Invalid credentials", 401));
+  }
+
+  const isMatch = await userExists.comparePassword(password);
+  if (!isMatch) {
+    return next(new errorHandler("Invalid credentials", 401));
+  }
+
+  const token = generateToken(
+    userExists._id,
+    userExists.email,
+    userExists.role
+  );
+
+  res.cookie("token", token, {
+    httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
+    secure: process.env.NODE_ENV === "production", // Ensures cookies are only sent over HTTPS in production
+    sameSite: "Strict", // Protects against CSRF
+    maxAge: 48 * 60 * 60 * 1000, // 48 hours in milliseconds
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "User logged in successfully",
+    user: {
+      name: userExists.name,
+      email: userExists.email,
+      role: userExists.role,
+    },
+    token,
+  });
+});
 
 const getAllUsers = asyncErrorHandler(async (req, res) => {
   const users = await user.find().select("name email createdAt");
@@ -297,6 +350,7 @@ const getAdminDetails = asyncErrorHandler(async (req, res) => {
   });
 });
 module.exports = {
+  adminLogin,
   getAllUsers,
   getCoupons,
   createCoupon,

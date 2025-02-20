@@ -129,7 +129,7 @@ const MyOrders = () => {
             </tr>
           </thead>
           <tbody className="order-table-tbody">
-              {data.map((order, orderIndex) => (
+              {data !== null && data.map((order, orderIndex) => (
                 <tr key={orderIndex}>
                   <td className="order-td">
                     {order.items.map((product, productIndex) => (

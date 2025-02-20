@@ -34,7 +34,7 @@ const LoginPage = () => {
       // Sending login credentials as JSON
       const response = await axios.post(
         "http://localhost:1783/api/v1/login",
-        { email, password },
+        { email, password, role },
         {
           headers: {
             "Content-Type": "application/json", // Set Content-Type to application/json

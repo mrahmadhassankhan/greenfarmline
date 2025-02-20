@@ -88,32 +88,36 @@ function Navbar() {
   const navButtons = (
     <>
       <div className="flex items-center space-x-3 ">
-        <div className="btnIcon">
-          <Link to="/cart" style={{ color: "#1a1a1a" }}>
-            <FaShoppingCart />
-            <div className="navAmount">
-              {localStorage.getItem("cartsize") || 0}
-            </div>
-          </Link>
-        </div>
+        {localStorage.getItem('role') === 'farmer' && (
+          <div className="btnIcon">
+            <Link to="/cart" style={{ color: "#1a1a1a" }}>
+              <FaShoppingCart />
+              <div className="navAmount">
+                {localStorage.getItem("cartsize") || 0}
+              </div>
+            </Link>
+          </div>
+        )}
 
         <div className="btnIcon">
           {auth ? (
             <>
               <CgProfile />
-              <ul className="dropdown">
+              <ul className="dropdown pt-2 pb-2">
                 <li>
                   <Link to={
-                      localStorage.getItem("role") === "farmer" ? "/userdashboard" :
-                      localStorage.getItem("role") === "seller" ? "/sellerdashboard" :
-                      localStorage.getItem("role") === "expert" ? "/expertdashboard" :
-                      localStorage.getItem("role") === "admin" ? "/admin-panel" :
-                      "/"
+                    localStorage.getItem("role") === "farmer" ? "/userdashboard" :
+                      localStorage.getItem("role") === "seller" ? "/seller" :
+                        localStorage.getItem("role") === "expert" ? "/expertdashboard" :
+                          localStorage.getItem("role") === "admin" ? "/admin-panel" :
+                            "/"
                   }>Dashboard</Link>
                 </li>
-                <li>
-                  <Link to="/orders">Orders</Link>
-                </li>
+                {localStorage.getItem('role') === 'farmer' && (
+                  <li>
+                    <Link to="/orders">Orders</Link>
+                  </li>
+                )}
                 <li>
                   <button
                     type="button"
@@ -140,11 +144,10 @@ function Navbar() {
   return (
     <>
       <div
-        className={` bg-white text-black max-w-full container mx-auto md:px-20 px-4 fixed top-0 left-0 right-0 z-10 dark:bg-slate-600 dark:text-white ${
-          sticky
-            ? "sticky-navbar bg-gray-200 shadow-md duration-300 transition-all ease-in-out dark:bg-slate-700 dark:text-white"
-            : ""
-        }`}
+        className={` bg-white text-black max-w-full container mx-auto md:px-20 px-4 fixed top-0 left-0 right-0 z-10 dark:bg-slate-600 dark:text-white ${sticky
+          ? "sticky-navbar bg-gray-200 shadow-md duration-300 transition-all ease-in-out dark:bg-slate-700 dark:text-white"
+          : ""
+          }`}
       >
         <div className="navbar">
           <div className="navbar-start">

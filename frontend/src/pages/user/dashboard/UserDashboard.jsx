@@ -46,15 +46,15 @@ function UserDashboard() {
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
-
-      setDetectionResult(response.data);  // Store prediction result
+      const detectionData = response.data;
+      setDetectionResult(detectionData);  // Store prediction result
       // If user is a farmer, store detection result in database
       if (user.role === 'farmer') {
         await axios.post('http://localhost:1783/api/detections/save', {
           user,
-          disease: detectionResult.prediction,
-          confidence: detectionResult.confidence * 100,
-          recommendations: detectionResult.recommendations,
+          disease: detectionData.prediction,
+          confidence: detectionData.confidence * 100,
+          recommendations: detectionData.recommendations,
           imageUrl: previewUrl, // Temporary URL for preview
         }, {
           headers: { 'Content-Type': 'application/json' }
@@ -75,7 +75,7 @@ function UserDashboard() {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:1783/api/v1/admin/order?email=${userEmail}`
+          `http://localhost:1783/api/v1/admin/orders?email=${userEmail}`
         );
         setOrders(response.data.orders);
         console.log(response.data);
@@ -165,7 +165,7 @@ function UserDashboard() {
                   <div key={order._id} className="flex justify-between bg-gray-50 p-3 rounded-md border">
                     {/* <span>Order #{order._id} - {order.items[0]?.name || "Item"}</span> */}
                     <span>Order #{order._id} - {order.createdAt || "Invalid Date"}</span>
-                    <span className={`text-${order.delivered === 'Delivered' ? 'green' : order.delivered === 'in transit' ? 'yellow' : 'red'}-500`}>
+                    <span className={`text-${order.delivered === 'Delivered' ? 'green' : order.delivered === 'pending' ? 'yellow' : 'red'}-500 capitalize`}>
                       {order.delivered}
                     </span>
                   </div>

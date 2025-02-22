@@ -197,13 +197,28 @@ const updateProduct = asyncErrorHandler(async (req, res, next) => {
     sku,
     name,
     brand,
-    document,
     description,
     price,
     quantity,
     featured,
     category,
   } = req.body;
+
+  let document = req.body.document; // Avoid destructuring document here, because you're overwriting it
+
+    if (!req.file && !document) {
+      return next(
+        new errorHandler(
+          "Please upload a document or provide a URL for the document",
+          400
+        )
+      );
+    }
+
+    // If a file is uploaded, use its path
+    if (req.file) {
+      document = req.file.path;
+    }
 
   if (
     !sku ||

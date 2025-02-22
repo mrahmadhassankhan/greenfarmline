@@ -1,4 +1,5 @@
 import "../../../styles/order.css";
+import "../../../styles/cartlayout.css";
 import { useEffect, useState } from "react";
 import TriangleLoader from "../../../components/seller/TriangleLoader";
 import EmptyImage from "../../../images/empty-cart.png";
@@ -8,15 +9,18 @@ import Pagination from "./Pagination";
 
 const AdminOrders = () => {
   const [data, setData] = useState([]);
+  const [productDetails, setProductDetails] = useState({});
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(8);
   const [totalPages, setTotalPages] = useState(0);
+
   const canPreviousPage = page > 1;
   const canNextPage = page < totalPages;
   const gotoPage = (p) => {
     setPage(p);
   };
+
   const fetchData = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -24,9 +28,8 @@ const AdminOrders = () => {
         return toast.error("Access denied.");
       }
       const response = await Axios.get("/admin/order", {
-        params: { limit, page, email: localStorage.getItem("email") },
+        params: { limit, page },
       });
-      console.log("Admin Orders", response.data);
       setData(response.data.orders);
       setTotalPages(Math.ceil(response.data.count / limit));
       setLoading(false);
@@ -35,6 +38,39 @@ const AdminOrders = () => {
       setLoading(false);
     }
   };
+
+  const fetchProductImages = async () => {
+    if (data.length > 0) {
+      try {
+        const promises = data.flatMap(order =>
+          order.items.map(async item => {
+            const response = await Axios.get(`/product/${item.slug}`);
+            return {
+              slug: item.slug,
+              image: response.data.data.document, // Assuming 'document' contains the image path
+            };
+          })
+        );
+
+        const fetchedDetails = await Promise.all(promises);
+        const detailsMap = Object.fromEntries(
+          fetchedDetails.map(detail => [detail.slug, detail.image])
+        );
+
+        setProductDetails(detailsMap);
+      } catch (error) {
+        console.error("Error fetching product images:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [page]);
+
+  useEffect(() => {
+    fetchProductImages();
+  }, [data]);
 
   const updateOrderStatus = async (id, status, paymentId) => {
     try {
@@ -69,21 +105,15 @@ const AdminOrders = () => {
   }, [page]);
 
   if (loading) return <TriangleLoader height="500px" />;
+
   return (
     <div className="orderMainContainer">
-      <h1 className="cHeader" style={{ textAlign: "left" }}>
-        Orders List
-      </h1>
+      <h1 className="cHeader" style={{ textAlign: "left" }}>Orders List</h1>
       <div className="orderContainer" style={{ flexDirection: "column" }}>
         <table className="order-table">
           <thead>
             <tr>
-              <th
-                className="order-subheader order-th"
-                style={{ textAlign: "left" }}
-              >
-                Product Details
-              </th>
+              <th className="order-subheader order-th" style={{ textAlign: "left" }}>Product Details</th>
               <th className="order-subheader order-th ">Customer</th>
               <th className="order-subheader order-th ">Order Date</th>
               <th className="order-subheader order-th ">Status</th>
@@ -95,41 +125,45 @@ const AdminOrders = () => {
             {data && data.length > 0 ? (
               data.map((order) => (
                 <tr key={order._id}>
-                  <td className="order-td">{order.productDetails}</td>
+                  <td className="order-td">
+                    {order.items.map((item, index) => (
+                      <div key={index} className="order-td-div">
+                        <div className="cart-product-cont">
+                          <div className="cart-image-cont">
+                            <img
+                              src={`http://localhost:1783/Images/${productDetails[item.slug]?.split("\\").pop()}`}
+                              alt={item.product.name}
+                              className="cart-image"
+                            />
+                          </div>
+                          <div className="cart-product-details ml-2 text-left">
+                            <strong>{item.product.name}</strong> ({item.product.brand})
+                            <br />
+                            <span style={{ fontSize: "12px", color: "gray" }}>Slug: {item.slug}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </td>
                   <td className="order-td">{order.name}</td>
                   <td className="order-td">{order.createdAt}</td>
                   <td className="order-td">{order.delivered}</td>
                   <td className="order-td">RS.{order.totalPrice}</td>
                   <td className="order-td">
-                    <div
-                      className="order-btn-cont"
-                      style={{ flexDirection: "column" }}
-                    >
+                    <div className="order-btn-cont" style={{ flexDirection: "column" }}>
                       <button
                         className="cart-delete-btn"
                         disabled={order.delivered !== "pending"}
-                        style={
-                          order.delivered !== "pending"
-                            ? { cursor: "not-allowed", opacity: "0.5" }
-                            : {}
-                        }
-                        onClick={() =>
-                          updateOrderStatus(order._id, "Delivered", order.paymentId)
-                        }
+                        style={order.delivered !== "pending" ? { cursor: "not-allowed", opacity: "0.5" } : {}}
+                        onClick={() => updateOrderStatus(order._id, "Delivered", order.paymentId)}
                       >
                         Delivered
                       </button>
                       <button
                         className="cart-delete-btn"
                         disabled={order.delivered !== "pending"}
-                        style={
-                          order.delivered !== "pending"
-                            ? { cursor: "not-allowed", opacity: "0.5" }
-                            : {}
-                        }
-                        onClick={() =>
-                          updateOrderStatus(order._id, "Cancelled", order.paymentId)
-                        }
+                        style={order.delivered !== "pending" ? { cursor: "not-allowed", opacity: "0.5" } : {}}
+                        onClick={() => updateOrderStatus(order._id, "Cancelled", order.paymentId)}
                       >
                         Cancel
                       </button>
@@ -139,9 +173,7 @@ const AdminOrders = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={6} style={{ textAlign: "center" }}>
-                  No orders available.
-                </td>
+                <td colSpan={6} style={{ textAlign: "center" }}>No orders available.</td>
               </tr>
             )}
           </tbody>

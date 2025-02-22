@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Axios from "../../../Axios";
 import { toast } from "react-toastify";
 import ProductForm from "../../../components/seller/ProductForm";
+import "../../../styles/cartlayout.css";
+import "../../../styles/adminDashboard.css";
 
 const AddProducts = () => {
   const [data, setData] = useState({
@@ -131,9 +133,9 @@ const AddProducts = () => {
     <div className="orderMainContainer">
       <h1
         className="cHeader"
-        style={{ textAlign: "left", marginBottom: "1rem" }}
+        style={{ textAlign: "left", margin: "2rem" }}
       >
-        Add Product
+        Add New Product
       </h1>
       <div className="dashOverview">
         <ProductForm
@@ -141,7 +143,7 @@ const AddProducts = () => {
           handleInputChange={handleInputChange}
           fields={fields}
           changeFields={changeFields}
-          name="Add Product"
+          name="Enter Product Details"
           changeCategory={changeCategory}
           changeBrand={changeBrand}
           handleSubmit={handleSubmit}

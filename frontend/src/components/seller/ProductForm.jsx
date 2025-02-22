@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Axios from "../../Axios"
 
 const ProductForm = ({
   data,
@@ -15,20 +16,48 @@ const ProductForm = ({
   handleInputCheckboxChange,
   handleInputChangeQuantity,
 }) => {
+  const [brands, setBrands] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        const response = await Axios.get('/brands');
+        // console.log(response.data.brands);
+        setBrands(response.data.brands);
+      } catch (error) {
+        toast.error(error?.response?.data?.message || "Error Fetching Brands", {position: "bottom-right",});
+      }
+    };
+
+    const fetchCategories = async () => {
+      try {
+        const response = await Axios.get("/category");
+        // console.log(response.data.categories);
+        setCategories(response.data.categories); // Ensure correct property
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchBrands();
+    fetchCategories();
+  }, []);
+
   return (
     <form
-      className="bg-white text-white shadow-lg rounded-lg p-6 max-w-2xl mx-auto space-y-6"
+      className="bg-white text-black shadow-lg rounded-lg p-6 max-w-2xl mx-auto space-y-6 border border-gray-200"
       onSubmit={handleSubmit}
     >
-      <h2 className="text-2xl font-semibold text-gray-800 text-center">
+      <h2 className="text-3xl font-bold text-gray-800 text-center border-b pb-2">
         {name}
       </h2>
-      <div className="space-y-4">
+      <div className="space-y-6">
         {/* Input Group */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div className="input-group">
-            <label className="block text-sm font-medium text-gray-700">
-              Name
+            <label className="block text-sm font-semibold text-gray-700">
+              Product Name
             </label>
             <input
               type="text"
@@ -36,26 +65,24 @@ const ProductForm = ({
               value={data.name}
               onChange={handleInputChangeName}
               required
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              className="block w-full rounded-lg border border-gray-300 shadow-sm px-3 py-2 text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200 sm:text-sm"
             />
           </div>
           <div className="input-group">
-            <label className="block text-sm font-medium text-gray-700">
-              SKU
-            </label>
+            <label className="block text-sm font-semibold text-gray-700">SKU</label>
             <input
               type="text"
               name="sku"
               value={data.sku}
               onChange={handleInputChangeSku}
               required
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              className="block w-full rounded-lg border border-gray-300 shadow-sm px-3 py-2 text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200 sm:text-sm"
             />
           </div>
         </div>
 
         <div className="input-group">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-semibold text-gray-700">
             Description
           </label>
           <textarea
@@ -63,73 +90,69 @@ const ProductForm = ({
             value={data.description}
             onChange={handleInputChange}
             required
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            className="block w-full rounded-lg border border-gray-300 shadow-sm px-3 py-2 text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200 sm:text-sm"
           />
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div className="input-group">
-            <label className="block text-sm font-medium text-gray-700">
-              Price
-            </label>
+            <label className="block text-sm font-semibold text-gray-700">Price</label>
             <input
               type="number"
               name="price"
               value={data.price}
               onChange={handleInputChangePrice}
               required
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              className="block w-full rounded-lg border border-gray-300 shadow-sm px-3 py-2 text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200 sm:text-sm"
             />
           </div>
-        </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+
           <div className="input-group">
-            <label className="block text-sm font-medium text-gray-700">
-              Quantity
-            </label>
+            <label className="block text-sm font-semibold text-gray-700">Quantity</label>
             <input
               type="number"
               name="quantity"
               value={data.quantity}
               onChange={handleInputChangeQuantity}
               required
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              className="block w-full rounded-lg border border-gray-300 shadow-sm px-3 py-2 text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200 sm:text-sm"
             />
           </div>
         </div>
 
         <div className="input-group">
-          <label className="block text-sm font-medium text-gray-700">
-            Brand
-          </label>
+          <label className="block text-sm font-semibold text-gray-700">Brand</label>
           <select
             name="brand"
             value={data.brand}
             onChange={changeBrand}
             required
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            className="block w-full rounded-lg border border-gray-300 shadow-sm px-3 py-2 bg-white text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200 sm:text-sm"
           >
             <option value="">Select Brand</option>
-            <option value="Greenz">Greenz</option>
-            <option value="Farmz">Farmz</option>
+            {brands.map((brand) => (
+              <option key={brand._id} value={brand.name}>
+                {brand.name}
+              </option>
+            ))}
           </select>
         </div>
 
         <div className="input-group">
-          <label className="block text-sm font-medium text-gray-700">
-            Category
-          </label>
+          <label className="block text-sm font-semibold text-gray-700">Category</label>
           <select
             name="category"
             value={data.category}
             onChange={changeCategory}
             required
-            className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            className="block w-full rounded-lg border border-gray-300 shadow-sm px-3 py-2 bg-white text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200 sm:text-sm"
           >
             <option value="">Select Category</option>
-            <option value="seeds">Seeds</option>
-            <option value="instruments">Instruments</option>
-            <option value="machinery">Machinery</option>
+            {categories.map((category) => (
+              <option key={category._id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -139,9 +162,9 @@ const ProductForm = ({
             name="featured"
             checked={data.featured}
             onChange={handleInputCheckboxChange}
-            className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+            className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
           />
-          <label className="text-sm font-medium text-gray-700">Featured</label>
+          <label className="text-sm font-semibold text-gray-700">Featured</label>
         </div>
 
         <div className="input-group">
@@ -150,15 +173,15 @@ const ProductForm = ({
             name="document"
             type="file"
             onChange={handleInputFileChange}
-            className=""
+            className="w-full px-3 py-2 rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 sm:text-sm"
           />
         </div>
 
         {/* Buttons */}
-        <div className="flex justify-between">
+        <div className="flex flex-col sm:flex-row justify-between space-y-3 sm:space-y-0">
           <button
             type="submit"
-            className="w-full rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 sm:w-auto"
+            className="w-full sm:w-auto rounded-lg bg-blue-600 px-6 py-2 text-white font-semibold hover:bg-blue-700 transition-all ease-in-out duration-200"
           >
             {name}
           </button>
@@ -166,7 +189,7 @@ const ProductForm = ({
           <button
             type="button"
             onClick={handleCancel}
-            className="w-full rounded-md bg-gray-500 px-4 py-2 text-sm font-medium text-white hover:bg-gray-600 sm:w-auto"
+            className="w-full sm:w-auto rounded-lg bg-gray-500 px-6 py-2 text-white font-semibold hover:bg-gray-600 transition-all ease-in-out duration-200"
           >
             Cancel
           </button>

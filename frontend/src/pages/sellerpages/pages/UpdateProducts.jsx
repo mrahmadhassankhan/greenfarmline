@@ -9,14 +9,14 @@ const UpdateProducts = () => {
   const { slug } = useParams();
   const [data, setData] = useState({
     name: "",
-    desc: "",
+    description: "",
     sku: "",
     price: "",
-    color: "",
     brand: "",
-    material: "",
     category: "",
-    featured: "false",
+    quantity: "",
+    featured: false, // Change to boolean
+    document: "",
   });
   const [link, setLink] = useState(null);
   const [fields, setFields] = useState([]);
@@ -26,27 +26,22 @@ const UpdateProducts = () => {
     const fetchProduct = async () => {
       try {
         const response = await Axios.get(`/product/${slug}`);
-        setLink(response.data.data.image);
-        const newFields = [...fields];
-        response.data.data.sizeQuantity.forEach((field) => {
-          newFields[field.size - 3] = {
-            size: field.size,
-            quantity: field.quantity,
-          };
-        });
-        setFields(newFields);
+        console.log(response.data.data);
+  
+        setLink(response.data.data.document); // Correcting the typo
+  
         setData({
-          ...data,
-          brand: response.data.data.brand,
-          color: response.data.data.color,
-          desc: response.data.data.description,
-          featured: response.data.data.isFeatured,
-          material: response.data.data.material,
           name: response.data.data.name,
-          price: response.data.data.price,
           sku: response.data.data.sku,
+          description: response.data.data.description,
+          price: response.data.data.price,
+          quantity: response.data.data.quantity, // Adding quantity
+          brand: response.data.data.brand,
           category: response.data.data.category,
+          featured: response.data.data.isFeatured,
+          document: response.data.data.document,
         });
+  
         setLoading(false);
       } catch (error) {
         toast.error(error?.response?.data?.message || "Something went wrong", {
@@ -56,20 +51,63 @@ const UpdateProducts = () => {
       }
     };
     fetchProduct();
-  }, []);
+  }, []);  
 
-  const changeFields = (e) => {
-    setFields(e);
+  // Handle input changes for product details
+  const handleInputChange = (e) => {
+    setData((prevData) => ({
+      ...prevData,
+      description: e.target.value,
+    }));
   };
-
-  const changeLink = (e) => {
-    setLink(e);
+  const handleInputChangeName = (e) => {
+    setData((prevData) => ({
+      ...prevData,
+      name: e.target.value,
+    }));
   };
+  const handleInputChangeSku = (e) => {
+    setData((prevData) => ({
+      ...prevData,
+      sku: e.target.value,
+    }));
+  };
+  const handleInputChangePrice = (e) => {
+    setData((prevData) => ({
+      ...prevData,
+      price: e.target.value,
+    }));
+  };
+  const handleInputChangeQuantity = (e) => {
+    setData((prevData) => ({
+      ...prevData,
+      quantity: e.target.value,
+    }));
+  };
+  const handleInputFileChange = (e) => {
+    setData((prevData) => ({
+      ...prevData,
+      document: e.target.files[0],
+    }));
+  };
+  const handleInputCheckboxChange = (e) => {
+    setData((prevData) => ({
+      ...prevData,
+      featured: e.target.checked, // Boolean value for featured
+    }));
+  };
+  // Handle category and brand change
   const changeCategory = (e) => {
-    setData({ ...data, category: e });
+    setData((prevData) => ({
+      ...prevData,
+      category: e.target.value,
+    }));
   };
-  const handleInputChange = (event) => {
-    setData({ ...data, [event.target.id]: event.target.value });
+  const changeBrand = (e) => {
+    setData((prevData) => ({
+      ...prevData,
+      brand: e.target.value,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -79,26 +117,28 @@ const UpdateProducts = () => {
       if (!token) {
         return toast.error("Access denied.");
       }
-      const validFields = fields.filter((field) => field && field.quantity > 0);
-      console.log({ ...data, sizeQuantity: validFields, image: link });
+      // const validFields = fields.filter((field) => field && field.quantity > 0);
+      console.log("data:",{ ...data, image: link });
       if (
-        validFields.length === 0 ||
         !data.name ||
-        !data.desc ||
+        !data.description ||
         !data.sku ||
         !data.price ||
-        !data.color ||
         !data.brand ||
-        !data.material ||
-        !link
+        !data.category ||
+        !data.quantity ||
+        !data.document
       ) {
         return toast.error("Please fill all the fields.");
       }
 
       const response = await Axios.put(
         `/product/update/${slug}`,
-        { ...data, image: link },
+        { ...data },
         {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
           params: {
             email: localStorage.getItem("email"),
           },
@@ -126,14 +166,19 @@ const UpdateProducts = () => {
       <div className="dashOverview">
         <ProductForm
           link={link}
-          changeLink={changeLink}
           data={data}
           handleInputChange={handleInputChange}
           fields={fields}
-          changeFields={changeFields}
           name="Update Product"
           changeCategory={changeCategory}
           handleSubmit={handleSubmit}
+          changeBrand={changeBrand}
+          handleInputChangeName={handleInputChangeName}
+          handleInputChangeSku={handleInputChangeSku}
+          handleInputChangePrice={handleInputChangePrice}
+          handleInputChangeQuantity={handleInputChangeQuantity}
+          handleInputFileChange={handleInputFileChange}
+          handleInputCheckboxChange={handleInputCheckboxChange}
           handleCancel={() => navigate("/admin/products")}
         />
       </div>

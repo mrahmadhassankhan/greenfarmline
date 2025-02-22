@@ -19,7 +19,7 @@ const CustomerList = () => {
           },
         });
         if (response.data.success) {
-          setData(response.data.users);
+          setData(response.data.users.filter((user) => user.role === "farmer"));
         }
         setLoading(false);
       } catch (error) {

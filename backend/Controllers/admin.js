@@ -171,6 +171,52 @@ const getAllOrders = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
+const getAllOrdersAdmin = asyncErrorHandler(async (req, res, next) => {
+  const orderObj = await order.find().populate({
+    path: "products.productId",
+    select: "name price brand slug",
+  });
+
+  if (!orderObj || orderObj.length === 0) {
+    return res.status(404).json({
+      success: false,
+      message: "No orders found",
+    });
+  }
+
+  const formattedOrders = orderObj.map((order) => {
+    return {
+      _id: order._id,
+      paymentId: order.paymentIntentId,
+      name: order.shipping.name,
+      email: order.shipping.email,
+      totalPrice: order.total,
+      delivered: order.delivery_status,
+      createdAt: order.createdAt.toLocaleDateString(),
+      items: order.products.map((item) => {
+        return {
+          _id: item._id,
+          quantity: item.quantity,
+          isReviewed: item.isReviewed,
+          price: item.price,
+          image: item.image,
+          slug: item.productId?.slug || "N/A",
+          product: {
+            name: item.productId?.name || "Unknown Product",
+            brand: item.productId?.brand || "Unknown Brand",
+          },
+        };
+      }),
+    };
+  });
+
+  res.status(200).json({
+    success: true,
+    count: formattedOrders.length,
+    orders: formattedOrders.reverse(),
+  });
+});
+
 const updateOrderStatus = asyncErrorHandler(async (req, res) => {
   const { id, status, paymentId } = req.body;
   await order.findByIdAndUpdate(id, { delivery_status: status });
@@ -257,11 +303,11 @@ const getAllProducts = asyncErrorHandler(async (req, res) => {
 
   const formattedList = products.map((product) => ({
     _id: product._id,
-    image: product.image,
+    document: product.document,
     name: product.name,
     description: `${(product.ratingScore / product.ratings.length || 0).toFixed(
       1
-    )} stars, ${product.color}`,
+    )} Stars Rating`,
     size: product.quantity,
     brand: product.brand,
     status: product.isActive ? "Active" : "Inactive",
@@ -368,7 +414,7 @@ const getAdminDetails = asyncErrorHandler(async (req, res) => {
       data2.push(0);
     }
   });
-  const totalUsers = await user.countDocuments();
+  const totalUsers = await user.countDocuments({role: "farmer"});
   const totalOrders = await order.countDocuments();
   const totalProducts = await product.countDocuments();
   const totalSales = await order.aggregate([
@@ -402,4 +448,5 @@ module.exports = {
   getAdminDetails,
   deleteUser,
   getRecentActivities,
+  getAllOrdersAdmin,
 };

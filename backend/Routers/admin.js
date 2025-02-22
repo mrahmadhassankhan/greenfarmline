@@ -12,12 +12,14 @@ const {
   adminLogin,
   deleteUser,
   getRecentActivities,
+  getAllOrdersAdmin,
 } = require("../Controllers/admin");
 const router = express.Router();
 
 router.route("/adminLogin").post(adminLogin);
 router.route("/users").get(getAllUsers);
-router.route("/order").get(getAllOrders).put(updateOrderStatus);
+router.route("/order").get(getAllOrdersAdmin).put(updateOrderStatus);
+router.route("/orders").get(getAllOrders);
 router.route("/coupons").get(getCoupons).post(createCoupon);
 router.route("/coupons/:id").delete(deleteCoupon);
 router.route("/products").get(getAllProducts);

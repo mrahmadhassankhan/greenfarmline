@@ -1,4 +1,5 @@
 import "../../../styles/order.css";
+import "../../../styles/cartlayout.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import TriangleLoader from "../../../components/seller/TriangleLoader";
@@ -38,6 +39,7 @@ const AdminProductList = () => {
       });
       console.log("Admin Products", response.data);
       setData(response.data.products);
+      console.log("prducts data:",response.data.products);
       setTotalPages(Math.ceil(response.data.count / limit));
       setLoading(false);
     } catch (error) {
@@ -91,15 +93,15 @@ const AdminProductList = () => {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="What shoes are you looking for ?"
+            placeholder="What product are you looking for ?"
           />
           <div>
             <FiSearch />
           </div>
         </div>
         <button
-          style={{ margin: "0" }}
-          onClick={() => navigate("/admin/product/add")}
+          style={{ margin: "0", width: "150px", height: "auto" }}
+          onClick={() => navigate("/seller/product/add")}
           className="open-modal cart-delete-btn"
           type="button"
         >
@@ -130,7 +132,7 @@ const AdminProductList = () => {
                     <div className="cart-product-cont">
                       <div className="cart-image-cont">
                         <img
-                          src={item.image}
+                          src={`http://localhost:1783/Images/${item.document?.split("\\").pop()}`}
                           alt="product"
                           className="cart-image"
                         />
@@ -147,7 +149,7 @@ const AdminProductList = () => {
                         >
                           {item.name}
                         </p>
-                        <p className="cart-desc-cont">{item.desc}</p>
+                        <p className="cart-desc-cont">{item.description}</p>
                       </div>
                     </div>
                   </div>
@@ -163,7 +165,7 @@ const AdminProductList = () => {
                     <button
                       className="cart-delete-btn"
                       onClick={() =>
-                        navigate(`/admin/product/update/${item.slug}`)
+                        navigate(`/seller/product/update/${item.slug}`)
                       }
                     >
                       Edit

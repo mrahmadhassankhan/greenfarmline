@@ -34,7 +34,7 @@ const CropDetectionLayout = ({ user }) => {
     
         try {
             // Send image to Flask API for detection
-            const response = await axios.post('http://127.0.0.1:5000/predict', formData, {
+            const response = await axios.post('https://greenfarmline.shop/predict', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
     

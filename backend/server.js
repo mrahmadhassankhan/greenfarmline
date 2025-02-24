@@ -13,7 +13,7 @@ const {
 } = require("../backend/middlewares/errorMiddleware");
 
 const uptimeRoutes = require("./Routers/uptimeRoutes"); // Import the uptime route
-const detectionRoutes = require('./Routers/detectionRoutes'); // Image detection result save to db route
+const detectionRoutes = require("./Routers/detectionRoutes"); // Image detection result save to db route
 const queryRouter = require("./Routers/QueryRouter");
 const answerrouter = require("./Routers/AnswerRouter");
 
@@ -42,7 +42,7 @@ app.use(express.static("public"));
 app.use(cookieParser());
 // Register the uptime route
 app.use("/api/uptime", uptimeRoutes);
-app.use('/api/detections', detectionRoutes);
+app.use("/api/detections", detectionRoutes);
 
 //Routers
 //Query
@@ -65,6 +65,10 @@ app.use(errorHandler);
 // Catch-all for undefined routes
 app.get("*", (req, res) => {
   res.json("404 Not Found");
+});
+
+app.get("/", (req, res) => {
+  res.json("GreenFarm Line Backend");
 });
 
 app.use(errorHandlerMiddleware);

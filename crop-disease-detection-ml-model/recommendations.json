@@ -1,0 +1,254 @@
+{
+    "Wheat leaf blight": [
+        "Use fungicides like Mancozeb or Propiconazole.",
+        "Ensure good crop rotation practices.",
+        "Avoid overhead irrigation to minimize leaf wetness.",
+        "Remove crop debris after harvest to reduce overwintering pathogens."
+    ],
+    "Wheat mite": [
+        "Apply acaricides such as Dicofol or Abamectin.",
+        "Control weed hosts near the crop.",
+        "Ensure proper irrigation to minimize plant stress.",
+        "Monitor fields regularly and take preventive actions early."
+    ],
+    "Yellow Rust Sugarcane": [
+        "Apply fungicides like Propiconazole or Tebuconazole.",
+        "Remove infected plant debris after harvest.",
+        "Plant resistant sugarcane varieties if available.",
+        "Maintain balanced fertilization and proper irrigation."
+    ],
+    "Wheat scab": [
+        "Apply fungicides such as Carbendazim or Prothioconazole.",
+        "Plant resistant wheat varieties if available.",
+        "Rotate crops with non-host plants like corn or soybean.",
+        "Avoid planting in fields with poor drainage."
+    ],
+    "Wilt": [
+        "Use resistant crop varieties to minimize risk.",
+        "Improve soil drainage and avoid overwatering.",
+        "Apply biological control agents like Trichoderma.",
+        "Sterilize soil or equipment to prevent pathogen spread."
+    ],
+    "Wheat Stem fly": [
+        "Apply systemic insecticides like Imidacloprid.",
+        "Avoid planting wheat too early in the season.",
+        "Remove and destroy infested plants immediately.",
+        "Implement crop rotation to reduce pest populations."
+    ],
+    "Wheat___Yellow_Rust": [
+        "Use fungicides such as Propiconazole or Tebuconazole.",
+        "Plant resistant wheat varieties.",
+        "Avoid planting too densely to improve airflow.",
+        "Monitor fields for early signs of infection."
+    ],
+    "Wheat powdery mildew": [
+        "Spray fungicides like Sulfur or Azoxystrobin.",
+        "Use resistant wheat cultivars where available.",
+        "Ensure proper spacing between plants to improve air circulation.",
+        "Avoid over-fertilization with nitrogen."
+    ],
+    "Wheat black rust": [
+        "Apply fungicides like Mancozeb or Propiconazole.",
+        "Plant resistant wheat varieties.",
+        "Remove volunteer wheat plants to break disease cycles.",
+        "Monitor crops for early signs and treat promptly."
+    ],
+    "Wheat aphid": [
+        "Introduce natural predators like lady beetles.",
+        "Apply insecticides such as Imidacloprid or Acetamiprid.",
+        "Avoid excessive nitrogen fertilization.",
+        "Use reflective mulches to deter aphid colonization."
+    ],
+    "RedRot sugarcane": [
+        "Remove and destroy infected canes.",
+        "Plant disease-resistant sugarcane varieties.",
+        "Ensure proper drainage to avoid waterlogging.",
+        "Apply fungicides like Carbendazim at early stages."
+    ],
+    "RedRust sugarcane": [
+        "Spray fungicides such as Mancozeb or Copper Oxychloride.",
+        "Maintain field hygiene by removing infected debris.",
+        "Avoid excessive watering during wet seasons.",
+        "Apply balanced fertilizer to strengthen crop immunity."
+    ],
+    "thirps on cotton": [
+        "Use insecticides like Spinosad or Abamectin.",
+        "Introduce natural predators such as predatory mites.",
+        "Use yellow sticky traps to monitor and control populations.",
+        "Avoid water stress to enhance plant resilience."
+    ],
+    "Sugarcane Healthy": [
+        "Maintain good irrigation and drainage systems.",
+        "Monitor for pests and diseases regularly.",
+        "Apply organic compost and balanced fertilizers.",
+        "Ensure proper weed control."
+    ],
+    "Wheat Brown leaf Rust": [
+        "Apply fungicides such as Propiconazole or Tebuconazole.",
+        "Plant resistant varieties where available.",
+        "Remove crop residues after harvesting.",
+        "Monitor and treat infected areas early."
+    ],
+    "Rice Blast": [
+        "Use fungicides like Tricyclazole or Carbendazim.",
+        "Plant resistant rice varieties where available.",
+        "Ensure proper drainage and avoid water stagnation.",
+        "Avoid excessive nitrogen application."
+    ],
+    "Tungro": [
+        "Use Tungro-resistant rice varieties.",
+        "Apply insecticides like Imidacloprid to control green leafhoppers.",
+        "Remove and destroy infected plants.",
+        "Monitor and manage leafhopper populations regularly."
+    ],
+    "red cotton bug": [
+        "Apply insecticides like Malathion or Cypermethrin.",
+        "Remove weeds and debris near the field.",
+        "Practice crop rotation to disrupt pest cycles.",
+        "Use light traps to monitor pest activity."
+    ],
+    "maize fall armyworm": [
+        "Apply insecticides like Spinosad or Chlorantraniliprole.",
+        "Use pheromone traps to monitor and reduce populations.",
+        "Encourage natural predators like birds and parasitoids.",
+        "Plant pest-resistant maize varieties if available."
+    ],
+    "Healthy Maize": [
+        "Maintain regular crop monitoring for early detection of issues.",
+        "Ensure proper irrigation and fertilization practices.",
+        "Use disease-resistant maize varieties.",
+        "Prevent weed competition to ensure healthy growth."
+    ],
+    "Leaf Curl": [
+        "Apply insecticides to control whiteflies (vectors).",
+        "Plant resistant varieties if available.",
+        "Avoid planting near infected fields.",
+        "Use reflective mulch to deter vectors."
+    ],
+    "Healthy cotton": [
+        "Monitor regularly for pests and diseases.",
+        "Maintain balanced soil nutrition and irrigation.",
+        "Use resistant seed varieties for better yield.",
+        "Control weeds to improve overall crop health."
+    ],
+    "pink bollworm in cotton": [
+        "Use pheromone traps to monitor and control populations.",
+        "Apply insecticides such as Cypermethrin or Fenvalerate.",
+        "Destroy infested plant residues after harvest.",
+        "Plant Bt cotton varieties where possible."
+    ],
+    "Leaf smut": [
+        "Use fungicides such as Mancozeb or Carbendazim.",
+        "Ensure proper crop spacing to improve air circulation.",
+        "Avoid excessive watering during critical growth periods.",
+        "Remove and destroy infected leaves."
+    ],
+    "maize ear rot": [
+        "Plant disease-resistant maize varieties.",
+        "Harvest early if ear rot symptoms are detected.",
+        "Avoid high-moisture storage conditions.",
+        "Apply fungicides during flowering to reduce infection risk."
+    ],
+    "maize stem borer": [
+        "Apply systemic insecticides like Chlorpyrifos.",
+        "Introduce natural predators such as Trichogramma wasps.",
+        "Destroy crop residues post-harvest to reduce pest cycles.",
+        "Plant resistant maize hybrids."
+    ],
+    "Healthy Wheat": [
+        "Maintain good irrigation and drainage systems.",
+        "Monitor for diseases like rust and scab early.",
+        "Apply balanced fertilization with micronutrients.",
+        "Practice proper crop rotation."
+    ],
+    "Mosaic sugarcane": [
+        "Use Mosaic-resistant sugarcane varieties.",
+        "Control aphids and other insect vectors using insecticides.",
+        "Remove and destroy infected plants immediately.",
+        "Maintain field hygiene and reduce weed hosts."
+    ],
+    "bollworm on Cotton": [
+        "Apply Bacillus thuringiensis (Bt) sprays.",
+        "Use pheromone traps to reduce pest populations.",
+        "Encourage natural predators like parasitic wasps.",
+        "Destroy infested cotton residues after harvest."
+    ],
+    "cotton mealy bug": [
+        "Apply insecticides like Imidacloprid or Malathion.",
+        "Introduce natural enemies like Cryptolaemus beetles.",
+        "Avoid planting near previously infested fields.",
+        "Remove and destroy infested plants and weeds."
+    ],
+    "Gray_Leaf_Spot": [
+        "Use fungicides like Azoxystrobin or Propiconazole.",
+        "Plant resistant hybrids where available.",
+        "Rotate crops to break the disease cycle.",
+        "Avoid dense planting to improve air circulation."
+    ],
+    "bollrot on Cotton": [
+        "Ensure good field hygiene by removing infected bolls.",
+        "Apply fungicides like Mancozeb during early stages.",
+        "Avoid excessive irrigation during flowering and boll development.",
+        "Practice timely harvesting to minimize losses."
+    ],
+    "Cotton Aphid": [
+        "Use insecticides such as Imidacloprid or Acetamiprid.",
+        "Introduce natural predators like lady beetles.",
+        "Avoid over-fertilization with nitrogen.",
+        "Monitor fields regularly for aphid infestations."
+    ],
+    "cotton whitefly": [
+        "Apply insecticides such as Buprofezin or Thiamethoxam.",
+        "Use yellow sticky traps to monitor and control populations.",
+        "Remove weeds and alternative host plants.",
+        "Encourage natural enemies like predatory beetles."
+    ],
+    "Flag Smut": [
+        "Plant resistant wheat varieties where available.",
+        "Apply seed treatments with fungicides like Carbendazim.",
+        "Ensure proper crop rotation with non-host crops.",
+        "Remove and destroy infected crop residues."
+    ],
+    "Bacterial Blight in Rice": [
+        "Use resistant rice varieties to reduce vulnerability.",
+        "Apply copper-based bactericides like Copper Oxychloride.",
+        "Avoid water stagnation and ensure proper field drainage.",
+        "Remove and destroy infected plants."
+    ],
+    "Brownspot": [
+        "Apply fungicides such as Mancozeb or Carbendazim.",
+        "Use resistant rice varieties to minimize infections.",
+        "Ensure balanced fertilization with potassium and phosphorus.",
+        "Avoid overwatering and maintain proper drainage."
+    ],
+    "Common_Rust": [
+        "Use fungicides like Mancozeb or Propiconazole.",
+        "Plant resistant hybrids if available.",
+        "Remove crop residues post-harvest to break the disease cycle.",
+        "Ensure good air circulation by proper spacing."
+    ],
+    "Anthracnose on Cotton": [
+        "Apply fungicides like Azoxystrobin or Mancozeb.",
+        "Remove and destroy infected plant parts.",
+        "Avoid excessive irrigation during flowering.",
+        "Ensure good drainage in the field."
+    ],
+    "bacterial_blight in Cotton": [
+        "Use resistant cotton varieties if available.",
+        "Apply copper-based bactericides such as Copper Hydroxide.",
+        "Avoid over-irrigation and ensure proper field drainage.",
+        "Remove and destroy infected plant debris."
+    ],
+    "American Bollworm on Cotton": [
+    "Apply insecticides such as Emamectin Benzoate or Spinosad.",
+    "Use pheromone traps to monitor and control adult moth populations.",
+    "Encourage natural predators like Trichogramma wasps in the field.",
+    "Practice crop rotation to reduce pest buildup."
+  ],
+  "Army worm": [
+    "Apply insecticides such as Chlorantraniliprole or Lambda-cyhalothrin.",
+    "Handpick and destroy larvae during early infestations.",
+    "Encourage beneficial insects like ladybugs and lacewings.",
+    "Avoid planting the same crop in consecutive seasons in the same field."
+  ]
+}

@@ -8,7 +8,7 @@ from PIL import Image
 import json
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app,resources={r"/*": {"origins": "https://greenfarmline.shop"}})  # Enable CORS for all routes
 
 # Load the trained model
 MODEL_PATH = 'model/crop_disease_model.h5'
@@ -59,4 +59,4 @@ def predict():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0",port=5000,debug=True)

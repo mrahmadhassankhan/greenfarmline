@@ -36,7 +36,7 @@ function ExpertAnsweredQueries() {
   return (
     <>
       <ExpertNav />
-      <div className="max-w-7xl mx-auto p-6 mt-5">
+      <div className="max-w-7xl mx-auto p-6 mt-5 min-h-screen">
         <div className="flex flex-row justify-between items-center mb-5">
           <h1 className="text-3xl font-bold text-green-600">
             Discussion Forum
@@ -45,7 +45,7 @@ function ExpertAnsweredQueries() {
             {/* Search Input */}
             <input
               type="text"
-              className="input input-bordered join-item"
+              className="input input-bordered join-item hidden lg:flex"
               placeholder="Search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}

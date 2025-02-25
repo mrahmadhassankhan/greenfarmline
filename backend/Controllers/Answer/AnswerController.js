@@ -140,13 +140,7 @@ const getQueriesByExpertEmail = async (req, res) => {
       "answers.email": email, // Match answers by the specified expert email
     });
 
-    if (queries.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No queries found for this expert." });
-    }
-
-    // Return the full query documents where the expert has answered
+    // Return an empty array with a 200 status instead of 404
     return res.status(200).json(queries);
   } catch (error) {
     console.error("Error fetching queries by expert:", error);
@@ -155,6 +149,7 @@ const getQueriesByExpertEmail = async (req, res) => {
       .json({ message: "Server error while fetching queries by expert" });
   }
 };
+
 module.exports = {
   addVoteToAnswer,
   downvoteAnswer,

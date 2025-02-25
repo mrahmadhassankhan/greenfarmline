@@ -47,7 +47,15 @@ const LoginPage = () => {
       localStorage.setItem("name", response.data.user.name);
       localStorage.setItem("role", response.data.user.role);
       localStorage.setItem("token", response.data.token);
-      navigate("/");
+      if (response.data.user.role === "seller") {
+        navigate("/seller");
+      }
+      if (response.data.user.role === "farmer") {
+        navigate("/");
+      }
+      if (response.data.user.role === "expert") {
+        navigate("/expertdashboard");
+      }
     } catch (error) {
       console.error("Error during login:", error);
       toast.error("Invalid name or Password");

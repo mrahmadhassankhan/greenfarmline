@@ -14,8 +14,8 @@ function ExpertForumView() {
   useEffect(() => {
     Axios_Node.get("/getapprovedqueries")
       .then((response) => {
-        setQueries(response.data);
-        s;
+        console.log("API Response:", response.data); // Debugging step
+        setQueries(Array.isArray(response.data) ? response.data : []); // Ensure it's an array
         setLoading(false);
       })
       .catch((err) => {
@@ -25,17 +25,19 @@ function ExpertForumView() {
       });
   }, []);
 
-  const searchedQueries = queries.filter((query) => {
-    const matchesSearch =
-      query.title.toLowerCase().includes(search.toLowerCase()) ||
-      query.description.toLowerCase().includes(search.toLowerCase());
-    return matchesSearch;
-  });
+  const searchedQueries = Array.isArray(queries)
+    ? queries.filter((query) => {
+        const matchesSearch =
+          query.title.toLowerCase().includes(search.toLowerCase()) ||
+          query.description.toLowerCase().includes(search.toLowerCase());
+        return matchesSearch;
+      })
+    : [];
 
   return (
     <>
       <ExpertNav />
-      <div className="max-w-7xl mx-auto p-6 mt-5">
+      <div className="max-w-7xl mx-auto p-6 mt-5 min-h-screen">
         <div className="flex flex-row justify-between items-center mb-5">
           <h1 className="text-3xl font-bold text-green-600">
             Discussion Forum
@@ -44,7 +46,7 @@ function ExpertForumView() {
             {/* Search Input */}
             <input
               type="text"
-              className="input input-bordered join-item"
+              className="input input-bordered join-item hidden lg:flex"
               placeholder="Search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}

@@ -27,28 +27,45 @@ const ExpertDashboard = () => {
     try {
       // Fetch total approved queries
       const approvedResponse = await Axios_Node.get("/getapprovedqueries");
+      const approvedQueries = Array.isArray(approvedResponse.data)
+        ? approvedResponse.data
+        : [];
 
       // Fetch answered queries by expert
-      const answeredResponse = await Axios_Node.get(
-        `ss/answer/expert/${expertEmail}`
-      );
+      let answeredQueriesData = [];
+      try {
+        const answeredResponse = await Axios_Node.get(
+          `/answer/expert/${expertEmail}`
+        );
+        answeredQueriesData = Array.isArray(answeredResponse.data)
+          ? answeredResponse.data
+          : [];
+      } catch (error) {
+        console.warn("No answered queries found for this expert.");
+      }
 
-      const approvedQueries = approvedResponse.data || [];
-      const answeredQueriesData = answeredResponse.data || [];
+      // Calculate counts safely
+      const total = approvedQueries.length ?? 0;
+      const answered = answeredQueriesData.length ?? 0;
+      const pending = total - answered;
 
-      // Calculate counts
-      setTotalQueries(approvedQueries.length);
-      setAnsweredQueries(answeredQueriesData.length);
-      setPendingQueries(approvedQueries.length - answeredQueriesData.length);
+      setTotalQueries(total);
+      setAnsweredQueries(answered);
+      setPendingQueries(isNaN(pending) ? 0 : pending);
     } catch (error) {
-      console.error("Error fetching counts:", error);
+      console.error("Error fetching queries:", error);
     }
   };
 
   const fetchRecentQueries = async () => {
     try {
       const response = await Axios_Node.get("/getapprovedqueries");
-      setRecentQueries(response.data.slice(0, 3)); // Show latest 3 queries
+
+      if (Array.isArray(response.data)) {
+        setRecentQueries(response.data.slice(0, 3)); // Take latest 3 queries
+      } else {
+        setRecentQueries([]); // Set empty array to prevent errors
+      }
     } catch (error) {
       console.error("Error fetching recent queries:", error);
     }
@@ -80,7 +97,7 @@ const ExpertDashboard = () => {
           <FaClock className="text-yellow-500 text-4xl mr-4" />
           <div>
             <h2 className="text-lg font-semibold">Pending Queries</h2>
-            <p className="text-2xl font-bold">{pendingQueries}</p>
+            <p className="text-2xl font-bold">{pendingQueries ?? 0}</p>
           </div>
         </div>
 

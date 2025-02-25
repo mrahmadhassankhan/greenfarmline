@@ -1,14 +1,14 @@
 import { useNavigate, useParams } from "react-router-dom";
 import "../../../styles/productDetails.css";
 import { useEffect, useState } from "react";
-import Axios from "../../../Axios";
+import { Axios_Node } from "../../../Axios";
 import { toast } from "react-toastify";
 import TriangleLoader from "../../../components/seller/TriangleLoader";
 import Star from "../../../components/seller/Star";
 import RatingContainer from "../../../components/seller/RatingContainer";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
-import "../../../styles/productDetails.css"
+import "../../../styles/productDetails.css";
 
 const ProductDetails = () => {
   const { slug } = useParams();
@@ -20,7 +20,7 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await Axios.get(`/product/${slug}`);
+        const response = await Axios_Node.get(`/product/${slug}`);
         console.log(response.data.data);
         setData(response.data.data);
         setLoading(false);
@@ -53,7 +53,7 @@ const ProductDetails = () => {
       }
 
       // Send valid quantity
-      const response = await Axios.post("/cart/add", {
+      const response = await Axios_Node.post("/cart/add", {
         productId: data._id,
         quantity: parsedQuantity, // Use validated quantity
         email: localStorage.getItem("email"),
@@ -70,7 +70,9 @@ const ProductDetails = () => {
 
   if (loading) return <TriangleLoader height="500px" />;
 
-  const pImage = `http:\\\\localhost:1783\\Images\\${data.document.split('\\').pop()}`;
+  const pImage = `http:\\\\localhost:1783\\Images\\${data.document
+    .split("\\")
+    .pop()}`;
 
   return (
     <>
@@ -78,12 +80,12 @@ const ProductDetails = () => {
       <section className="product-bg">
         <div className="prod-images-cont">
           <div className="prod-image">
-            <img src={pImage} alt="img"/>
+            <img src={pImage} alt="img" />
           </div>
           <div className="pRow">
-            <img src={pImage} alt="img"/>
-            <img src={pImage} alt="img"/>
-            <img src={pImage} alt="img"/>
+            <img src={pImage} alt="img" />
+            <img src={pImage} alt="img" />
+            <img src={pImage} alt="img" />
           </div>
         </div>
         <div className="prod-details-cont">
@@ -98,7 +100,9 @@ const ProductDetails = () => {
           </div>
 
           <div className="quantity-selector">
-            <label htmlFor="quantity" style={{ fontWeight: "bold" }}>Quantity:</label>
+            <label htmlFor="quantity" style={{ fontWeight: "bold" }}>
+              Quantity:
+            </label>
             <input
               style={{ marginLeft: "10px" }}
               type="number"
@@ -130,7 +134,9 @@ const ProductDetails = () => {
             </p>
           )}
 
-          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>Product Details</h3>
+          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>
+            Product Details
+          </h3>
           <p>{data.description}</p>
           <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>
             Color:{" "}
@@ -138,8 +144,12 @@ const ProductDetails = () => {
               {data.color}
             </p>
           </h3>
-          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>Material: </h3>
-          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>Features:</h3>
+          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>
+            Material:{" "}
+          </h3>
+          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>
+            Features:
+          </h3>
           <div>
             <ol>
               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
@@ -163,7 +173,9 @@ const ProductDetails = () => {
             </ol>
           </div>
 
-          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>Delivery Option</h3>
+          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>
+            Delivery Option
+          </h3>
           <div>
             <div>
               <input
@@ -184,7 +196,7 @@ const ProductDetails = () => {
               Please enter PIN code to check delivery time & Pay on Delivery
               Availability
             </h5>
-            <ul style={{ listStyleType: "disc", padding: '10px' }}>
+            <ul style={{ listStyleType: "disc", padding: "10px" }}>
               <li>100% Original Products</li>
               <li>Pay on delivery might be available</li>
               <li>Easy 30 days returns and exchanges</li>
@@ -192,7 +204,9 @@ const ProductDetails = () => {
             </ul>
           </div>
 
-          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>Offers</h3>
+          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>
+            Offers
+          </h3>
           <ul type="none">
             <li>Use &apos;SUMILSUTHAR197&apos; to avail flat 20% Off</li>
           </ul>

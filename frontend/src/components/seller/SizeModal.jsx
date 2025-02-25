@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import MultiSelectBox from "./MultiSelectBox";
 import { toast } from "react-toastify";
-import Axios from "../../Axios";
+import { Axios_Node } from "../../Axios";
 
 const SizeModal = ({ id, size, onClose }) => {
   const modelRef = useRef();

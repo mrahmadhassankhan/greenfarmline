@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import UserNav from "../UserNav";
 import QueryCard from "../../../components/general/discussionForum/QueryCard";
 import SideBar from "../../../components/user/discussionforum/SideBar";
-import axios from "axios";
+import { Axios_Node } from "../../../Axios";
 
 function UserQueries() {
   const [queries, setQueries] = useState([]); // State to store fetched queries
@@ -12,8 +12,7 @@ function UserQueries() {
   useEffect(() => {
     const email = localStorage.getItem("email");
 
-    axios
-      .get(`http://localhost:1783/api/query/getuserquery?email=${email}`)
+    Axios_Node.get(`/getuserquery?email=${email}`)
       .then((response) => {
         setQueries(response.data); // Set the fetched queries to state
       })
@@ -75,7 +74,7 @@ function UserQueries() {
                   description={query.description}
                   author={query.name}
                   date={new Date(query.datePosted).toLocaleDateString()}
-                  image={`http://localhost:1783/Images/${query.image}`}
+                  image={`https://greenfarmline.shop/Images/${query.image}`}
                   status={query.status}
                 />
               ))

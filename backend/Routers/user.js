@@ -8,7 +8,7 @@ const {
   verifyUser,
   getOrder,
   forgetPassword,
-  getUserProfile, 
+  getUserProfile,
   updateUserProfile,
 } = require("../Controllers/user");
 

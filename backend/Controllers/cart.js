@@ -160,7 +160,7 @@ const cartSize = asyncErrorHandler(async (req, res, next) => {
   const { email } = req.query;
   const userObj = await user.findOne({ email });
   if (!userObj) {
-    return next(new errorHandler("Cannot get cart size no user found", 401));
+    return res.status(200).json({ cartSize: 0 });
   }
   return res.status(200).json({ cartSize: userObj.cart.items.length });
 });

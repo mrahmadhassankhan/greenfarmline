@@ -1,15 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { FiSearch, FiMenu } from "react-icons/fi";
 import { FaShoppingCart } from "react-icons/fa";
-import { CgProfile, CgClose } from "react-icons/cg";
+import { CgProfile } from "react-icons/cg";
 import { BiLogIn } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
-import "../styles/navicons.css"
-import Axios from "../Axios";
+import "../styles/navicons.css";
+import { Axios_Node } from "../Axios";
 function Navbar() {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
   const [auth, setAuth] = useState(
     localStorage.getItem("token") ? true : false
   );
@@ -47,7 +45,7 @@ function Navbar() {
   useEffect(() => {
     const fetchCartSize = async () => {
       try {
-        const response = await Axios.get("/cart/cartSize", {
+        const response = await Axios_Node.get("/cart/cartSize", {
           params: {
             email: localStorage.getItem("email"),
           },
@@ -56,9 +54,8 @@ function Navbar() {
           localStorage.removeItem("cartsize");
           localStorage.setItem("cartsize", response.data.cartSize);
         }
-        // handle response here
       } catch (error) {
-        console.error("Error fetching cart size:", error);
+        console.log(error);
       }
     };
     fetchCartSize();
@@ -88,7 +85,7 @@ function Navbar() {
   const navButtons = (
     <>
       <div className="flex items-center space-x-3 ">
-        {localStorage.getItem('role') === 'farmer' && (
+        {localStorage.getItem("role") === "farmer" && (
           <div className="btnIcon">
             <Link to="/cart" style={{ color: "#1a1a1a" }}>
               <FaShoppingCart />
@@ -105,15 +102,23 @@ function Navbar() {
               <CgProfile />
               <ul className="dropdown pt-2 pb-2">
                 <li>
-                  <Link to={
-                    localStorage.getItem("role") === "farmer" ? "/userdashboard" :
-                      localStorage.getItem("role") === "seller" ? "/seller" :
-                        localStorage.getItem("role") === "expert" ? "/expertdashboard" :
-                          localStorage.getItem("role") === "admin" ? "/admin-panel" :
-                            "/"
-                  }>Dashboard</Link>
+                  <Link
+                    to={
+                      localStorage.getItem("role") === "farmer"
+                        ? "/userdashboard"
+                        : localStorage.getItem("role") === "seller"
+                        ? "/seller"
+                        : localStorage.getItem("role") === "expert"
+                        ? "/expertdashboard"
+                        : localStorage.getItem("role") === "admin"
+                        ? "/admin"
+                        : "/"
+                    }
+                  >
+                    Dashboard
+                  </Link>
                 </li>
-                {localStorage.getItem('role') === 'farmer' && (
+                {localStorage.getItem("role") === "farmer" && (
                   <li>
                     <Link to="/orders">Orders</Link>
                   </li>
@@ -144,10 +149,11 @@ function Navbar() {
   return (
     <>
       <div
-        className={` bg-white text-black max-w-full container mx-auto md:px-20 px-4 fixed top-0 left-0 right-0 z-10 dark:bg-slate-600 dark:text-white ${sticky
-          ? "sticky-navbar bg-gray-200 shadow-md duration-300 transition-all ease-in-out dark:bg-slate-700 dark:text-white"
-          : ""
-          }`}
+        className={` bg-white text-black max-w-full container mx-auto md:px-20 px-4 fixed top-0 left-0 right-0 z-10 dark:bg-slate-600 dark:text-white ${
+          sticky
+            ? "sticky-navbar bg-gray-200 shadow-md duration-300 transition-all ease-in-out dark:bg-slate-700 dark:text-white"
+            : ""
+        }`}
       >
         <div className="navbar">
           <div className="navbar-start">

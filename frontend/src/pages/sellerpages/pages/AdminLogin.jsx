@@ -3,7 +3,6 @@ import loginImage from "../../../images/adminLoginImage-bg_rem.png";
 import "../../../styles/auth.css";
 import { useState } from "react";
 import Axios from "../../../Axios";
-import axios from "axios";
 import { toast } from "react-toastify";
 
 const AdminLogin = () => {
@@ -16,12 +15,12 @@ const AdminLogin = () => {
         toast.error("Please provide email and password");
         return;
       }
-      const response = await axios.post(
-        "http://localhost:1783/api/v1/admin/adminLogin",
+      const response = await Axios.post(
+        "/admin/adminLogin",
         { email: user.email, password: user.password, role: user.role },
         {
           headers: {
-            "Content-Type": "application/json", // Set Content-Type to application/json
+            "Content-Type": "application/json",
           },
           withCredentials: true,
         }
@@ -33,7 +32,7 @@ const AdminLogin = () => {
       localStorage.setItem("name", response.data.user.name);
       localStorage.setItem("role", response.data.user.role);
       localStorage.setItem("token", response.data.token);
-      navigate("/admin-panel");
+      navigate("/admin");
     } catch (error) {
       console.error("Error during login:", error);
       toast.error("Invalid name or Password");
@@ -79,11 +78,6 @@ const AdminLogin = () => {
               Login
             </button>
           </form>
-          {/* <div className="forget-button">
-            <button onClick={() => console.log("forget password")}>
-              Forget password?
-            </button>
-          </div> */}
         </div>
       </div>
       <div className="login-div div2">

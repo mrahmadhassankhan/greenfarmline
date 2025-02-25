@@ -12,7 +12,7 @@ import {
   ArcElement,
 } from "chart.js";
 import { Bar, Doughnut } from "react-chartjs-2";
-import Axios from "../../../Axios";
+import { Axios_Node } from "../../../Axios";
 import { toast } from "react-toastify";
 import TriangleLoader from "../../../components/seller/TriangleLoader";
 
@@ -42,7 +42,7 @@ const Dashboard = () => {
         if (!token) {
           return toast.error("Access denied. Please login first.");
         }
-        const res = await Axios.get("/admin/info", {
+        const res = await Axios_Node.get("/admin/info", {
           params: {
             email: localStorage.getItem("email"),
           },

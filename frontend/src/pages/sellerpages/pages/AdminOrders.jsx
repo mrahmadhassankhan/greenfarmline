@@ -3,7 +3,7 @@ import "../../../styles/cartlayout.css";
 import { useEffect, useState } from "react";
 import TriangleLoader from "../../../components/seller/TriangleLoader";
 import EmptyImage from "../../../images/empty-cart.png";
-import Axios from "../../../Axios";
+import { Axios_Node } from "../../../Axios";
 import { toast } from "react-toastify";
 import Pagination from "./Pagination";
 
@@ -27,7 +27,7 @@ const AdminOrders = () => {
       if (!token) {
         return toast.error("Access denied.");
       }
-      const response = await Axios.get("/admin/order", {
+      const response = await Axios_Node.get("/admin/order", {
         params: { limit, page },
       });
       setData(response.data.orders);
@@ -42,9 +42,9 @@ const AdminOrders = () => {
   const fetchProductImages = async () => {
     if (data.length > 0) {
       try {
-        const promises = data.flatMap(order =>
-          order.items.map(async item => {
-            const response = await Axios.get(`/product/${item.slug}`);
+        const promises = data.flatMap((order) =>
+          order.items.map(async (item) => {
+            const response = await Axios_Node.get(`/product/${item.slug}`);
             return {
               slug: item.slug,
               image: response.data.data.document, // Assuming 'document' contains the image path
@@ -54,7 +54,7 @@ const AdminOrders = () => {
 
         const fetchedDetails = await Promise.all(promises);
         const detailsMap = Object.fromEntries(
-          fetchedDetails.map(detail => [detail.slug, detail.image])
+          fetchedDetails.map((detail) => [detail.slug, detail.image])
         );
 
         setProductDetails(detailsMap);
@@ -108,12 +108,19 @@ const AdminOrders = () => {
 
   return (
     <div className="orderMainContainer">
-      <h1 className="cHeader" style={{ textAlign: "left" }}>Orders List</h1>
+      <h1 className="cHeader" style={{ textAlign: "left" }}>
+        Orders List
+      </h1>
       <div className="orderContainer" style={{ flexDirection: "column" }}>
         <table className="order-table">
           <thead>
             <tr>
-              <th className="order-subheader order-th" style={{ textAlign: "left" }}>Product Details</th>
+              <th
+                className="order-subheader order-th"
+                style={{ textAlign: "left" }}
+              >
+                Product Details
+              </th>
               <th className="order-subheader order-th ">Customer</th>
               <th className="order-subheader order-th ">Order Date</th>
               <th className="order-subheader order-th ">Status</th>
@@ -131,15 +138,22 @@ const AdminOrders = () => {
                         <div className="cart-product-cont">
                           <div className="cart-image-cont">
                             <img
-                              src={`http://localhost:1783/Images/${productDetails[item.slug]?.split("\\").pop()}`}
+                              src={`https://greenfarmline.shop/Images/${productDetails[
+                                item.slug
+                              ]
+                                ?.split("\\")
+                                .pop()}`}
                               alt={item.product.name}
                               className="cart-image"
                             />
                           </div>
                           <div className="cart-product-details ml-2 text-left">
-                            <strong>{item.product.name}</strong> ({item.product.brand})
+                            <strong>{item.product.name}</strong> (
+                            {item.product.brand})
                             <br />
-                            <span style={{ fontSize: "12px", color: "gray" }}>Slug: {item.slug}</span>
+                            <span style={{ fontSize: "12px", color: "gray" }}>
+                              Slug: {item.slug}
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -150,20 +164,43 @@ const AdminOrders = () => {
                   <td className="order-td">{order.delivered}</td>
                   <td className="order-td">RS.{order.totalPrice}</td>
                   <td className="order-td">
-                    <div className="order-btn-cont" style={{ flexDirection: "column" }}>
+                    <div
+                      className="order-btn-cont"
+                      style={{ flexDirection: "column" }}
+                    >
                       <button
                         className="cart-delete-btn"
                         disabled={order.delivered !== "pending"}
-                        style={order.delivered !== "pending" ? { cursor: "not-allowed", opacity: "0.5" } : {}}
-                        onClick={() => updateOrderStatus(order._id, "Delivered", order.paymentId)}
+                        style={
+                          order.delivered !== "pending"
+                            ? { cursor: "not-allowed", opacity: "0.5" }
+                            : {}
+                        }
+                        onClick={() =>
+                          updateOrderStatus(
+                            order._id,
+                            "Delivered",
+                            order.paymentId
+                          )
+                        }
                       >
                         Delivered
                       </button>
                       <button
                         className="cart-delete-btn"
                         disabled={order.delivered !== "pending"}
-                        style={order.delivered !== "pending" ? { cursor: "not-allowed", opacity: "0.5" } : {}}
-                        onClick={() => updateOrderStatus(order._id, "Cancelled", order.paymentId)}
+                        style={
+                          order.delivered !== "pending"
+                            ? { cursor: "not-allowed", opacity: "0.5" }
+                            : {}
+                        }
+                        onClick={() =>
+                          updateOrderStatus(
+                            order._id,
+                            "Cancelled",
+                            order.paymentId
+                          )
+                        }
                       >
                         Cancel
                       </button>
@@ -173,7 +210,9 @@ const AdminOrders = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={6} style={{ textAlign: "center" }}>No orders available.</td>
+                <td colSpan={6} style={{ textAlign: "center" }}>
+                  No orders available.
+                </td>
               </tr>
             )}
           </tbody>

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import TriangleLoader from "../../../components/seller/TriangleLoader";
 import EmptyImage from "../../../images/empty-cart.png";
-import Axios from "../../../Axios";
+import { Axios_Node } from "../../../Axios";
 import FormReviews from "../../../components/seller/FormReviews";
 import { toast } from "react-toastify";
 
@@ -19,7 +19,7 @@ const MyOrders = () => {
 
   const fetchData = async () => {
     try {
-      const response = await Axios.get("/orders", {
+      const response = await Axios_Node.get("/orders", {
         params: {
           email: localStorage.getItem("email"), // Ensure this matches the email in your database
         },
@@ -43,40 +43,42 @@ const MyOrders = () => {
     setCurrentOrderId(id2);
   };
 
-
   useEffect(() => {
     const fetchDetails = async () => {
       if (data?.length > 0) {
         try {
           // Create an array of promises for fetching details of all products
-          const promises = data.flatMap(order =>
-            order.items.map(async product => {
-              const response = await Axios.get(`/product/${product.slug}`);
+          const promises = data.flatMap((order) =>
+            order.items.map(async (product) => {
+              const response = await Axios_Node.get(`/product/${product.slug}`);
               // console.log(`Response for slug ${product.slug}:`, response.data);
-              return { slug: product.slug, document: response.data.data.document }; // Map slug to document only
+              return {
+                slug: product.slug,
+                document: response.data.data.document,
+              }; // Map slug to document only
             })
           );
-  
+
           // Wait for all promises to resolve
           const fetchedDetails = await Promise.all(promises);
-  
+
           // Create a map for easy lookup by slug
           const detailsMap = Object.fromEntries(
-            fetchedDetails.map(detail => [detail.slug, detail.document])
+            fetchedDetails.map((detail) => [detail.slug, detail.document])
           );
-  
+
           // Update productDetails state
           setProductDetails(detailsMap);
-  
+
           console.log("Fetched Product Details Map:", detailsMap);
         } catch (error) {
           console.error("Error fetching product details:", error);
         }
       }
     };
-  
+
     fetchDetails();
-  }, [data]);  
+  }, [data]);
 
   const submitReview = async (review, productId, orderId) => {
     try {
@@ -129,7 +131,8 @@ const MyOrders = () => {
             </tr>
           </thead>
           <tbody className="order-table-tbody">
-              {data !== null && data.map((order, orderIndex) => (
+            {data !== null &&
+              data.map((order, orderIndex) => (
                 <tr key={orderIndex}>
                   <td className="order-td">
                     {order.items.map((product, productIndex) => (
@@ -137,9 +140,11 @@ const MyOrders = () => {
                         <div className="cart-product-cont">
                           <div className="cart-image-cont">
                             <img
-                              src={`http://localhost:1783/Images/${
-                                productDetails?.[product.slug]?.split("\\").pop()
-                              }`}
+                              src={`https://greenfarmline.shop/Images/${productDetails?.[
+                                product.slug
+                              ]
+                                ?.split("\\")
+                                .pop()}`}
                               alt={product.name}
                               className="cart-image"
                             />
@@ -167,11 +172,14 @@ const MyOrders = () => {
                                 ? { cursor: "not-allowed", opacity: "0.5" }
                                 : {}
                             }
-                            onClick={() =>{
-                              openReviewModal(order.delivered, product.id, order.id)
+                            onClick={() => {
+                              openReviewModal(
+                                order.delivered,
+                                product.id,
+                                order.id
+                              );
                               // console.log(order.delivered +","+ product.id +","+ order.id)
-                            }
-                            }
+                            }}
                           >
                             {product.isReviewed ? "Reviewed" : "Review"}
                           </button>
@@ -199,14 +207,14 @@ const MyOrders = () => {
           </div>
         )}
       </div>
-      
+
       {showModal && (
         <>
-        <FormReviews
-          onClose={() => setShowModal(false)}
-          onSubmit={(review) =>
-            submitReview(review, currentProductId, currentOrderId)
-          }
+          <FormReviews
+            onClose={() => setShowModal(false)}
+            onSubmit={(review) =>
+              submitReview(review, currentProductId, currentOrderId)
+            }
           />
         </>
       )}

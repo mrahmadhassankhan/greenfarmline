@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Axios_Node } from "../../../Axios";
 import ExpertNav from "../ExpertNav";
 import QueryCard from "../../../components/general/discussionForum/QueryCard";
 
@@ -11,12 +11,11 @@ function ExpertForumView() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // Fetch approved queries from backend
   useEffect(() => {
-    axios
-      .get("http://localhost:1783/api/query/getapprovedqueries") // Replace with your API endpoint
+    Axios_Node.get("/getapprovedqueries")
       .then((response) => {
-        setQueries(response.data); // Set fetched queries to state
+        setQueries(response.data);
+        s;
         setLoading(false);
       })
       .catch((err) => {
@@ -26,7 +25,6 @@ function ExpertForumView() {
       });
   }, []);
 
-  // Filter queries based on the search input
   const searchedQueries = queries.filter((query) => {
     const matchesSearch =
       query.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -39,7 +37,9 @@ function ExpertForumView() {
       <ExpertNav />
       <div className="max-w-7xl mx-auto p-6 mt-5">
         <div className="flex flex-row justify-between items-center mb-5">
-          <h1 className="text-3xl font-bold text-green-600">Discussion Forum</h1>
+          <h1 className="text-3xl font-bold text-green-600">
+            Discussion Forum
+          </h1>
           <div className="join">
             {/* Search Input */}
             <input
@@ -65,7 +65,7 @@ function ExpertForumView() {
                 description={query.description}
                 author={query.name}
                 date={new Date(query.datePosted).toLocaleDateString()}
-                image={`http://localhost:1783/Images/${query.image}`}
+                image={`https://greenfarmline.shop/Images/${query.image}`}
                 status={query.status}
                 onClick={() =>
                   navigate("/write-your-answer", { state: { query } })

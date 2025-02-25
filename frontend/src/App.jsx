@@ -16,43 +16,91 @@ const ForgetPassword = lazy(() => import("./pages/general/ForgetPassword"));
 const OTPVerification = lazy(() => import("./pages/general/OTPVerification"));
 const ErrorPage = lazy(() => import("./pages/sellerpages/pages/ErrorPage"));
 const AdminLogin = lazy(() => import("./pages/sellerpages/pages/AdminLogin"));
-const UserDashboard = lazy(() => import("./pages/user/dashboard/UserDashboard"));
+const UserDashboard = lazy(() =>
+  import("./pages/user/dashboard/UserDashboard")
+);
 const DiscussionForum = lazy(() => import("./pages/general/DiscussionForum"));
 const MyOrders = lazy(() => import("./pages/sellerpages/pages/MyOrders"));
-const EcommerceStore = lazy(() => import("./pages/sellerpages/pages/EcommerceStore"));
-const UserForumView = lazy(() => import("./pages/user/discussionForum/UserForumView"));
+const EcommerceStore = lazy(() =>
+  import("./pages/sellerpages/pages/EcommerceStore")
+);
+const UserForumView = lazy(() =>
+  import("./pages/user/discussionForum/UserForumView")
+);
 const PostQuery = lazy(() => import("./pages/user/discussionForum/PostQuery"));
-const QueryDetailedView = lazy(() => import("./pages/user/discussionForum/QueryDetailedView"));
-const UserQueries = lazy(() => import("./pages/user/discussionForum/UserQueries"));
-const ExpertDashboard = lazy(() => import("./pages/expert/dashboard/ExpertDashboard"));
-const ExpertForumView = lazy(() => import("./pages/expert/discussionforum/ExpertForumView"));
-const ExpertAnswerView = lazy(() => import("./pages/expert/discussionforum/ExpertAnswerView"));
-const ExpertAnsweredQueries = lazy(() => import("./pages/expert/discussionforum/ExpertAnsweredQueries"));
-const PendingQueries = lazy(() => import("./pages/admin/discussionforum/PendingQueries"));
-const ApprovedQueries = lazy(() => import("./pages/admin/discussionforum/ApprovedQueries"));
-const RejectedQueries = lazy(() => import("./pages/admin/discussionforum/RejectedQueries"));
-const CropImageDetection = lazy(() => import("./pages/general/CropImageDetection"));
-const CropImageModel = lazy(() => import("./pages/user/cropImageModel/userCropImageModel"));
-const ProductDetails = lazy(() => import("./pages/sellerpages/pages/ProductDetails"));
+const QueryDetailedView = lazy(() =>
+  import("./pages/user/discussionForum/QueryDetailedView")
+);
+const UserQueries = lazy(() =>
+  import("./pages/user/discussionForum/UserQueries")
+);
+const ExpertDashboard = lazy(() =>
+  import("./pages/expert/dashboard/ExpertDashboard")
+);
+const ExpertForumView = lazy(() =>
+  import("./pages/expert/discussionforum/ExpertForumView")
+);
+const ExpertAnswerView = lazy(() =>
+  import("./pages/expert/discussionforum/ExpertAnswerView")
+);
+const ExpertAnsweredQueries = lazy(() =>
+  import("./pages/expert/discussionforum/ExpertAnsweredQueries")
+);
+const PendingQueries = lazy(() =>
+  import("./pages/admin/discussionforum/PendingQueries")
+);
+const ApprovedQueries = lazy(() =>
+  import("./pages/admin/discussionforum/ApprovedQueries")
+);
+const RejectedQueries = lazy(() =>
+  import("./pages/admin/discussionforum/RejectedQueries")
+);
+const CropImageDetection = lazy(() =>
+  import("./pages/general/CropImageDetection")
+);
+const CropImageModel = lazy(() =>
+  import("./pages/user/cropImageModel/userCropImageModel")
+);
+const ProductDetails = lazy(() =>
+  import("./pages/sellerpages/pages/ProductDetails")
+);
 const Product = lazy(() => import("./pages/sellerpages/pages/Product"));
 const CartLayout = lazy(() => import("./pages/sellerpages/pages/CartLayout"));
 const AdminLayout = lazy(() => import("./pages/sellerpages/pages/AdminLayout"));
 const AdminRoute = lazy(() => import("./utils/adminRoute"));
-const CustomerList = lazy(() => import("./pages/sellerpages/pages/CustomerList"));
+const CustomerList = lazy(() =>
+  import("./pages/sellerpages/pages/CustomerList")
+);
 const CouponList = lazy(() => import("./pages/sellerpages/pages/CouponList"));
 const AdminOrders = lazy(() => import("./pages/sellerpages/pages/AdminOrders"));
-const AdminProductList = lazy(() => import("./pages/sellerpages/pages/AdminProductList"));
+const AdminProductList = lazy(() =>
+  import("./pages/sellerpages/pages/AdminProductList")
+);
 const AddProducts = lazy(() => import("./pages/sellerpages/pages/AddProducts"));
-const UpdateProducts = lazy(() => import("./pages/sellerpages/pages/UpdateProducts"));
+const UpdateProducts = lazy(() =>
+  import("./pages/sellerpages/pages/UpdateProducts")
+);
 const BrandList = lazy(() => import("./pages/sellerpages/pages/BrandList"));
-const CategoryList = lazy(() => import("./pages/sellerpages/pages/CategoryList"));
-const ProfileLayout = lazy(() => import("./pages/sellerpages/pages/ProfileLayout"));
+const CategoryList = lazy(() =>
+  import("./pages/sellerpages/pages/CategoryList")
+);
+const ProfileLayout = lazy(() =>
+  import("./pages/sellerpages/pages/ProfileLayout")
+);
 const Dashboard = lazy(() => import("./pages/sellerpages/pages/Dashboard"));
-const CheckoutSuccess = lazy(() => import("./pages/sellerpages/pages/CheckoutSuccess"));
+const CheckoutSuccess = lazy(() =>
+  import("./pages/sellerpages/pages/CheckoutSuccess")
+);
 const ProtectedRoute = lazy(() => import("./utils/protectedRoute"));
-const AdminDashboard = lazy(() => import("./pages/admin/dashboard/AdminDashboard"));
-const SellerManagement = lazy(() => import("./pages/admin/seller-control/SellerManagement"))
-const UserManagement = lazy(() => import("./pages/admin/user-control/UserManagement"))
+const AdminDashboard = lazy(() =>
+  import("./pages/admin/dashboard/AdminDashboard")
+);
+const SellerManagement = lazy(() =>
+  import("./pages/admin/seller-control/SellerManagement")
+);
+const UserManagement = lazy(() =>
+  import("./pages/admin/user-control/UserManagement")
+);
 const YourProfile = lazy(() => import("./pages/YourProfile"));
 const Settings = lazy(() => import("./pages/Settings"));
 const UserOrders = lazy(() => import("./pages/user/e-commerce/Orders"));
@@ -96,8 +144,11 @@ const App = () => {
           <Route path="/write-your-answer" element={<ExpertAnswerView />} />
           <Route path="/profile" element={<YourProfile />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/your-answered-queries" element={<ExpertAnsweredQueries />} />
-          <Route path="/admin-panel" element={<AdminDashboard />} />
+          <Route
+            path="/your-answered-queries"
+            element={<ExpertAnsweredQueries />}
+          />
+          <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/pending-queries" element={<PendingQueries />} />
           <Route path="/seller-management" element={<SellerManagement />} />
           <Route path="/user-management" element={<UserManagement />} />
@@ -108,7 +159,7 @@ const App = () => {
           <Route path="/user-orders" element={<UserOrders />} />
           <Route path="/image-detection" element={<CropImageDetection />} />
           <Route path="/crop-image-model" element={<CropImageModel />} />
-          <Route path="/admin" element={<AdminLayout />}>
+          <Route path="/admin-layout" element={<AdminLayout />}>
             <Route path="customers" element={<CustomerList />} />
             <Route path="coupons" element={<CouponList />} />
             <Route path="orders" element={<AdminOrders />} />
@@ -123,11 +174,25 @@ const App = () => {
           <Route path="products" element={<Product />} />
           <Route path="cart" element={<CartLayout />} />
 
-          <Route path="/orders" element={ <ProtectedRoute><ProfileLayout /></ProtectedRoute> } >
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <ProfileLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<MyOrders />} />
           </Route>
 
-          <Route path="/seller" element={ <AdminRoute><AdminLayout /></AdminRoute> } >
+          <Route
+            path="/seller"
+            element={
+              <AdminRoute>
+                <AdminLayout />
+              </AdminRoute>
+            }
+          >
             <Route index element={<Dashboard />} />
             <Route path="customers" element={<CustomerList />} />
             <Route path="coupons" element={<CouponList />} />

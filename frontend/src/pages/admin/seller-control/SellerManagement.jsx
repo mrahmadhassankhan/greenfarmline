@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AdminNav from "../AdminNav";
-import axios from "axios";
+import { Axios_Node } from "../../../Axios";
 
 function SellerManagement() {
   const [sellers, setSellers] = useState([]);
@@ -11,8 +11,10 @@ function SellerManagement() {
 
   const fetchSellers = async () => {
     try {
-      const response = await axios.get("http://localhost:1783/api/v1/admin/users");
-      const sellerList = response.data.users.filter((user) => user.role === "seller");
+      const response = await Axios_Node.get(" /admin/users");
+      const sellerList = response.data.users.filter(
+        (user) => user.role === "seller"
+      );
       setSellers(sellerList);
     } catch (error) {
       console.error("Error fetching sellers:", error);
@@ -22,7 +24,7 @@ function SellerManagement() {
   const removeSeller = async (id) => {
     if (!window.confirm("Are you sure you want to remove this seller?")) return;
     try {
-      await axios.delete(`http://localhost:1783/api/v1/admin/user/${id}`);
+      await Axios_Node.delete(`/admin/user/${id}`);
       setSellers(sellers.filter((seller) => seller._id !== id)); // Update state after deletion
     } catch (error) {
       console.error("Error removing seller:", error);
@@ -34,10 +36,14 @@ function SellerManagement() {
       <AdminNav />
       <div className="bg-gray-100 min-h-screen p-6">
         <div className="container mx-auto">
-          <h1 className="text-3xl font-semibold text-gray-800 mb-6">Seller Management</h1>
+          <h1 className="text-3xl font-semibold text-gray-800 mb-6">
+            Seller Management
+          </h1>
 
           <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-bold text-gray-700 mb-4">Active Sellers</h2>
+            <h2 className="text-xl font-bold text-gray-700 mb-4">
+              Active Sellers
+            </h2>
             <table className="w-full border-collapse border border-gray-300">
               <thead>
                 <tr className="bg-gray-200">
@@ -68,7 +74,10 @@ function SellerManagement() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="5" className="border p-3 text-center text-gray-500">
+                    <td
+                      colSpan="5"
+                      className="border p-3 text-center text-gray-500"
+                    >
                       No sellers found
                     </td>
                   </tr>

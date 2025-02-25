@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import UserNav from "../UserNav";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import axios from "axios";
+import { Axios_Flask } from "../../../Axios";
+import { Axios_Node } from "../../../Axios";
 
 function UserDashboard() {
-  const userEmail = localStorage.getItem('email');
+  const userEmail = localStorage.getItem("email");
   const userName = localStorage.getItem("name");
-  const userRole = localStorage.getItem('role');
-  const user = { email: userEmail, name: userName, role: userRole }
+  const userRole = localStorage.getItem("role");
+  const user = { email: userEmail, name: userName, role: userRole };
 
   // State for handling image upload and detection results
   const [selectedImage, setSelectedImage] = useState(null);
@@ -41,24 +42,28 @@ function UserDashboard() {
     formData.append("file", selectedImage);
 
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:5000/predict",  // Your API endpoint
+      const response = await Axios_Flask.post(
+        "/predict", // Your API endpoint
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
       const detectionData = response.data;
-      setDetectionResult(detectionData);  // Store prediction result
+      setDetectionResult(detectionData); // Store prediction result
       // If user is a farmer, store detection result in database
-      if (user.role === 'farmer') {
-        await axios.post('http://localhost:1783/api/detections/save', {
-          user,
-          disease: detectionData.prediction,
-          confidence: detectionData.confidence * 100,
-          recommendations: detectionData.recommendations,
-          imageUrl: previewUrl, // Temporary URL for preview
-        }, {
-          headers: { 'Content-Type': 'application/json' }
-        });
+      if (user.role === "farmer") {
+        await Axios_Node.post(
+          "/detections/save",
+          {
+            user,
+            disease: detectionData.prediction,
+            confidence: detectionData.confidence * 100,
+            recommendations: detectionData.recommendations,
+            imageUrl: previewUrl, // Temporary URL for preview
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
 
         toast.success("Detection result saved successfully.");
       }
@@ -74,8 +79,8 @@ function UserDashboard() {
     // Fetch user's orders using admin orders API
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:1783/api/v1/admin/orders?email=${userEmail}`
+        const response = await Axios_Node.get(
+          `/admin/orders?email=${userEmail}`
         );
         setOrders(response.data.orders);
         console.log(response.data);
@@ -87,9 +92,7 @@ function UserDashboard() {
     // Fetch latest 3 approved queries and their replies count
     const fetchQueries = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:1783/api/query/getapprovedqueries"
-        );
+        const response = await Axios_Node.get("/getapprovedqueries");
 
         let latestQueries = response.data.slice(-3); // Get last 3 approved queries
 
@@ -97,8 +100,8 @@ function UserDashboard() {
         const queriesWithReplies = await Promise.all(
           latestQueries.map(async (query) => {
             try {
-              const replyResponse = await axios.get(
-                `http://localhost:1783/api/answer/answers/${query._id}`
+              const replyResponse = await Axios_Node.get(
+                `/answer/answers/${query._id}`
               );
               return {
                 ...query,
@@ -131,7 +134,8 @@ function UserDashboard() {
             Welcome, {userName}!
           </h2>
           <p className="text-gray-600">
-            Manage your orders, participate in discussions, and check your crop health.
+            Manage your orders, participate in discussions, and check your crop
+            health.
           </p>
         </div>
 
@@ -141,16 +145,28 @@ function UserDashboard() {
           <div className="col-span-1 bg-white shadow-md rounded-lg p-6">
             <h3 className="text-xl font-semibold mb-4">Quick Actions</h3>
             <div className="space-y-3">
-              <Link to="/userforumview" className="block bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700">
+              <Link
+                to="/userforumview"
+                className="block bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700"
+              >
                 Visit Forum
               </Link>
-              <Link to="/user-orders" className="block bg-green-600 text-white text-center py-2 rounded-md hover:bg-green-700">
+              <Link
+                to="/user-orders"
+                className="block bg-green-600 text-white text-center py-2 rounded-md hover:bg-green-700"
+              >
                 View Orders
               </Link>
-              <Link to="/crop-image-model" className="block bg-yellow-500 text-white text-center py-2 rounded-md hover:bg-yellow-600">
+              <Link
+                to="/crop-image-model"
+                className="block bg-yellow-500 text-white text-center py-2 rounded-md hover:bg-yellow-600"
+              >
                 Check Crop Disease
               </Link>
-              <Link to="/ecommerce-store" className="block bg-gray-700 text-white text-center py-2 rounded-md hover:bg-gray-800">
+              <Link
+                to="/ecommerce-store"
+                className="block bg-gray-700 text-white text-center py-2 rounded-md hover:bg-gray-800"
+              >
                 Go to Store
               </Link>
             </div>
@@ -162,10 +178,23 @@ function UserDashboard() {
             <div className="space-y-3">
               {orders.length > 0 ? (
                 orders.slice(0, 3).map((order) => (
-                  <div key={order._id} className="flex justify-between bg-gray-50 p-3 rounded-md border">
+                  <div
+                    key={order._id}
+                    className="flex justify-between bg-gray-50 p-3 rounded-md border"
+                  >
                     {/* <span>Order #{order._id} - {order.items[0]?.name || "Item"}</span> */}
-                    <span>Order #{order._id} - {order.createdAt || "Invalid Date"}</span>
-                    <span className={`text-${order.delivered === 'Delivered' ? 'green' : order.delivered === 'pending' ? 'yellow' : 'red'}-500 capitalize`}>
+                    <span>
+                      Order #{order._id} - {order.createdAt || "Invalid Date"}
+                    </span>
+                    <span
+                      className={`text-${
+                        order.delivered === "Delivered"
+                          ? "green"
+                          : order.delivered === "pending"
+                          ? "yellow"
+                          : "red"
+                      }-500 capitalize`}
+                    >
                       {order.delivered}
                     </span>
                   </div>
@@ -181,7 +210,9 @@ function UserDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           {/* Forum Activity */}
           <div className="bg-white shadow-md rounded-lg p-6 mt-6">
-            <h3 className="text-xl font-semibold mb-4">Latest Forum Discussions</h3>
+            <h3 className="text-xl font-semibold mb-4">
+              Latest Forum Discussions
+            </h3>
             <div className="space-y-3">
               {queries.length > 0 ? (
                 queries.map((query) => (
@@ -203,16 +234,27 @@ function UserDashboard() {
 
           {/* Crop Disease Detection Section */}
           <div className="bg-white shadow-md rounded-lg p-6">
-            <h3 className="text-xl font-semibold mb-4">Crop Disease Detection</h3>
+            <h3 className="text-xl font-semibold mb-4">
+              Crop Disease Detection
+            </h3>
             <p className="text-gray-600 mb-4">
               Upload an image of your crop, and our AI will detect any diseases.
             </p>
 
             {/* Image Upload & Preview */}
-            <input type="file" accept="image/*" onChange={handleImageChange} className="mb-4" />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="mb-4"
+            />
             {previewUrl && (
               <div className="mb-4">
-                <img src={previewUrl} alt="Preview" className="w-full h-40 object-cover rounded-md border" />
+                <img
+                  src={previewUrl}
+                  alt="Preview"
+                  className="w-full h-40 object-cover rounded-md border"
+                />
               </div>
             )}
 
@@ -229,9 +271,16 @@ function UserDashboard() {
             {/* Display Detection Result */}
             {detectionResult && (
               <div className="mt-4 p-4 bg-gray-100 rounded-md">
-                <h4 className="text-xl font-semibold text-gray-800">Prediction Result</h4>
-                <p className="text-gray-700"><strong>Disease:</strong> {detectionResult.prediction}</p>
-                <p className="text-gray-700"><strong>Confidence:</strong> {detectionResult.confidence * 100}%</p>
+                <h4 className="text-xl font-semibold text-gray-800">
+                  Prediction Result
+                </h4>
+                <p className="text-gray-700">
+                  <strong>Disease:</strong> {detectionResult.prediction}
+                </p>
+                <p className="text-gray-700">
+                  <strong>Confidence:</strong>{" "}
+                  {detectionResult.confidence * 100}%
+                </p>
                 <hr />
                 {detectionResult.recommendations && (
                   <div className="mt-2">

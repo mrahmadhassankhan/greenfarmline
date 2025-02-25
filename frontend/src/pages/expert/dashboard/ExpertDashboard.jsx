@@ -3,7 +3,7 @@ import ExpertNav from "../ExpertNav";
 import { FaRegCheckCircle, FaClock, FaClipboardList } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Axios_Node } from "../../../Axios";
 
 const ExpertDashboard = () => {
   const expertEmail = localStorage.getItem("email");
@@ -26,13 +26,11 @@ const ExpertDashboard = () => {
   const fetchCounts = async () => {
     try {
       // Fetch total approved queries
-      const approvedResponse = await axios.get(
-        "http://localhost:1783/api/query/getapprovedqueries"
-      );
+      const approvedResponse = await Axios_Node.get("/getapprovedqueries");
 
       // Fetch answered queries by expert
-      const answeredResponse = await axios.get(
-        `http://localhost:1783/api/answer/expert/${expertEmail}`
+      const answeredResponse = await Axios_Node.get(
+        `ss/answer/expert/${expertEmail}`
       );
 
       const approvedQueries = approvedResponse.data || [];
@@ -49,9 +47,7 @@ const ExpertDashboard = () => {
 
   const fetchRecentQueries = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:1783/api/query/getapprovedqueries"
-      );
+      const response = await Axios_Node.get("/getapprovedqueries");
       setRecentQueries(response.data.slice(0, 3)); // Show latest 3 queries
     } catch (error) {
       console.error("Error fetching recent queries:", error);
@@ -119,8 +115,11 @@ const ExpertDashboard = () => {
                     <td className="p-3">{query.name || "Unknown"}</td>
                     <td className="p-3">{query.title}</td>
                     <td
-                      className={`p-3 ${query.answers.length > 0 ? "text-green-500" : "text-yellow-500"
-                        }`}
+                      className={`p-3 ${
+                        query.answers.length > 0
+                          ? "text-green-500"
+                          : "text-yellow-500"
+                      }`}
                     >
                       {query.answers.length > 0 ? "Answered" : "Pending"}
                     </td>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import FarmerForm from "./FarmerForm";
 import SellerForm from "./SellerForm";
 import ExpertForm from "./ExpertForm";
-import axios from "axios";
+import { Axios_Node } from "../../../Axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -52,8 +52,8 @@ const RegisterUserForms = () => {
       };
 
       try {
-        const response = await axios.post(
-          "http://localhost:1783/api/v1/register",
+        const response = await Axios_Node.post(
+          "/register",
           farmerData, // Send data as JSON for farmers
           {
             headers: {
@@ -80,8 +80,8 @@ const RegisterUserForms = () => {
       formData.append("document", formValues.document);
 
       try {
-        const response = await axios.post(
-          "http://localhost:1783/api/v1/register",
+        const response = await Axios_Node.post(
+          "/register",
           formData, // Send data as FormData for seller
           {
             headers: {
@@ -109,8 +109,8 @@ const RegisterUserForms = () => {
       formData.append("document", formValues.document);
 
       try {
-        const response = await axios.post(
-          "http://localhost:1783/api/v1/register",
+        const response = await Axios_Node.post(
+          "/register",
           formData, // Send data as FormData for expert
           {
             headers: {

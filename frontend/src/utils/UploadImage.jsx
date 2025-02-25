@@ -1,21 +1,22 @@
-import Axios from "../Axios"; // or wherever your Axios instance is defined
+import { Axios_Node } from "../Axios";
 import { toast } from "react-toastify";
+import { Axios_Node } from "../Axios";
 
 export const uploadImage = async (file, changeLink) => {
   if (!file) return;
 
   let formData = new FormData();
-  formData.append("image_file", file); // Append the file to FormData
+  formData.append("image_file", file);
 
   try {
-    const response = await Axios.post("/image/upload", formData, {
+    const response = await Axios_Node.post("/image/upload", formData, {
       headers: {
-        "Content-Type": "multipart/form-data", // Required to send files
+        "Content-Type": "multipart/form-data",
       },
     });
 
     if (response.status === 200) {
-      changeLink(response.data.fileUrl); // Assuming the server returns the file URL
+      changeLink(response.data.fileUrl);
       toast.success("Image uploaded successfully");
     } else {
       toast.error("Failed to upload image");

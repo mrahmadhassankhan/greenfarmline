@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProductForm from "../../../components/seller/ProductForm";
-import Axios from "../../../Axios";
+import { Axios_Node } from "../../../Axios";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import TriangleLoader from "../../../components/seller/TriangleLoader";
@@ -25,11 +25,11 @@ const UpdateProducts = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await Axios.get(`/product/${slug}`);
+        const response = await Axios_Node.get(`/product/${slug}`);
         console.log(response.data.data);
-  
+
         setLink(response.data.data.document); // Correcting the typo
-  
+
         setData({
           name: response.data.data.name,
           sku: response.data.data.sku,
@@ -41,7 +41,7 @@ const UpdateProducts = () => {
           featured: response.data.data.isFeatured,
           document: response.data.data.document,
         });
-  
+
         setLoading(false);
       } catch (error) {
         toast.error(error?.response?.data?.message || "Something went wrong", {
@@ -51,7 +51,7 @@ const UpdateProducts = () => {
       }
     };
     fetchProduct();
-  }, []);  
+  }, []);
 
   // Handle input changes for product details
   const handleInputChange = (e) => {
@@ -118,7 +118,7 @@ const UpdateProducts = () => {
         return toast.error("Access denied.");
       }
       // const validFields = fields.filter((field) => field && field.quantity > 0);
-      console.log("data:",{ ...data, image: link });
+      console.log("data:", { ...data, image: link });
       if (
         !data.name ||
         !data.description ||

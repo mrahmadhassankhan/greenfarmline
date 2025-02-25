@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { Axios_Node } from "../../../Axios";
 import { toast } from "react-toastify";
 
 const AnswerCard = ({
@@ -24,14 +24,11 @@ const AnswerCard = ({
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:1783/api/answer/addVote",
-        {
-          queryId,
-          answerId,
-          email,
-        }
-      );
+      const response = await Axios_Node.post("/answer/addVote", {
+        queryId,
+        answerId,
+        email,
+      });
       if (response.status === 200) {
         setVotes((prevVotes) => prevVotes + 1);
         toast.success("Upvoted successfully!");
@@ -54,14 +51,11 @@ const AnswerCard = ({
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:1783/api/answer/downVote",
-        {
-          queryId,
-          answerId,
-          email,
-        }
-      );
+      const response = await Axios_Node.post("/answer/downVote", {
+        queryId,
+        answerId,
+        email,
+      });
       if (response.status === 200) {
         setVotes((prevVotes) => prevVotes - 1);
         toast.success("Downvoted successfully!");

@@ -1,4 +1,4 @@
-import axios from "axios";
+import { Axios_Node } from "../../../Axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -32,8 +32,8 @@ const LoginPage = () => {
 
     try {
       // Sending login credentials as JSON
-      const response = await axios.post(
-        "http://localhost:1783/api/v1/login",
+      const response = await Axios_Node.post(
+        "/login",
         { email, password, role },
         {
           headers: {

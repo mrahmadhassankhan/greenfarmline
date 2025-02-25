@@ -1,7 +1,7 @@
 import "../../../styles/cartlayout.css";
 import CartItems from "../../../components/seller/CartItems";
 import { useCallback, useEffect, useState } from "react";
-import Axios from "../../../Axios";
+import { Axios_Node } from "../../../Axios";
 import TriangleLoader from "../../../components/seller/TriangleLoader";
 import { toast } from "react-toastify";
 import EmptyImage from "../../../images/empty-cart.png";
@@ -19,7 +19,7 @@ const CartLayout = () => {
   }, []);
   const deleteItem = async (id, qty) => {
     try {
-      const response = await Axios.delete(`/cart/delete/${id}`, {
+      const response = await Axios_Node.delete(`/cart/delete/${id}`, {
         params: {
           email: localStorage.getItem("email"),
           qty,
@@ -36,7 +36,7 @@ const CartLayout = () => {
 
   const fetchData = async () => {
     try {
-      const response = await Axios.get("/cart", {
+      const response = await Axios_Node.get("/cart", {
         params: {
           email: localStorage.getItem("email"),
         },
@@ -49,7 +49,7 @@ const CartLayout = () => {
   };
   const handleCheckout = async () => {
     try {
-      const response = await Axios.post(
+      const response = await Axios_Node.post(
         "/payment/create-checkout-session",
         { coupon: appliedCoupon ? couponCode.toUpperCase() : "" },
         { params: { email: localStorage.getItem("email") } }

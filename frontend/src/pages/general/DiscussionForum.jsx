@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Axios_Node } from "../../Axios";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import QueryCard from "../../components/general/discussionForum/QueryCard";
@@ -16,8 +16,7 @@ function DiscussionForum() {
 
   // Fetch approved queries from backend
   useEffect(() => {
-    axios
-      .get("http://localhost:1783/api/query/getapprovedqueries")
+    Axios_Node.get("/getapprovedqueries")
       .then((response) => {
         setQueries(response.data); // Set the fetched queries to state
         setLoading(false); // Stop the loading spinner
@@ -39,7 +38,7 @@ function DiscussionForum() {
       alert("You are not allowed to access this page.");
     } else {
       // If user is a logged-in farmer, redirect to the query details page
-        navigate("/query-detailed-view", { state: { query } })
+      navigate("/query-detailed-view", { state: { query } });
     }
   };
 
@@ -56,7 +55,7 @@ function DiscussionForum() {
             <p className="text-gray-500">Loading queries...</p>
           ) : error ? (
             <p className="text-red-500">{error}</p>
-          ) : queries.length > 0 ? (
+          ) : Array.isArray(queries).length > 0 ? (
             queries.map((query) => (
               <QueryCard
                 key={query.id}
@@ -64,7 +63,7 @@ function DiscussionForum() {
                 description={query.description}
                 author={query.name}
                 date={new Date(query.datePosted).toLocaleDateString()}
-                image={`http://localhost:1783/Images/${query.image}`}
+                image={`https://greenfarmline.shop/Images/${query.image}`}
                 status={query.status}
                 onClick={() => handleQueryClick(query)}
               />

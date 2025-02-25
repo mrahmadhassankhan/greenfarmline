@@ -15,6 +15,6 @@ export const updateUserProfile = async (userData, token) => {
       "Content-Type": "application/json",
     },
   };
-  const response = await Axios.put("/profile/update", userData, config);
+  const response = await Axios.put("/users/profile/update", userData, config);
   return response.data;
 };

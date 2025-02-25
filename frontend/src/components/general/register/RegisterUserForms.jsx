@@ -53,7 +53,7 @@ const RegisterUserForms = () => {
 
       try {
         const response = await Axios_Node.post(
-          "/register",
+          "/users/register",
           farmerData, // Send data as JSON for farmers
           {
             headers: {
@@ -81,7 +81,7 @@ const RegisterUserForms = () => {
 
       try {
         const response = await Axios_Node.post(
-          "/register",
+          "/users/register",
           formData, // Send data as FormData for seller
           {
             headers: {

@@ -120,7 +120,7 @@ function Navbar() {
                 </li>
                 {localStorage.getItem("role") === "farmer" && (
                   <li>
-                    <Link to="/orders">Orders</Link>
+                    <Link to="/users/orders">Orders</Link>
                   </li>
                 )}
                 <li>

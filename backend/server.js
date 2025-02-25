@@ -54,7 +54,7 @@ app.use("/api/v1/", queryRouter);
 app.use("/api/v1/answer", answerrouter);
 
 app.use("/api/v1/payment", paymentRoute);
-app.use("/api/v1/", userRoute);
+app.use("/api/v1/users", userRoute);
 app.use("/api/v1/product", productRoute);
 app.use("/api/v1/cart", cartRoute);
 app.use("/api/v1/admin", adminRoute);
@@ -75,6 +75,6 @@ app.get("/", (req, res) => {
 
 app.use(errorHandlerMiddleware);
 // Start the server
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on port ${PORT}`);
 });

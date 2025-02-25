@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Axios from "../../../Axios";
+import { Axios_Node } from "../../../Axios";
 import { toast } from "react-toastify";
 import ProductForm from "../../../components/seller/ProductForm";
 import "../../../styles/cartlayout.css";
@@ -110,7 +110,7 @@ const AddProducts = () => {
       formData.append("quantity", data.quantity);
       // Ensure document is not null
 
-      const response = await Axios.post("/product/create", formData, {
+      const response = await Axios_Node.post("/product/create", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -131,10 +131,7 @@ const AddProducts = () => {
 
   return (
     <div className="orderMainContainer">
-      <h1
-        className="cHeader"
-        style={{ textAlign: "left", margin: "2rem" }}
-      >
+      <h1 className="cHeader" style={{ textAlign: "left", margin: "2rem" }}>
         Add New Product
       </h1>
       <div className="dashOverview">

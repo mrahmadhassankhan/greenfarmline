@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import loginImage from "../../../images/adminLoginImage-bg_rem.png";
 import "../../../styles/auth.css";
 import { useState } from "react";
-import Axios from "../../../Axios";
+import { Axios_Node } from "../../../Axios";
 import { toast } from "react-toastify";
 
 const AdminLogin = () => {
@@ -15,7 +15,7 @@ const AdminLogin = () => {
         toast.error("Please provide email and password");
         return;
       }
-      const response = await Axios.post(
+      const response = await Axios_Node.post(
         "/admin/adminLogin",
         { email: user.email, password: user.password, role: user.role },
         {

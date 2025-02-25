@@ -1,4 +1,4 @@
-import Axios_Node from "../src/Axios";
+import { Axios_Node } from "../src/Axios";
 
 // Get user profile
 export const getUserProfile = async (token) => {

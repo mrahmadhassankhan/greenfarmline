@@ -29,7 +29,7 @@ const PORT = process.env.PORT || 1783;
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://greenfarmline.shop"],
+    origin: ["http://localhost:5173", "https://greenfarmline.shop"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],

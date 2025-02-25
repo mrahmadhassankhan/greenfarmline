@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import Axios from "../../../Axios";
+import { Axios_Node } from "../../../Axios";
 import CustomerTable from "../../../components/seller/CustomerTable";
 import TriangleLoader from "../../../components/seller/TriangleLoader";
 const CustomerList = () => {
@@ -13,7 +13,7 @@ const CustomerList = () => {
         if (!token) {
           return toast.error("Access denied. Please login first.");
         }
-        const response = await Axios.get("/admin/users", {
+        const response = await Axios_Node.get("/admin/users", {
           params: {
             email: localStorage.getItem("email"),
           },

@@ -22,7 +22,7 @@ const adminLogin = asyncErrorHandler(async (req, res, next) => {
     return next(new errorHandler("Please provide email and password", 400));
   }
 
-  if (role !== "admin"){
+  if (role !== "admin") {
     return next(new errorHandler("Access Denied", 401));
   }
 
@@ -72,9 +72,6 @@ const getAllUsers = asyncErrorHandler(async (req, res) => {
   const totalUsers = users.length;
   const totalSellers = sellers.length;
 
-  console.log("Total Users:", totalUsers); // Debugging
-  console.log("Total Sellers:", totalSellers); // Debugging
-
   // Format users with indexed and formatted date
   const usersWithFormattedDate = users.map((user, index) => ({
     ...user._doc,
@@ -83,7 +80,9 @@ const getAllUsers = asyncErrorHandler(async (req, res) => {
       month: "long",
       year: "numeric",
     }),
-    index: `#${(index + 1).toString().padStart(totalUsers.toString().length, "0")}`,
+    index: `#${(index + 1)
+      .toString()
+      .padStart(totalUsers.toString().length, "0")}`,
   }));
 
   res.status(200).json({
@@ -414,7 +413,7 @@ const getAdminDetails = asyncErrorHandler(async (req, res) => {
       data2.push(0);
     }
   });
-  const totalUsers = await user.countDocuments({role: "farmer"});
+  const totalUsers = await user.countDocuments({ role: "farmer" });
   const totalOrders = await order.countDocuments();
   const totalProducts = await product.countDocuments();
   const totalSales = await order.aggregate([

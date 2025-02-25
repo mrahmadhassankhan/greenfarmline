@@ -15,7 +15,7 @@ const TeamSection = () => {
         </h2>
         <div className="flex justify-around">
           {teamMembers.map((member, idx) => (
-            <div key={idx} className="w-1/3 px-4">
+            <div key={idx} className="w-1/2 md:w-1/3 px-4">
               <img
                 src={member.image}
                 alt={member.name}

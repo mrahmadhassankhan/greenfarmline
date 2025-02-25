@@ -25,14 +25,14 @@ function UserNav() {
                   class="block size-6"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
                   data-slot="icon"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                   />
                 </svg>
@@ -40,14 +40,14 @@ function UserNav() {
                   class="hidden size-6"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
                   data-slot="icon"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M6 18 18 6M6 6l12 12"
                   />
                 </svg>
@@ -98,14 +98,14 @@ function UserNav() {
                   class="size-6"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
                   data-slot="icon"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
                   />
                 </svg>
@@ -126,14 +126,33 @@ function UserNav() {
                   </button>
                 </div>
                 {isDropdownOpen && (
-                  <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none" role="menu" aria-orientation="vertical">
-                    <a onClick={() => navigate("/profile")} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" role="menuitem">
+                  <div
+                    className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none"
+                    role="menu"
+                    aria-orientation="vertical"
+                  >
+                    <a
+                      onClick={() => navigate("/profile")}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                      role="menuitem"
+                    >
                       Your Profile
                     </a>
-                    <a onClick={() => navigate("/settings")} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" role="menuitem">
+                    <a
+                      onClick={() => navigate("/settings")}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                      role="menuitem"
+                    >
                       Settings
                     </a>
-                    <a onClick={() => { localStorage.removeItem("token"); navigate("/"); }} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" role="menuitem">
+                    <a
+                      onClick={() => {
+                        localStorage.removeItem("token");
+                        navigate("/");
+                      }}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                      role="menuitem"
+                    >
                       Sign out
                     </a>
                   </div>

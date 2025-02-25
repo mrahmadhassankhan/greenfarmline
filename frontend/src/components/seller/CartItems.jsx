@@ -3,8 +3,8 @@ import { HiMinusCircle, HiPlusCircle } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { memo, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import Axios from "../../Axios";
-import '../../styles/cartlayout.css';
+import { Axios_Node } from "../../Axios";
+import "../../styles/cartlayout.css";
 
 const CartItems = ({
   cartId,
@@ -23,14 +23,16 @@ const CartItems = ({
     const fetchDetails = async () => {
       if (data?.slug) {
         try {
-          const response = await Axios.get(`/product/${data.slug}`);
+          const response = await Axios_Node.get(`/product/${data.slug}`);
           const fetchedDetails = response.data.data; // Access the actual product details
-  
+
           console.log("Fetched Product Details:", fetchedDetails); // Log the correct product details
-  
+
           // Update state with the correct product details
           setProductDetails((prevDetails) => {
-            if (JSON.stringify(prevDetails) !== JSON.stringify(fetchedDetails)) {
+            if (
+              JSON.stringify(prevDetails) !== JSON.stringify(fetchedDetails)
+            ) {
               console.log("Updating productDetails state");
               return fetchedDetails;
             }
@@ -43,7 +45,7 @@ const CartItems = ({
       }
     };
     fetchDetails();
-  }, [data?.slug]);    
+  }, [data?.slug]);
 
   // Debounce mechanism for quantity updates
   useEffect(() => {
@@ -60,7 +62,7 @@ const CartItems = ({
   // Update quantity in the backend
   const changequantity = async () => {
     try {
-      const response = await Axios.put(`/cart/update/${cartId}`, {
+      const response = await Axios_Node.put(`/cart/update/${cartId}`, {
         quantity: debouncequantity,
         email: localStorage.getItem("email"),
       });
@@ -87,7 +89,9 @@ const CartItems = ({
               style={{ textDecoration: "none" }}
             >
               <img
-                src={`http:\\\\localhost:1783\\Images\\${productDetails?.document.split('\\').pop()}`} // Use the document from productDetails
+                src={`http:\\\\localhost:1783\\Images\\${productDetails?.document
+                  .split("\\")
+                  .pop()}`} // Use the document from productDetails
                 alt="cart-img"
               />
             </Link>

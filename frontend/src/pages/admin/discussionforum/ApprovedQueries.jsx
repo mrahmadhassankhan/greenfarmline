@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { Axios_Node } from "../../../Axios";
 import AdminNav from "../AdminNav";
 import SideNav from "../../../components/admin/discussionforum/SideNav";
 import QueryCard from "../../../components/general/discussionForum/QueryCard";
@@ -9,17 +9,28 @@ function ApprovedQueries() {
   const [search, setSearch] = useState(""); // State for search input
   const [error, setError] = useState(null); // State for handling errors
 
-  // Fetch approved queries from backend
   useEffect(() => {
-    axios
-      .get("http://localhost:1783/api/query/getapprovedqueries") // Replace with your API endpoint
-      .then((response) => {
-        setQueries(response.data); // Set the fetched queries to state
-      })
-      .catch((error) => {
-        console.error("Error fetching approved queries:", error);
+    const fetchApprovedQueries = async () => {
+      try {
+        const response = await Axios_Node.get("/getapprovedqueries");
+
+        if (response.status === 200) {
+          if (response.data.data.length === 0) {
+            setError(response.data.message);
+          } else {
+            setQueries(response.data.data);
+          }
+        }
+      } catch (error) {
+        console.error(
+          "Error fetching approved queries:",
+          error.response?.data || error.message
+        );
         setError("Failed to load approved queries. Please try again.");
-      });
+      }
+    };
+
+    fetchApprovedQueries();
   }, []);
 
   // Search filter
@@ -64,7 +75,7 @@ function ApprovedQueries() {
                   description={query.description}
                   author={query.name}
                   date={new Date(query.datePosted).toLocaleDateString()}
-                  image={`http://localhost:1783/Images/${query.image}`}
+                  image={`https://greenfarmline.shop/Images/${query.image}`}
                   status={query.status}
                   onClick={() => console.log("Query Clicked..")}
                 />

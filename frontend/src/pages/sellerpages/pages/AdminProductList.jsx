@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import TriangleLoader from "../../../components/seller/TriangleLoader";
 import EmptyImage from "../../../images/empty-cart.png";
-import Axios from "../../../Axios";
+import { Axios_Node } from "../../../Axios";
 import { toast } from "react-toastify";
 import Pagination from "./Pagination";
 import { FiSearch } from "react-icons/fi";
@@ -29,7 +29,7 @@ const AdminProductList = () => {
       if (!token) {
         return toast.error("Access denied.");
       }
-      const response = await Axios.get("/admin/products", {
+      const response = await Axios_Node.get("/admin/products", {
         params: {
           limit,
           page,
@@ -39,7 +39,7 @@ const AdminProductList = () => {
       });
       console.log("Admin Products", response.data);
       setData(response.data.products);
-      console.log("prducts data:",response.data.products);
+      console.log("prducts data:", response.data.products);
       setTotalPages(Math.ceil(response.data.count / limit));
       setLoading(false);
     } catch (error) {
@@ -132,7 +132,9 @@ const AdminProductList = () => {
                     <div className="cart-product-cont">
                       <div className="cart-image-cont">
                         <img
-                          src={`http://localhost:1783/Images/${item.document?.split("\\").pop()}`}
+                          src={`https://greenfarmline.shop/Images/${item.document
+                            ?.split("\\")
+                            .pop()}`}
                           alt="product"
                           className="cart-image"
                         />

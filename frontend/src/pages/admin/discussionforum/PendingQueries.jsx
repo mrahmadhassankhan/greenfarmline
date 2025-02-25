@@ -3,26 +3,38 @@ import { useNavigate } from "react-router-dom";
 import AdminNav from "../AdminNav";
 import SideNav from "../../../components/admin/discussionforum/SideNav";
 import PendingQueryCard from "../../../components/admin/discussionforum/PendingQueryCard";
-import axios from "axios";
+import { Axios_Node } from "../../../Axios";
 import { toast } from "react-toastify";
 
 function PendingQueries() {
   const [queries, setQueries] = useState([]); // State to hold queries
   const [search, setSearch] = useState(""); // Search state
+  const [error, setError] = useState(null); // Error state
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch only pending queries from the backend when the component is mounted
     const fetchQueries = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:1783/api/query/getpendingqueries" // Ensure this hits the updated API
-        );
-        setQueries(response.data); // Assuming the response contains only pending queries
+        const response = await Axios_Node.get("/getpendingqueries");
+
+        if (response.status === 200) {
+          if (response.data.data.length === 0) {
+            setError("No pending queries found.");
+          } else {
+            setQueries(response.data.data);
+          }
+        }
       } catch (error) {
         console.error("Error fetching queries:", error);
+
+        if (error.response) {
+          setError(error.response.data.message || "Server error occurred.");
+        } else {
+          setError("Network error. Please check your connection.");
+        }
       }
     };
+
     fetchQueries();
   }, []);
 
@@ -35,14 +47,11 @@ function PendingQueries() {
 
   const handleApproveAll = async () => {
     try {
-      await axios.put(
-        "http://localhost:1783/api/query/approverejectallqueries",
-        { status: "Approved" }
-      );
-      const response = await axios.get(
-        "http://localhost:1783/api/query/getpendingqueries"
-      );
-      setQueries(response.data);
+      await Axios_Node.put("/approverejectallqueries", {
+        status: "Approved",
+      });
+      const response = await Axios_Node.get("/getpendingqueries");
+      setQueries(response.data.data);
       toast.success("All Queries Approved");
     } catch (error) {
       console.error("Error approving queries:", error);
@@ -50,19 +59,19 @@ function PendingQueries() {
   };
 
   const handleRejectAll = async () => {
+    if (queries.length === 0) {
+      toast.error("No pending queries to reject");
+      return;
+    }
+
     try {
-      await axios.put(
-        "http://localhost:1783/api/query/approverejectallqueries",
-        { status: "Rejected" }
-      );
-      // After successfully updating, refetch the queries to exclude the rejected ones
-      const response = await axios.get(
-        "http://localhost:1783/api/query/getpendingqueries"
-      );
-      setQueries(response.data);
+      await Axios_Node.put("/approverejectallqueries", { status: "Rejected" });
+      const response = await Axios_Node.get("/getpendingqueries");
+      setQueries(response.data.data);
       toast.success("All Queries Rejected");
     } catch (error) {
       console.error("Error rejecting queries:", error);
+      toast.error("Failed to reject queries");
     }
   };
 
@@ -70,14 +79,11 @@ function PendingQueries() {
     <>
       <AdminNav />
       <div className="flex">
-        {/* Side Panel */}
         <SideNav />
-        {/* Main Content */}
         <main className="w-3/4 max-w-7xl mx-auto p-6">
           <div className="flex flex-row justify-between items-center">
             <h1 className="text-3xl font-bold">Discussion Forum</h1>
             <div className="join">
-              {/* Search Input */}
               <input
                 type="text"
                 className="input input-bordered join-item"
@@ -105,48 +111,44 @@ function PendingQueries() {
                 </button>
               </div>
             </div>
-            {searchedQueries.length > 0 ? (
+            {error ? (
+              <p className="text-red-500">{error}</p>
+            ) : searchedQueries.length > 0 ? (
               searchedQueries.map((query) => (
                 <PendingQueryCard
-                  key={query._id} // Use MongoDB _id
+                  key={query._id}
                   title={query.title}
                   description={query.description}
                   author={query.name}
-                  date={new Date(query.datePosted).toLocaleDateString()} // Format date
-                  image={`http://localhost:1783/Images/${query.image}`}
+                  date={new Date(query.datePosted).toLocaleDateString()}
+                  image={`https://greenfarmline.shop/Images/${query.image}`}
                   status={query.status}
-                  onClick={console.log(`Navigating to query ID: ${query._id}`)}
-                  // onClick={() =>
-                  //   navigate("/admin-query-detailed-view", {
-                  //     state: { queryId: query._id },
-                  //   })
-                  // } // Pass query ID to detailed view
                   onApprove={async () => {
-                    await axios.put(
-                      `http://localhost:1783/api/query/approverejectquery/${query._id}`,
+                    await Axios_Node.put(
+                      `/query/approverejectquery/${query._id}`,
                       {
                         status: "Approved",
                       }
                     );
-                    // Update the query status after approval
-                    const updatedQueries = queries.map((q) =>
-                      q._id === query._id ? { ...q, status: "Approved" } : q
+                    setQueries(
+                      queries.map((q) =>
+                        q._id === query._id ? { ...q, status: "Approved" } : q
+                      )
                     );
-                    setQueries(updatedQueries);
                     toast.success("Query approved successfully!");
                   }}
                   onReject={async () => {
-                    await axios.put(
-                      `http://localhost:1783/api/query/approverejectquery/${query._id}`,
+                    await Axios_Node.put(
+                      `/query/approverejectquery/${query._id}`,
                       {
                         status: "Rejected",
                       }
                     );
-                    // Update the query status after rejection
-                    const updatedQueries = queries.map((q) =>
-                      q._id === query._id ? { ...q, status: "Rejected" } : q
+                    setQueries(
+                      queries.map((q) =>
+                        q._id === query._id ? { ...q, status: "Rejected" } : q
+                      )
                     );
-                    setQueries(updatedQueries);
                     toast.success("Query rejected successfully!");
                   }}
                 />

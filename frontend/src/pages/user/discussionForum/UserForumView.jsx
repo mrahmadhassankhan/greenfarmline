@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Axios_Node } from "../../../Axios";
 import QueryCard from "../../../components/general/discussionForum/QueryCard";
 import UserNav from "../UserNav";
 import SideBar from "../../../components/user/discussionforum/SideBar";
@@ -13,10 +13,9 @@ function UserForumView() {
 
   // Fetch approved queries from backend
   useEffect(() => {
-    axios
-      .get("http://localhost:1783/api/query/getapprovedqueries") // Replace with your API endpoint
+    Axios_Node.get("/getapprovedqueries")
       .then((response) => {
-        setQueries(response.data); // Set fetched queries to state
+        setQueries(response.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -73,7 +72,7 @@ function UserForumView() {
                     description={query.description}
                     author={query.name}
                     date={new Date(query.datePosted).toLocaleDateString()}
-                    image={`http://localhost:1783/Images/${query.image}`}
+                    image={`https://greenfarmline.shop/Images/${query.image}`}
                     status={query.status}
                     onClick={() =>
                       navigate("/query-detailed-view", { state: { query } })

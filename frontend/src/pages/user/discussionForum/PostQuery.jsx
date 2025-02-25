@@ -3,7 +3,7 @@ import UserNav from "../UserNav";
 import { useNavigate } from "react-router-dom";
 import SideBar from "../../../components/user/discussionforum/SideBar";
 import { toast } from "react-toastify";
-import axios from "axios";
+import { Axios_Node } from "../../../Axios";
 
 const PostQuery = () => {
   const [queryData, setQueryData] = useState({
@@ -53,15 +53,11 @@ const PostQuery = () => {
     });
     try {
       // Send the POST request
-      const response = await axios.post(
-        "http://localhost:1783/api/query/postquery",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data", // Important for file uploads
-          },
-        }
-      );
+      const response = await Axios_Node.post("/query/postquery", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // Important for file uploads
+        },
+      });
 
       // Handle the response after successfully submitting the query
       console.log("Query submitted successfully:", response.data);

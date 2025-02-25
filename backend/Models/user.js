@@ -1,64 +1,65 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: ["Please provide a name"],
-    minlength: 3,
-    maxlength: 50,
-  },
-  email: {
-    type: String,
-    required: ["Please provide an email"],
-    unique: true,
-    validate: {
-      validator: function (v) {
-        const emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,})$/;
-        return emailRegex.test(v);
-      },
-      message: (props) => `${props.value} is not a valid email!`,
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: ["Please provide a name"],
+      minlength: 3,
+      maxlength: 50,
     },
-  },
-  password: {
-    type: String,
-    required: ["Please provide a password"],
-    minlength: 6,
-  },
-  role: {
-    type: String,
-    enum: ["farmer", "seller", "expert", "admin"],
-    required: ["Please specify the role"],
-  },
-  phoneNumber: { type: String },
-  address: { type: String },
-  cart: {
-    items: [
-      {
-        productId: {
-          type: mongoose.Types.ObjectId,
-          ref: "Product",
+    email: {
+      type: String,
+      required: ["Please provide an email"],
+      unique: true,
+      validate: {
+        validator: function (v) {
+          const emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,})$/;
+          return emailRegex.test(v);
         },
-        quantity: {
-          type: Number,
-        },
+        message: (props) => `${props.value} is not a valid email!`,
       },
-    ],
-    totalPrice: {
-      type: Number,
-      default: 0,
     },
+    password: {
+      type: String,
+      required: ["Please provide a password"],
+      minlength: 6,
+    },
+    role: {
+      type: String,
+      enum: ["farmer", "seller", "expert", "admin"],
+      required: ["Please specify the role"],
+    },
+    phoneNumber: { type: String },
+    address: { type: String },
+    cart: {
+      items: [
+        {
+          productId: {
+            type: mongoose.Types.ObjectId,
+            ref: "Product",
+          },
+          quantity: {
+            type: Number,
+          },
+        },
+      ],
+      totalPrice: {
+        type: Number,
+        default: 0,
+      },
+    },
+
+    businessName: { type: String },
+    registrationNo: { type: String },
+    document: { type: String },
+
+    qualification: { type: String },
+    yearsOfExperience: { type: Number },
+    expertise: { type: String },
   },
-  // Fields specific to seller
-  businessName: { type: String },
-  registrationNo: { type: String },
-  document: { type: String }, // For seller document (should be handled as file path)
-  // Fields specific to experts
-  qualification: { type: String },
-  yearsOfExperience: { type: Number },
-  expertise: { type: String },
-},
-  { timestamps: true } // ✅ Enables createdAt & updatedAt
+  { timestamps: true } //
 );
 
 // Add role-based validation

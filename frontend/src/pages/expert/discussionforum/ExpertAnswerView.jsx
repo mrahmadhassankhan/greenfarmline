@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"; // Import axios
+import { Axios_Node } from "../../../Axios";
 import ExpertNav from "../ExpertNav";
 import AnswerCard from "../../../components/general/discussionForum/AnswerCard";
 import { useLocation } from "react-router-dom";
@@ -18,8 +18,7 @@ function ExpertAnswerView() {
   // Fetch answers on component mount
   useEffect(() => {
     if (query) {
-      axios
-        .get(`http://localhost:1783/api/answer/answers/${query._id}`)
+      Axios_Node.get(`/answer/answers/${query._id}`)
         .then((response) => {
           setAnswers(response.data.answers);
           console.log(response.data);
@@ -48,15 +47,12 @@ function ExpertAnswerView() {
       role: userData.role,
     };
 
-    axios
-      .post("http://localhost:1783/api/answer/postanswer", newAnswerObj)
+    Axios.post("/answer/postanswer", newAnswerObj)
       .then((response) => {
         setNewAnswer(""); // Clear the textarea
         setIsSubmitting(false);
         toast.success("Answer Submitted Successfully");
-        // Fetch the updated answers
-        axios
-          .get(`http://localhost:1783/api/answer/answers/${query._id}`)
+        Axios_Node.get(`/answer/answers/${query._id}`)
           .then((res) => {
             setAnswers(res.data.answers);
           })
@@ -91,7 +87,7 @@ function ExpertAnswerView() {
             description={query.description}
             author={query.name}
             date={new Date(query.datePosted).toLocaleDateString()}
-            image={`http://localhost:1783/Images/${query.image}`}
+            image={`https://greenfarmline.shop/Images/${query.image}`}
             status={query.status}
             onClick={() => console.log(`Navigating to query ID: ${query.id}`)}
           />
@@ -112,8 +108,7 @@ function ExpertAnswerView() {
               initialVotes={answer.noOfVotes} // Pass initial votes
               email={answer.email}
               onVoteChange={() => {
-                axios
-                  .get(`http://localhost:1783/api/answer/answers/${query._id}`)
+                Axios_Node.get(`/answer/answers/${query._id}`)
                   .then((response) => setAnswers(response.data.answers))
                   .catch((err) => console.error(err));
               }}

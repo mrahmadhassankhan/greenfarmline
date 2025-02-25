@@ -8,7 +8,7 @@ from PIL import Image
 import json
 
 app = Flask(__name__)
-CORS(app,resources={r"/*": {"origins": "https://greenfarmline.shop"}})  # Enable CORS for all routes
+CORS(app,resources={r"/*": {"origins": ["https://greenfarmline.shop","http://localhost:5173"]}}) 
 
 # Load the trained model
 MODEL_PATH = 'model/crop_disease_model.h5'

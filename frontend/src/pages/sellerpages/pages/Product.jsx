@@ -5,7 +5,7 @@ import Card from "../../../components/seller/Card";
 import { useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import useDebounce from "../../../../hooks/useDebounce";
-import Axios from "../../../Axios";
+import { Axios_Node } from "../../../Axios";
 import Pagination from "./Pagination";
 import FilterModal from "../../../components/seller/FilterModal";
 import TriangleLoader from "../../../components/seller/TriangleLoader";
@@ -29,7 +29,7 @@ const Product = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await Axios.get("/product/filter", {
+        const response = await Axios_Node.get("/product/filter", {
           params: {
             ...filters,
             search: debouncedValue,
@@ -94,7 +94,7 @@ const Product = () => {
       </div>
       {loading ? (
         <TriangleLoader height="300px" />
-      ) : products.length > 0 ? (
+      ) : Array.isArray(products) && products.length > 0 ? (
         <>
           <section className="Featured-products featured-div">
             <div className="product-container">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Axios from "../../Axios"
+import { Axios_Node } from "../../Axios";
 
 const ProductForm = ({
   data,
@@ -22,17 +22,19 @@ const ProductForm = ({
   useEffect(() => {
     const fetchBrands = async () => {
       try {
-        const response = await Axios.get('/brands');
+        const response = await Axios_Node.get("/brands");
         // console.log(response.data.brands);
         setBrands(response.data.brands);
       } catch (error) {
-        toast.error(error?.response?.data?.message || "Error Fetching Brands", {position: "bottom-right",});
+        toast.error(error?.response?.data?.message || "Error Fetching Brands", {
+          position: "bottom-right",
+        });
       }
     };
 
     const fetchCategories = async () => {
       try {
-        const response = await Axios.get("/category");
+        const response = await Axios_Node.get("/category");
         // console.log(response.data.categories);
         setCategories(response.data.categories); // Ensure correct property
       } catch (error) {
@@ -69,7 +71,9 @@ const ProductForm = ({
             />
           </div>
           <div className="input-group">
-            <label className="block text-sm font-semibold text-gray-700">SKU</label>
+            <label className="block text-sm font-semibold text-gray-700">
+              SKU
+            </label>
             <input
               type="text"
               name="sku"
@@ -96,7 +100,9 @@ const ProductForm = ({
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div className="input-group">
-            <label className="block text-sm font-semibold text-gray-700">Price</label>
+            <label className="block text-sm font-semibold text-gray-700">
+              Price
+            </label>
             <input
               type="number"
               name="price"
@@ -108,7 +114,9 @@ const ProductForm = ({
           </div>
 
           <div className="input-group">
-            <label className="block text-sm font-semibold text-gray-700">Quantity</label>
+            <label className="block text-sm font-semibold text-gray-700">
+              Quantity
+            </label>
             <input
               type="number"
               name="quantity"
@@ -121,7 +129,9 @@ const ProductForm = ({
         </div>
 
         <div className="input-group">
-          <label className="block text-sm font-semibold text-gray-700">Brand</label>
+          <label className="block text-sm font-semibold text-gray-700">
+            Brand
+          </label>
           <select
             name="brand"
             value={data.brand}
@@ -139,7 +149,9 @@ const ProductForm = ({
         </div>
 
         <div className="input-group">
-          <label className="block text-sm font-semibold text-gray-700">Category</label>
+          <label className="block text-sm font-semibold text-gray-700">
+            Category
+          </label>
           <select
             name="category"
             value={data.category}
@@ -164,7 +176,9 @@ const ProductForm = ({
             onChange={handleInputCheckboxChange}
             className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
           />
-          <label className="text-sm font-semibold text-gray-700">Featured</label>
+          <label className="text-sm font-semibold text-gray-700">
+            Featured
+          </label>
         </div>
 
         <div className="input-group">

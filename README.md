@@ -5,7 +5,8 @@ The project focuses on leveraging technology to address challenges faced by farm
 Frontend
 
 .env(Frontend)
-VITE_BACKEND_URL ="http://localhost:1783/api/v1/"
+VITE_NODE_URL="http://localhost:1783/api/v1/"
+VITE_FLASK_URL="http://192.168.1.112:5000"
 
 .env(Backend)
 

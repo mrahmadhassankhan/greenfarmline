@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { Axios_Node } from "../../../Axios";
 import AdminNav from "../AdminNav";
 import SideNav from "../../../components/admin/discussionforum/SideNav";
 import QueryCard from "../../../components/general/discussionForum/QueryCard";
@@ -10,18 +10,21 @@ function RejectedQueries() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch rejected queries using Axios
   useEffect(() => {
     const fetchRejectedQueries = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          "http://localhost:1783/api/query/getrejectedqueries"
-        );
-        setQueries(response.data); // Assuming the response contains an array of queries
-        setLoading(false);
+        const response = await Axios_Node.get("/getrejectedqueries");
+
+        if (response.data && response.data.data) {
+          setQueries(response.data.data);
+        } else {
+          setQueries([]);
+          setError("No rejected queries found.");
+        }
       } catch (err) {
         setError("Failed to fetch rejected queries. Please try again later.");
+      } finally {
         setLoading(false);
       }
     };
@@ -30,10 +33,10 @@ function RejectedQueries() {
   }, []);
 
   // Filter queries based on search input
-  const searchedQueries = queries.filter(
-    (query) =>
-      query.title.toLowerCase().includes(search.toLowerCase()) ||
-      query.description.toLowerCase().includes(search.toLowerCase())
+  const searchedQueries = queries.filter((query) =>
+    `${query.title} ${query.description}`
+      .toLowerCase()
+      .includes(search.toLowerCase())
   );
 
   return (
@@ -51,7 +54,7 @@ function RejectedQueries() {
               <input
                 type="text"
                 className="input input-bordered join-item"
-                placeholder="Search"
+                placeholder="Search queries..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -66,20 +69,26 @@ function RejectedQueries() {
             ) : searchedQueries.length > 0 ? (
               searchedQueries.map((query) => (
                 <QueryCard
-                  key={query.id}
+                  key={query.id || query._id} // Ensuring a unique key
                   title={query.title}
                   description={query.description}
                   author={query.name}
-                  date={new Date(query.datePosted).toLocaleDateString()}
-                  image={`http://localhost:1783/Images/${query.image}`}
+                  date={
+                    query.datePosted
+                      ? new Date(query.datePosted).toLocaleDateString()
+                      : "Unknown Date"
+                  }
+                  image={
+                    query.image
+                      ? `https://greenfarmline.shop/Images/${query.image}`
+                      : ""
+                  }
                   status={query.status}
                   onClick={() => console.log("Query Clicked..")}
                 />
               ))
             ) : (
-              <p className="text-gray-500">
-                No queries match your search or filter.
-              </p>
+              <p className="text-gray-500">No queries match your search.</p>
             )}
           </div>
         </main>

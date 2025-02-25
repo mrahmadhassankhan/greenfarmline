@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CustomerTable from "../../../components/seller/CustomerTable";
 import { toast } from "react-toastify";
-import Axios from "../../../Axios";
+import { Axios_Node } from "../../../Axios";
 import TriangleLoader from "../../../components/seller/TriangleLoader";
 
 const CategoryList = () => {
@@ -13,7 +13,7 @@ const CategoryList = () => {
       if (!token) {
         return toast.error("Access denied. Please login first.");
       }
-      const response = await Axios.get("/category", {
+      const response = await Axios_Node.get("/category", {
         headers: {
           Authorization: token,
         },
@@ -124,7 +124,7 @@ const CategoryList = () => {
       if (!token) {
         return toast.error("Access denied.");
       }
-      const response = await Axios.delete(`/category/${id}`, {
+      const response = await Axios_Node.delete(`/category/${id}`, {
         headers: {
           Authorization: token,
         },

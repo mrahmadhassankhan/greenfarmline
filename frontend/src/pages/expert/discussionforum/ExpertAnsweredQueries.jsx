@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ExpertNav from "../ExpertNav";
 import QueryCard from "../../../components/general/discussionForum/QueryCard";
-import axios from "axios";
+import { Axios_Node } from "../../../Axios";
 
 function ExpertAnsweredQueries() {
   const [queries, setQueries] = useState([]);
@@ -12,8 +12,7 @@ function ExpertAnsweredQueries() {
 
   useEffect(() => {
     // Fetch the queries answered by the expert
-    axios
-      .get(`http://localhost:1783/api/answer/expert/${expertEmail}`)
+    Axios_Node.get(`/answer/expert/${expertEmail}`)
       .then((response) => {
         // Filter the queries where the expert has provided an answer
         const expertAnsweredQueries = response.data.filter((query) =>
@@ -39,7 +38,9 @@ function ExpertAnsweredQueries() {
       <ExpertNav />
       <div className="max-w-7xl mx-auto p-6 mt-5">
         <div className="flex flex-row justify-between items-center mb-5">
-          <h1 className="text-3xl font-bold text-green-600">Discussion Forum</h1>
+          <h1 className="text-3xl font-bold text-green-600">
+            Discussion Forum
+          </h1>
           <div className="join">
             {/* Search Input */}
             <input
@@ -61,7 +62,7 @@ function ExpertAnsweredQueries() {
                 description={query.description}
                 author={query.name}
                 date={new Date(query.datePosted).toLocaleDateString()}
-                image={`http://localhost:1783/Images/${query.image}`}
+                image={`https://greenfarmline.shop/Images/${query.image}`}
                 status={query.status}
                 onClick={() =>
                   navigate("/write-your-answer", { state: { query } })

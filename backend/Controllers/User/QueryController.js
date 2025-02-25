@@ -35,60 +35,90 @@ const createPostQuery = async (req, res) => {
     res.status(500).json({ error: "Failed to create post query." });
   }
 };
-
 // Get all post queries
 const getAllPostQueries = async (req, res) => {
   try {
     const postQueries = await QueryModel.find();
-    res.status(200).json(postQueries);
+    if (postQueries.length === 0) {
+      return res
+        .status(200)
+        .json({ message: "No post queries found", data: [] });
+    }
+    res.status(200).json({ data: postQueries });
   } catch (error) {
+    console.error("Error fetching post queries:", error.message);
     res.status(500).json({ error: "Failed to fetch post queries." });
   }
 };
-// Route to get only pending queries
+
 const getPendingQueries = async (req, res) => {
   try {
-    // Fetch only pending queries
     const pendingQueries = await QueryModel.find({ status: "Pending" });
-    res.status(200).json(pendingQueries);
+    res.status(200).json({
+      data: pendingQueries.length > 0 ? pendingQueries : [],
+      message:
+        pendingQueries.length > 0
+          ? "Pending queries retrieved"
+          : "No pending queries found",
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error fetching pending queries" });
+    console.error("Error fetching pending queries:", error.message);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
-// Route to get only rejected queries
 const getRejectedQueries = async (req, res) => {
   try {
-    // Fetch only pending queries
     const rejectedQueries = await QueryModel.find({ status: "Rejected" });
-    res.status(200).json(rejectedQueries);
+    res.status(200).json({
+      data: rejectedQueries.length > 0 ? rejectedQueries : [],
+      message:
+        rejectedQueries.length > 0
+          ? "Rejected queries retrieved"
+          : "No rejected queries found",
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error fetching Rejected queries" });
+    console.error("Error fetching rejected queries:", error.message);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
-// Route to get only Approved queries
+// Route to get only approved queries
 const getApprovedQueries = async (req, res) => {
   try {
-    // Fetch only pending queries
     const approvedQueries = await QueryModel.find({ status: "Approved" });
-    res.status(200).json(approvedQueries);
+    res
+      .status(200)
+      .json(
+        approvedQueries.length > 0
+          ? { data: approvedQueries }
+          : { message: "No approved queries found", data: [] }
+      );
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error fetching Approved queries" });
+    console.error("Error fetching approved queries:", error.message);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
 // Route to get all queries from a specific user based on email
 const getUserQueriesByEmail = async (req, res) => {
-  const { email } = req.query; // Access the email parameter
+  const { email } = req.query;
+  if (!email) {
+    return res.status(400).json({ message: "Email parameter is required" });
+  }
+
   try {
     const userQueries = await QueryModel.find({ email });
-    res.status(200).json(userQueries);
+    res
+      .status(200)
+      .json(
+        userQueries.length > 0
+          ? { data: userQueries }
+          : { message: "No queries found for this user", data: [] }
+      );
   } catch (error) {
-    res.status(500).json({ message: "Error fetching queries." });
+    console.error("Error fetching user queries:", error.message);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -128,29 +158,31 @@ const deletePostQuery = async (req, res) => {
     res.status(500).json({ error: "Failed to delete the post query." });
   }
 };
-
-// Endpoint to approve all queries
 const approverejectallqueries = async (req, res) => {
-  const { status } = req.body; // 'approved' or 'rejected'
+  const { status } = req.body; // 'Approved' or 'Rejected'
 
   if (!status || !["Approved", "Rejected"].includes(status)) {
     return res.status(400).json({ message: "Invalid status" });
   }
 
   try {
-    // Update all queries with status 'Pending' to the new status
+    // Check if there are any pending queries before updating
+    const pendingQueries = await QueryModel.countDocuments({
+      status: "Pending",
+    });
+
+    if (pendingQueries === 0) {
+      return res.status(200).json({ message: "No pending queries to update" });
+    }
+
     const result = await QueryModel.updateMany(
       { status: "Pending" },
       { $set: { status } }
     );
 
-    if (result.modifiedCount > 0) {
-      res
-        .status(200)
-        .json({ message: `All queries have been marked as ${status}` });
-    } else {
-      res.status(400).json({ message: "No pending queries found to update" });
-    }
+    res
+      .status(200)
+      .json({ message: `All pending queries marked as ${status}` });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error while updating queries" });

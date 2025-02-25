@@ -29,10 +29,10 @@ const PORT = process.env.PORT || 1783;
 
 app.use(
   cors({
-    origin: ["http://localhost:5173","http://greenfarmline.shop"],
+    origin: ["http://localhost:5173", "http://greenfarmline.shop"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
- allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
@@ -43,18 +43,18 @@ app.use(express.static(path.resolve(__dirname, "./public/Images/")));
 app.use(express.static("public"));
 app.use(cookieParser());
 // Register the uptime route
-app.use("/api/uptime", uptimeRoutes);
-app.use("/api/detections", detectionRoutes);
+app.use("/api/v1/uptime", uptimeRoutes);
+app.use("/api/v1/detections", detectionRoutes);
 
 //Routers
 //Query
-app.use("/api/query", queryRouter);
+app.use("/api/v1/", queryRouter);
 
 //Answer
-app.use("/api/answer", answerrouter);
+app.use("/api/v1/answer", answerrouter);
 
 app.use("/api/v1/payment", paymentRoute);
-app.use("/api/v1", userRoute);
+app.use("/api/v1/", userRoute);
 app.use("/api/v1/product", productRoute);
 app.use("/api/v1/cart", cartRoute);
 app.use("/api/v1/admin", adminRoute);
@@ -70,7 +70,7 @@ app.get("*", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.json("GreenFarm Line Backend");
+  res.json("GreenFarm Line");
 });
 
 app.use(errorHandlerMiddleware);

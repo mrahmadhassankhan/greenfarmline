@@ -1,7 +1,11 @@
 import axios from "axios";
 
-const Axios = axios.create({
-  baseURL: `${import.meta.env.VITE_BACKEND_URL}`,
+const Axios_Node = axios.create({
+  baseURL: import.meta.env.VITE_NODE_URL,
 });
 
-export default Axios;
+const Axios_Flask = axios.create({
+  baseURL: import.meta.env.VITE_FLASK_URL,
+});
+
+export { Axios_Node, Axios_Flask };

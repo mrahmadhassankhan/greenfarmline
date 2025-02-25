@@ -118,7 +118,7 @@ const checkout = asyncErrorHandler(async (req, res) => {
         formattedCart.map((item) => {
           return {
             productId: item.productId,
-            quantity: item.quantity, // Ensure consistent usage of `quantity`
+            quantity: item.quantity,
           };
         })
       ),

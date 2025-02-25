@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CustomerTable from "../../../components/seller/CustomerTable";
 import { toast } from "react-toastify";
-import Axios from "../../../Axios";
+import { Axios_Node } from "../../../Axios";
 import TriangleLoader from "../../../components/seller/TriangleLoader";
 
 const CouponList = () => {
@@ -14,7 +14,7 @@ const CouponList = () => {
       if (!token) {
         return toast.error("Access denied. Please login first.");
       }
-      const response = await Axios.get("/admin/coupons", {
+      const response = await Axios_Node.get("/admin/coupons", {
         headers: {
           Authorization: token,
         },
@@ -119,7 +119,7 @@ const CouponList = () => {
       if (!token) {
         return toast.error("Access denied.");
       }
-      const response = await Axios.delete(
+      const response = await Axios_Node.delete(
         `/admin/coupons/${formData.name.toUpperCase()}`,
         {
           params: {

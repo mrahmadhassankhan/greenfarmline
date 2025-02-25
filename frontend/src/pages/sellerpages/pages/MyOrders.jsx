@@ -19,7 +19,7 @@ const MyOrders = () => {
 
   const fetchData = async () => {
     try {
-      const response = await Axios_Node.get("/orders", {
+      const response = await Axios_Node.get("/users/orders", {
         params: {
           email: localStorage.getItem("email"), // Ensure this matches the email in your database
         },

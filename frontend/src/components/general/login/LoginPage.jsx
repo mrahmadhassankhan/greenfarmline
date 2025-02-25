@@ -33,7 +33,7 @@ const LoginPage = () => {
     try {
       // Sending login credentials as JSON
       const response = await Axios_Node.post(
-        "/login",
+        "/users/login",
         { email, password, role },
         {
           headers: {

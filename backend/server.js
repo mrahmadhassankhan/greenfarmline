@@ -45,20 +45,27 @@ app.post(
   "/github-webhook",
   express.raw({ type: "application/json" }),
   (req, res) => {
+    const payload = req.body.toString();
     const sig = `sha256=${crypto
       .createHmac("sha256", SECRET)
-      .update(JSON.stringify(req.body))
+      .update(payload)
       .digest("hex")}`;
+
+    console.log("📩 Webhook received:", payload);
+    console.log("🔑 Signature received:", req.headers["x-hub-signature-256"]);
+    console.log("🔑 Signature computed:", sig);
 
     if (req.headers["x-hub-signature-256"] !== sig) {
       console.log("⚠️ Invalid signature, ignoring request.");
       return res.status(401).send("Invalid signature.");
     }
 
-    if (req.body.ref === "refs/heads/main") {
+    const data = JSON.parse(payload); // Convert string to JSON
+
+    if (data.ref === "refs/heads/main") {
       console.log("✅ Push to main detected! Pulling changes...");
       exec(
-        "cd /var/www/green-farm-line && git pull origin main && cd frontend && npm install && npm run build && cd .. && cd backend && npm install && cd .. && npm run build && pm2 restart all",
+        "cd /var/www/green-farm-line && git pull origin main && cd frontend && npm install && npm run build && cd .. && cd backend && npm install && npm run build && pm2 restart all",
         (err, stdout, stderr) => {
           if (err) {
             console.error(`❌ Error pulling from GitHub: ${stderr}`);
@@ -74,6 +81,7 @@ app.post(
     }
   }
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.resolve(__dirname, "./public/Images/")));

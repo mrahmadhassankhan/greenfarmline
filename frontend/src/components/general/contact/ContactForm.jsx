@@ -48,7 +48,7 @@ function ContactForm() {
     }
 
     try {
-      const res = await Axios_Node.post("/contactForm", formData);
+      const res = await Axios_Node.post("/form/contactForm", formData);
       setResponseMessage(res.data.message);
       setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
     } catch (error) {

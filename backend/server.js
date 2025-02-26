@@ -100,7 +100,7 @@ app.use(bodyParser.json());
 app.get("/", (req, res) => {
   res.json("GreenFarm Line");
 });
-app.use("/", contactUsRouter);
+app.use("/form/", contactUsRouter);
 app.use("/uptime", uptimeRoutes);
 app.use("/detections", detectionRoutes);
 

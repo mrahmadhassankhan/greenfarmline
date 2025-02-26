@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Axios_Node } from "../../../Axios";
 
-const ExpertDashboard = () => {
+const expert = () => {
   const expertEmail = localStorage.getItem("email");
   const expertName = localStorage.getItem("name");
 
@@ -194,4 +194,4 @@ const ExpertDashboard = () => {
   );
 };
 
-export default ExpertDashboard;
+export default expert;

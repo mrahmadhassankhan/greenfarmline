@@ -5,9 +5,17 @@ const {
   updateCategory,
 } = require("../Controllers/category");
 const { deleteCategory } = require("../Controllers/category");
+const authMiddleware = require("../middlewares/auth");
+const roleMiddleware = require("../middlewares/role");
 const router = express.Router();
-
-router.route("/").get(getCategory).post(createCategory);
-router.route("/:id").put(updateCategory).delete(deleteCategory);
+router.use(authMiddleware);
+router
+  .route("/")
+  .get(roleMiddleware(["farmer", "seller", "expert"]), getCategory)
+  .post(roleMiddleware(["seller"]), createCategory);
+router
+  .route("/:id")
+  .put(roleMiddleware(["seller"]), updateCategory)
+  .delete(roleMiddleware(["seller", "admin"]), deleteCategory);
 
 module.exports = router;

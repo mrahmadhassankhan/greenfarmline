@@ -8,11 +8,21 @@ const {
   updateCart,
   cartSize,
 } = require("../Controllers/cart");
-
-router.route("/").get(getCart);
-router.route("/add").post(addToCart);
-router.route("/delete/:id").delete(deleteCart);
-router.route("/update/:cartId").put(updateCart);
-router.route("/cartSize").get(cartSize);
+const authMiddleware = require("../middlewares/auth");
+const roleMiddleware = require("../middlewares/role");
+router.use(authMiddleware);
+router.route("/").get(roleMiddleware(["farmer", "seller", "expert"]), getCart);
+router
+  .route("/add")
+  .post(roleMiddleware(["farmer", "seller", "expert"]), addToCart);
+router
+  .route("/delete/:id")
+  .delete(roleMiddleware(["farmer", "seller", "expert"]), deleteCart);
+router
+  .route("/update/:cartId")
+  .put(roleMiddleware(["farmer", "seller", "expert"]), updateCart);
+router
+  .route("/cartSize")
+  .get(roleMiddleware(["farmer", "seller", "expert"]), cartSize);
 
 module.exports = router;

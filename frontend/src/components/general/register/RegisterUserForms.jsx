@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import FarmerForm from "./FarmerForm";
 import SellerForm from "./SellerForm";
 import ExpertForm from "./ExpertForm";
+import { AuthContext } from "../../../../authContext/auth";
 import { Axios_Node } from "../../../Axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 const RegisterUserForms = () => {
   const [role, setRole] = useState("farmer");
   const navigate = useNavigate();
+  const { register } = useContext(AuthContext);
   const [formValues, setFormValues] = useState({
     name: "",
     email: "",
@@ -39,9 +41,7 @@ const RegisterUserForms = () => {
 
     const formData = new FormData();
 
-    // Conditionally append form fields based on user role
     if (role === "farmer") {
-      // Farmer form submission is sent as JSON
       const farmerData = {
         name: formValues.name,
         email: formValues.email,
@@ -52,23 +52,20 @@ const RegisterUserForms = () => {
       };
 
       try {
-        const response = await Axios_Node.post(
-          "/users/register",
-          farmerData, // Send data as JSON for farmers
-          {
-            headers: {
-              "Content-Type": "application/json", // Set Content-Type to JSON for farmers
-            },
-          }
-        );
-        toast.success("Registration Successful");
-        navigate("/login");
+        const response = await Axios_Node.post("/users/register", farmerData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (response.data.token) {
+          toast.success("Registration Successful");
+          register(response.data.token, response.data.user);
+          navigate("/");
+        }
       } catch (error) {
-        console.error("Error during registration:", error);
         toast.error("User Already Exists");
       }
     } else if (role === "seller") {
-      // Seller form submission is sent as FormData (with file upload)
       formData.append("name", formValues.name);
       formData.append("email", formValues.email);
       formData.append("phoneNumber", formValues.phoneNumber);
@@ -80,23 +77,20 @@ const RegisterUserForms = () => {
       formData.append("document", formValues.document);
 
       try {
-        const response = await Axios_Node.post(
-          "/users/register",
-          formData, // Send data as FormData for seller
-          {
-            headers: {
-              "Content-Type": "multipart/form-data", // Set Content-Type to multipart/form-data for file uploads
-            },
-          }
-        );
-        toast.success("Registration Successful");
-        navigate("/login");
+        const response = await Axios_Node.post("/users/register", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        if (response.data.token) {
+          toast.success("Registration Successful");
+          register(response.data.token, response.data.user);
+          navigate("/seller");
+        }
       } catch (error) {
-        console.error("Error during registration:", error);
         toast.error("User Already Exists");
       }
     } else if (role === "expert") {
-      // Expert form submission is sent as FormData (with file upload)
       formData.append("name", formValues.name);
       formData.append("email", formValues.email);
       formData.append("phoneNumber", formValues.phoneNumber);
@@ -109,19 +103,18 @@ const RegisterUserForms = () => {
       formData.append("document", formValues.document);
 
       try {
-        const response = await Axios_Node.post(
-          "/users/register",
-          formData, // Send data as FormData for expert
-          {
-            headers: {
-              "Content-Type": "multipart/form-data", // Set Content-Type to multipart/form-data for file uploads
-            },
-          }
-        );
-        toast.success("Registration Successful");
-        navigate("/login");
+        const response = await Axios_Node.post("/users/register", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            s,
+          },
+        });
+        if (response.data.token) {
+          toast.success("Registration Successful");
+          register(response.data.token, response.data.user);
+          navigate("/expert");
+        }
       } catch (error) {
-        console.error("Error during registration:", error);
         toast.error("User Already Exists");
       }
     }

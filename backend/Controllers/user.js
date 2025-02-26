@@ -31,7 +31,7 @@ const register = asyncErrorHandler(async (req, res, next) => {
 
   const emailAlreadyExists = await User.findOne({ email });
   if (emailAlreadyExists) {
-    return next(new errorHandler("Email already exists", 400));
+    return next(new errorHandler("User already exists", 400));
   }
 
   const userData = { name, email, password, role, ...extraFields };
@@ -39,22 +39,30 @@ const register = asyncErrorHandler(async (req, res, next) => {
   const newUser = await User.create(userData);
   await Activity.create({ message: `New ${role} "${name}" is registered` });
 
+  const token = generateToken(newUser._id, newUser.email, newUser.role);
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "Strict",
+    maxAge: 48 * 60 * 60 * 1000,
+  });
+
   res.status(201).json({
     success: true,
     message: `${
       role.charAt(0).toUpperCase() + role.slice(1)
-    } registered successfully`,
+    } Registered successfully`,
     user: {
       name: newUser.name,
       email: newUser.email,
       role: newUser.role,
     },
+    token,
   });
 });
 
 // Login user
 const login = asyncErrorHandler(async (req, res, next) => {
-  console.log(req.body);
   const { email, password, role } = req.body;
   if (!email || !password) {
     return next(new errorHandler("Please provide email and password", 400));
@@ -63,7 +71,7 @@ const login = asyncErrorHandler(async (req, res, next) => {
   if (!userExists) {
     return next(new errorHandler("Invalid credentials", 401));
   }
-  if(userExists.role !== role){
+  if (userExists.role !== role) {
     return next(new errorHandler("Access denied", 401));
   }
   const isMatch = await userExists.comparePassword(password);
@@ -80,8 +88,8 @@ const login = asyncErrorHandler(async (req, res, next) => {
   const cartSize = userExists.cart.items.reduce((a, p) => a + p.quantity, 0);
 
   res.cookie("token", token, {
-    httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
-    secure: process.env.NODE_ENV === "production", // Ensures cookies are only sent over HTTPS in production
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "Strict", // Protects against CSRF
     maxAge: 48 * 60 * 60 * 1000, // 48 hours in milliseconds
   });
@@ -123,10 +131,6 @@ const verifyUser = asyncErrorHandler(async (req, res, next) => {
 
 // Fetch User Profile
 const getUserProfile = asyncErrorHandler(async (req, res, next) => {
-  // DEBUGGING..
-  console.log("User Profile API Called");
-  console.log("Authenticated User:", req.user);
-  
   const user = await User.findById(req.user.id).select("-password");
   if (!user) {
     return next(new errorHandler("User not found", 404));
@@ -141,7 +145,16 @@ const updateUserProfile = asyncErrorHandler(async (req, res, next) => {
     return next(new errorHandler("User not found", 404));
   }
 
-  const { name, phoneNumber, address, businessName, registrationNo, qualification, yearsOfExperience, expertise } = req.body;
+  const {
+    name,
+    phoneNumber,
+    address,
+    businessName,
+    registrationNo,
+    qualification,
+    yearsOfExperience,
+    expertise,
+  } = req.body;
 
   user.name = name || user.name;
   user.phoneNumber = phoneNumber || user.phoneNumber;
@@ -159,8 +172,12 @@ const updateUserProfile = asyncErrorHandler(async (req, res, next) => {
   }
 
   await user.save();
-  await Activity.create({ message: `The ${user.role} ${name} updated account details` });
-  res.status(200).json({ success: true, message: "Profile updated successfully", user });
+  await Activity.create({
+    message: `The ${user.role} ${name} updated account details`,
+  });
+  res
+    .status(200)
+    .json({ success: true, message: "Profile updated successfully", user });
 });
 
 const getOrder = asyncErrorHandler(async (req, res, next) => {

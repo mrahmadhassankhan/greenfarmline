@@ -1,8 +1,10 @@
 import { Axios_Node } from "../../../Axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { AuthContext } from "../../../../authContext/auth";
 const LoginPage = () => {
+  const { login } = useContext(AuthContext);
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -37,16 +39,15 @@ const LoginPage = () => {
         { email, password, role },
         {
           headers: {
-            "Content-Type": "application/json", // Set Content-Type to application/json
+            "Content-Type": "application/json",
           },
           withCredentials: true,
         }
       );
       toast.success("Login Successful");
-      localStorage.setItem("email", response.data.user.email);
-      localStorage.setItem("name", response.data.user.name);
-      localStorage.setItem("role", response.data.user.role);
-      localStorage.setItem("token", response.data.token);
+      if (response.data.token) {
+        login(response.data.token, response.data.user);
+      }
       if (response.data.user.role === "seller") {
         navigate("/seller");
       }
@@ -54,11 +55,10 @@ const LoginPage = () => {
         navigate("/");
       }
       if (response.data.user.role === "expert") {
-        navigate("/expertdashboard");
+        navigate("/expert");
       }
     } catch (error) {
-      console.error("Error during login:", error);
-      toast.error("Invalid name or Password");
+      toast.error("Invalid Credientals");
     }
   };
   return (

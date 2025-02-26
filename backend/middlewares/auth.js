@@ -1,44 +1,26 @@
-const user = require("../Models/user");
 const jwt = require("jsonwebtoken");
-const secret = process.env.JWT_SECRET;
-const asyncErrorHandler = require("./asyncErrorHandler");
-const errorHandler = require("../utils/errorHandler");
+const User = require("../Models/user");
+require("dotenv").config();
 
-const adminOnly = asyncErrorHandler(async (req, res, next) => {
-  const token = req.headers.authorization.split(" ")[1];
-  if (!token) return next(new errorHandler("Token not found", 401));
-  const { id, email } = jwt.verify(token, secret);
-  const newUser = await user.findOne({ _id: id, email }); // Use findOne instead of find
-  if (!newUser) return next(new errorHandler("Invalid User", 401));
-  console.log(newUser.role, "role", newUser.role === "admin");
-  if (newUser.role !== "admin")
-    return next(new errorHandler("You are not authorized", 403));
-  req.tokenId = id;
-  req.tokenEmail = email;
-  next();
-});
-
-const verifyToken = asyncErrorHandler(async (req, res, next) => {
-  const token = req.headers.authorization.split(" ")[1];
-  if (!token) return next(new errorHandler("Token not found", 401));
-  const { id, email } = jwt.verify(token, secret);
-  req.tokenId = id;
-  req.tokenEmail = email;
-  next();
-});
-
-const isAuthenticated = async (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
-  if (!token) return next(new errorHandler("Unauthorized", 401));
-
+const authMiddleware = async (req, res, next) => {
   try {
-    const decoded = jwt.verify(token, secret);
-    req.user = await user.findById(decoded.id);
-    if (!req.user) return next(new errorHandler("User not found", 401));
+    const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = await User.findById(decoded.id).select("-password");
+
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
     next();
   } catch (error) {
-    next(new errorHandler("Invalid token", 401));
+    return res.status(401).json({ message: "Unauthorized" });
   }
 };
 
-module.exports = { adminOnly, verifyToken, isAuthenticated };
+module.exports = authMiddleware;

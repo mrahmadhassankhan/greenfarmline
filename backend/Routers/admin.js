@@ -14,18 +14,34 @@ const {
   getRecentActivities,
   getAllOrdersAdmin,
 } = require("../Controllers/admin");
+
+const authMiddleware = require("../middlewares/auth");
+const roleMiddleware = require("../middlewares/role");
+
 const router = express.Router();
 
+router.use(authMiddleware);
+
 router.route("/adminLogin").post(adminLogin);
-router.route("/users").get(getAllUsers);
-router.route("/order").get(getAllOrdersAdmin).put(updateOrderStatus);
-router.route("/orders").get(getAllOrders);
-router.route("/coupons").get(getCoupons).post(createCoupon);
-router.route("/coupons/:id").delete(deleteCoupon);
-router.route("/products").get(getAllProducts);
-router.route("/product/:id").put(productStatus);
-router.route("/info").get(getAdminDetails);
-router.route("/user/:id").delete(deleteUser);
-router.route("/recent-activities").get(getRecentActivities);
+router.route("/users").get(roleMiddleware(["admin"]), getAllUsers);
+router
+  .route("/order")
+  .get(roleMiddleware(["admin"]), getAllOrdersAdmin)
+  .put(roleMiddleware(["seller"]), updateOrderStatus);
+router.route("/orders").get(roleMiddleware(["admin"]), getAllOrders);
+router
+  .route("/coupons")
+  .get(roleMiddleware(["admin"]), getCoupons)
+  .post(roleMiddleware(["admin"]), createCoupon);
+router.route("/coupons/:id").delete(roleMiddleware(["admin"]), deleteCoupon);
+router
+  .route("/products")
+  .get(roleMiddleware(["admin", "seller"]), getAllProducts);
+router.route("/product/:id").put(roleMiddleware(["admin"]), productStatus);
+router.route("/info").get(roleMiddleware(["admin"]), getAdminDetails);
+router.route("/user/:id").delete(roleMiddleware(["admin"]), deleteUser);
+router
+  .route("/recent-activities")
+  .get(roleMiddleware(["admin"]), getRecentActivities);
 
 module.exports = router;

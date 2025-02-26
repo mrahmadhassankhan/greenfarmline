@@ -7,7 +7,6 @@ const User = require("../Models/user");
 router.post("/save", async (req, res) => {
   try {
     const { user, disease, confidence, recommendations, imageUrl } = req.body;
-
     const userExists = await User.findOne({ email: user.email });
     const userId = userExists._id;
 

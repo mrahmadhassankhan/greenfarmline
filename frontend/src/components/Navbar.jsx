@@ -111,7 +111,7 @@ function Navbar() {
                         : localStorage.getItem("role") === "seller"
                         ? "/seller"
                         : localStorage.getItem("role") === "expert"
-                        ? "/expertdashboard"
+                        ? "/expert"
                         : localStorage.getItem("role") === "admin"
                         ? "/admin"
                         : "/"

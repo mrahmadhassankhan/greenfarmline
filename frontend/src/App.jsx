@@ -2,6 +2,7 @@ import React, { Suspense, lazy, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import TriangleLoader from "./components/seller/TriangleLoader";
+import PrivateRoute from "./privateRoute";
 
 // Lazy load components
 const Home = lazy(() => import("./pages/general/Home"));
@@ -134,71 +135,67 @@ const App = () => {
           <Route path="/forgetpassword" element={<ForgetPassword />} />
           <Route path="/verify" element={<OTPVerification />} />
           <Route path="/discussionforum" element={<DiscussionForum />} />
-          <Route path="/userdashboard" element={<UserDashboard />} />
-          <Route path="/userforumview" element={<UserForumView />} />
-          <Route path="/post-query" element={<PostQuery />} />
-          <Route path="/query-detailed-view" element={<QueryDetailedView />} />
-          <Route path="/your-queries" element={<UserQueries />} />
-          <Route path="/expertdashboard" element={<ExpertDashboard />} />
-          <Route path="/expertforumview" element={<ExpertForumView />} />
-          <Route path="/write-your-answer" element={<ExpertAnswerView />} />
-          <Route path="/profile" element={<YourProfile />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route
-            path="/your-answered-queries"
-            element={<ExpertAnsweredQueries />}
-          />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/pending-queries" element={<PendingQueries />} />
-          <Route path="/seller-management" element={<SellerManagement />} />
-          <Route path="/user-management" element={<UserManagement />} />
-          <Route path="/approved-queries" element={<ApprovedQueries />} />
-          <Route path="/rejected-queries" element={<RejectedQueries />} />
           <Route path="/ecommerce-store" element={<EcommerceStore />} />
-          <Route path="/orders" element={<MyOrders />} />
-          <Route path="/user-orders" element={<UserOrders />} />
           <Route path="/image-detection" element={<CropImageDetection />} />
-          <Route path="/crop-image-model" element={<CropImageModel />} />
-          <Route path="/admin-layout" element={<AdminLayout />}>
-            <Route path="customers" element={<CustomerList />} />
-            <Route path="coupons" element={<CouponList />} />
-            <Route path="orders" element={<AdminOrders />} />
-            <Route path="products" element={<AdminProductList />} />
-            <Route path="product/add" element={<AddProducts />} />
-            <Route path="product/update/:slug" element={<UpdateProducts />} />
-            <Route path="brands" element={<BrandList />} />
-            <Route path="category" element={<CategoryList />} />
-          </Route>
-
-          <Route path="product/:slug" element={<ProductDetails />} />
           <Route path="products" element={<Product />} />
-          <Route path="cart" element={<CartLayout />} />
-
-          <Route
-            path="/orders"
-            element={
-              <ProtectedRoute>
-                <ProfileLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<MyOrders />} />
-          </Route>
-
-          <Route path="/seller" element={<AdminLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="customers" element={<CustomerList />} />
-            <Route path="coupons" element={<CouponList />} />
-            <Route path="orders" element={<AdminOrders />} />
-            <Route path="products" element={<AdminProductList />} />
-            <Route path="product/add" element={<AddProducts />} />
-            <Route path="product/update/:slug" element={<UpdateProducts />} />
-            <Route path="brands" element={<BrandList />} />
-            <Route path="category" element={<CategoryList />} />
-          </Route>
           <Route path="/adminLogin" element={<AdminLogin />} />
-          <Route path="checkout-success" element={<CheckoutSuccess />} />
           <Route path="/*" element={<ErrorPage />} />
+
+          <Route element={<PrivateRoute />}>
+            <Route path="/your-queries" element={<UserQueries />} />
+            <Route path="/userdashboard" element={<UserDashboard />} />
+            <Route path="/userforumview" element={<UserForumView />} />
+            <Route path="/post-query" element={<PostQuery />} />
+            <Route
+              path="/query-detailed-view"
+              element={<QueryDetailedView />}
+            />
+            <Route path="/expert" element={<ExpertDashboard />} />
+            <Route path="/expertforumview" element={<ExpertForumView />} />
+            <Route path="/write-your-answer" element={<ExpertAnswerView />} />
+            <Route path="/profile" element={<YourProfile />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route
+              path="/your-answered-queries"
+              element={<ExpertAnsweredQueries />}
+            />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/pending-queries" element={<PendingQueries />} />
+            <Route path="/seller-management" element={<SellerManagement />} />
+            <Route path="/user-management" element={<UserManagement />} />
+            <Route path="/approved-queries" element={<ApprovedQueries />} />
+            <Route path="/rejected-queries" element={<RejectedQueries />} />
+            <Route path="/orders" element={<MyOrders />} />
+            <Route path="/user-orders" element={<UserOrders />} />
+            <Route path="/crop-image-model" element={<CropImageModel />} />
+            <Route path="/admin-layout" element={<AdminLayout />}>
+              <Route path="customers" element={<CustomerList />} />
+              <Route path="coupons" element={<CouponList />} />
+              <Route path="orders" element={<AdminOrders />} />
+              <Route path="products" element={<AdminProductList />} />
+              <Route path="product/add" element={<AddProducts />} />
+              <Route path="product/update/:slug" element={<UpdateProducts />} />
+              <Route path="brands" element={<BrandList />} />
+              <Route path="category" element={<CategoryList />} />
+            </Route>
+            <Route path="product/:slug" element={<ProductDetails />} />
+            <Route path="cart" element={<CartLayout />} />
+            <Route path="/orders" element={<ProfileLayout />}>
+              <Route index element={<MyOrders />} />
+            </Route>
+            <Route path="/seller" element={<AdminLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path="customers" element={<CustomerList />} />
+              <Route path="coupons" element={<CouponList />} />
+              <Route path="orders" element={<AdminOrders />} />
+              <Route path="products" element={<AdminProductList />} />
+              <Route path="product/add" element={<AddProducts />} />
+              <Route path="product/update/:slug" element={<UpdateProducts />} />
+              <Route path="brands" element={<BrandList />} />
+              <Route path="category" element={<CategoryList />} />
+            </Route>
+            <Route path="checkout-success" element={<CheckoutSuccess />} />
+          </Route>
         </Routes>
       </Suspense>
     </div>

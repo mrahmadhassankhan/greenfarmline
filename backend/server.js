@@ -97,9 +97,6 @@ app.use(cookieParser());
 
 app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
-  res.json("GreenFarm Line");
-});
 app.use("/form/", contactUsRouter);
 app.use("/uptime", uptimeRoutes);
 app.use("/detections", detectionRoutes);

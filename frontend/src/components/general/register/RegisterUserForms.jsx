@@ -110,7 +110,7 @@ const RegisterUserForms = () => {
 
       try {
         const response = await Axios_Node.post(
-          "/register",
+          "/users/register",
           formData, // Send data as FormData for expert
           {
             headers: {

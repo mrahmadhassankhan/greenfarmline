@@ -11,6 +11,8 @@ function Navbar() {
   const [auth, setAuth] = useState(
     localStorage.getItem("token") ? true : false
   );
+  const [cartSize, setCartSize] = useState(0);
+
   const [theme, setTheme] = useState(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
   );
@@ -45,19 +47,24 @@ function Navbar() {
   useEffect(() => {
     const fetchCartSize = async () => {
       try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+
         const response = await Axios_Node.get("/cart/cartSize", {
-          params: {
-            email: localStorage.getItem("email"),
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
         });
+
         if (response.status === 200) {
-          localStorage.removeItem("cartsize");
+          setCartSize(response.data.cartSize);
           localStorage.setItem("cartsize", response.data.cartSize);
         }
       } catch (error) {
-        console.log(error);
+        setCartSize(0);
       }
     };
+
     fetchCartSize();
   }, []);
   const navItems = (
@@ -91,8 +98,8 @@ function Navbar() {
               <FaShoppingCart />
               <div className="navAmount">
                 {localStorage.getItem("cartsize").includes("undefined")
-                  ? 0
-                  : localStorage.getItem("cartsize")}
+                  ? cartSize
+                  : 0}
               </div>
             </Link>
           </div>

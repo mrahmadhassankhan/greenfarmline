@@ -4,11 +4,17 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const cors = require("cors");
 const errorHandlerMiddleware = require("./middlewares/error");
+const bodyParser = require("body-parser");
+const crypto = require("crypto");
+const { exec } = require("child_process");
+
+const SECRET = "greenfarmlinepiplan1122!@#";
+
 const app = express();
 
 require("dotenv").config();
-const uptimeRoutes = require("./Routers/uptimeRoutes"); // Import the uptime route
-const detectionRoutes = require("./Routers/detectionRoutes"); // Image detection result save to db route
+const uptimeRoutes = require("./Routers/uptimeRoutes");
+const detectionRoutes = require("./Routers/detectionRoutes");
 const queryRouter = require("./Routers/QueryRouter");
 const answerrouter = require("./Routers/AnswerRouter");
 
@@ -20,38 +26,71 @@ const adminRoute = require("./Routers/admin");
 const brandRoute = require("./Routers/brands");
 const categoryRoute = require("./Routers/category");
 const { webhook } = require("./Controllers/payments");
+
 const PORT = 1783;
 
 const corsOptions = {
-  origin: "https://greenfarmline.shop", // Add your allowed domains
+  origin: ["https://greenfarmline.shop", "http://localhost:5173"],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
- allowedHeaders: ["Content-Type", "Authorization"],
- credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
+
 app.options("*", cors());
 
 app.post("/webhook", express.raw({ type: "application/json" }), webhook);
+app.post(
+  "/github-webhook",
+  express.raw({ type: "application/json" }),
+  (req, res) => {
+    const sig = `sha256=${crypto
+      .createHmac("sha256", SECRET)
+      .update(JSON.stringify(req.body))
+      .digest("hex")}`;
+
+    if (req.headers["x-hub-signature-256"] !== sig) {
+      console.log("⚠️ Invalid signature, ignoring request.");
+      return res.status(401).send("Invalid signature.");
+    }
+
+    if (req.body.ref === "refs/heads/main") {
+      console.log("✅ Push to main detected! Pulling changes...");
+      exec(
+        "cd /var/www/green-farm-line && git pull origin main && cd frontend && npm install && npm run build && cd .. && cd backend && npm install && cd .. && npm run build && pm2 restart all",
+        (err, stdout, stderr) => {
+          if (err) {
+            console.error(`❌ Error pulling from GitHub: ${stderr}`);
+            return res.status(500).send("Git Pull Failed");
+          }
+          console.log(`✅ Git Pull Success:\n${stdout}`);
+          res.status(200).send("Success");
+        }
+      );
+    } else {
+      console.log("🚀 Push detected, but not on main branch.");
+      res.status(200).send("Not main branch, skipping pull.");
+    }
+  }
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.resolve(__dirname, "./public/Images/")));
 app.use(express.static("public"));
 app.use(cookieParser());
 
+app.use(bodyParser.json());
+
 app.get("/", (req, res) => {
   res.json("GreenFarm Line");
 });
 
-// Register the uptime route
 app.use("/uptime", uptimeRoutes);
 app.use("/detections", detectionRoutes);
 
-//Routers
-//Query
 app.use("/", queryRouter);
 
-//Answer
 app.use("/answer", answerrouter);
 
 app.use("/payment", paymentRoute);
@@ -62,14 +101,12 @@ app.use("/admin", adminRoute);
 app.use("/brands", brandRoute);
 app.use("/category", categoryRoute);
 
-// Catch-all for undefined routes
 app.get("*", (req, res) => {
   res.json("404 Not Found");
 });
 
-
 app.use(errorHandlerMiddleware);
-// Start the server
+
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on port ${PORT}`);
 });

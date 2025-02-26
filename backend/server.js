@@ -7,11 +7,6 @@ const errorHandlerMiddleware = require("./middlewares/error");
 const app = express();
 
 require("dotenv").config();
-const {
-  errorHandler,
-  notFound,
-} = require("../backend/middlewares/errorMiddleware");
-
 const uptimeRoutes = require("./Routers/uptimeRoutes"); // Import the uptime route
 const detectionRoutes = require("./Routers/detectionRoutes"); // Image detection result save to db route
 const queryRouter = require("./Routers/QueryRouter");
@@ -25,53 +20,53 @@ const adminRoute = require("./Routers/admin");
 const brandRoute = require("./Routers/brands");
 const categoryRoute = require("./Routers/category");
 const { webhook } = require("./Controllers/payments");
-const PORT = process.env.PORT || 1783;
+const PORT = 1783;
 
-app.use(
-  cors({
-    origin: ["http://localhost:5173", "https://greenfarmline.shop"],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+const corsOptions = {
+  origin: "https://greenfarmline.shop", // Add your allowed domains
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+ allowedHeaders: ["Content-Type", "Authorization"],
+ credentials: true,
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors());
 
 app.post("/webhook", express.raw({ type: "application/json" }), webhook);
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.resolve(__dirname, "./public/Images/")));
 app.use(express.static("public"));
 app.use(cookieParser());
+
+app.get("/", (req, res) => {
+  res.json("GreenFarm Line");
+});
+
 // Register the uptime route
-app.use("/api/v1/uptime", uptimeRoutes);
-app.use("/api/v1/detections", detectionRoutes);
+app.use("/uptime", uptimeRoutes);
+app.use("/detections", detectionRoutes);
 
 //Routers
 //Query
-app.use("/api/v1/", queryRouter);
+app.use("/", queryRouter);
 
 //Answer
-app.use("/api/v1/answer", answerrouter);
+app.use("/answer", answerrouter);
 
-app.use("/api/v1/payment", paymentRoute);
-app.use("/api/v1/users", userRoute);
-app.use("/api/v1/product", productRoute);
-app.use("/api/v1/cart", cartRoute);
-app.use("/api/v1/admin", adminRoute);
-app.use("/api/v1/brands", brandRoute);
-app.use("/api/v1/category", categoryRoute);
-//Error Handlers
-app.use(notFound);
-app.use(errorHandler);
+app.use("/payment", paymentRoute);
+app.use("/users", userRoute);
+app.use("/product", productRoute);
+app.use("/cart", cartRoute);
+app.use("/admin", adminRoute);
+app.use("/brands", brandRoute);
+app.use("/category", categoryRoute);
 
 // Catch-all for undefined routes
 app.get("*", (req, res) => {
   res.json("404 Not Found");
 });
 
-app.get("/", (req, res) => {
-  res.json("GreenFarm Line");
-});
 
 app.use(errorHandlerMiddleware);
 // Start the server

@@ -72,7 +72,7 @@ function ContactForm() {
                 onChange={handleChange}
                 placeholder="Full Name"
                 required
-                className="bg-white text-black w-full "
+                className="bg-white text-black w-full p-1 "
               />
               <input
                 name="email"
@@ -81,7 +81,7 @@ function ContactForm() {
                 onChange={handleChange}
                 placeholder="Email Address"
                 required
-                className="bg-white text-black w-full"
+                className="bg-white text-black w-full p-1"
               />
               <input
                 name="phone"
@@ -89,7 +89,7 @@ function ContactForm() {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="Phone (Optional)"
-                className="bg-white text-black w-full"
+                className="bg-white text-black w-full p-1"
               />
               <input
                 name="subject"
@@ -97,7 +97,7 @@ function ContactForm() {
                 onChange={handleChange}
                 placeholder="Subject"
                 required
-                className="bg-white text-black w-full"
+                className="bg-white text-black w-full p-1"
               />
               <textarea
                 name="message"
@@ -105,12 +105,12 @@ function ContactForm() {
                 onChange={handleChange}
                 placeholder="Message (Max 500 chars)"
                 required
-                className="bg-white text-black w-full"
+                className="bg-white text-black w-full p-1"
               />
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-lime-500 hover:bg-lime-600 text-white"
+                className="w-full bg-lime-500 hover:bg-lime-600 text-white p-2 rounded-lg"
               >
                 {loading ? "Sending..." : "Send Query"}
               </button>

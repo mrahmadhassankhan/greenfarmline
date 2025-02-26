@@ -90,7 +90,9 @@ function Navbar() {
             <Link to="/cart" style={{ color: "#1a1a1a" }}>
               <FaShoppingCart />
               <div className="navAmount">
-                {localStorage.getItem("cartsize") || 0}
+                {localStorage.getItem("cartsize").includes("undefined")
+                  ? 0
+                  : localStorage.getItem("cartsize")}
               </div>
             </Link>
           </div>

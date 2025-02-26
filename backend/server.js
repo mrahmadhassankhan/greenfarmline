@@ -31,7 +31,7 @@ const contactUsRouter = require("./Routers/contact");
 const PORT = 1783;
 
 const corsOptions = {
-  origin: ["https://greenfarmline.shop", "http://localhost:5173"],
+  origin: "https://greenfarmline.shop",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,

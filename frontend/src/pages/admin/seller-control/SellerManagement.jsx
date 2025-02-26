@@ -11,7 +11,7 @@ function SellerManagement() {
 
   const fetchSellers = async () => {
     try {
-      const response = await Axios_Node.get(" /admin/users");
+      const response = await Axios_Node.get("/admin/users");
       const sellerList = response.data.users.filter(
         (user) => user.role === "seller"
       );

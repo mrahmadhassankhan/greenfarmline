@@ -41,6 +41,7 @@ app.use(cors(corsOptions));
 app.options("*", cors());
 
 app.post("/webhook", express.raw({ type: "application/json" }), webhook);
+<<<<<<< HEAD
 app.post(
   "/github-webhook",
   express.raw({ type: "application/json" }),
@@ -84,6 +85,10 @@ app.post(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+=======
+app.use(express.json({limit:'50mb'}));
+app.use(express.urlencoded({limit:'50mb', extended: true }));
+>>>>>>> 3daee65 (feat:added 50mb limit in serverjs and fix the registeruserform)
 app.use(express.static(path.resolve(__dirname, "./public/Images/")));
 app.use(express.static("public"));
 app.use(cookieParser());

@@ -1,114 +1,129 @@
-import React from "react";
+import React, { useState } from "react";
 import contactImage from "../../../images/contactPageImage.jpg";
+import { Axios_Node } from "../../../Axios";
 
 function ContactForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [responseMessage, setResponseMessage] = useState("");
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value.trim() });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const { name, email, phone, subject, message } = formData;
+
+    if (!name || !email || !subject || !message) {
+      setResponseMessage("All required fields must be filled!");
+      setLoading(false);
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setResponseMessage("Invalid email format!");
+      setLoading(false);
+      return;
+    }
+
+    if (message.length > 500) {
+      setResponseMessage("Message is too long!");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const res = await Axios_Node.post("/contactForm", formData);
+      setResponseMessage(res.data.message);
+      setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+    } catch (error) {
+      setResponseMessage(
+        error.response?.data?.error || "Something went wrong."
+      );
+    }
+
+    setLoading(false);
+  };
+
   return (
-    <>
-      <div className="min-h-screen flex items-center justify-center px-4 md:px-20">
-        <div className="max-w-7xl w-full space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white text-black dark:bg-slate-900 dark:border dark:text-white p-6 rounded-lg shadow-lg">
-              <form className="space-y-6">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium dark:text-white text-gray-700"
-                  >
-                    Full Name
-                  </label>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    required
-                    className=" bg-white text-black mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 dark:text-white rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
-                    placeholder="Enter Your Name"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium dark:text-white text-gray-700"
-                  >
-                    Email Address
-                  </label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    className=" bg-white text-black mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 dark:text-white rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
-                    placeholder="Enter Your Email Address"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="phone"
-                    className="block text-sm font-medium dark:text-white text-gray-700"
-                  >
-                    Phone Number (Optional)
-                  </label>
-                  <input
-                    id="phone"
-                    name="phone"
-                    type="text"
-                    className=" bg-white text-black mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 dark:text-white rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
-                    placeholder="Enter Your Phone Number"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="subject"
-                    className="block text-sm font-medium dark:text-white text-gray-700"
-                  >
-                    Subject
-                  </label>
-                  <input
-                    id="subject"
-                    name="subject"
-                    type="text"
-                    required
-                    className=" bg-white text-black mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 dark:text-white rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
-                    placeholder="Enter Subject"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium dark:text-white text-gray-700"
-                  >
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows="4"
-                    required
-                    className=" bg-white text-black mt-1 p-2 w-full border border-gray-300 dark:bg-slate-900 rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
-                    placeholder="Type Your Message Here"
-                  />
-                </div>
-                <div>
-                  <button
-                    type="submit"
-                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-lime-500 hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                  >
-                    Send Query
-                  </button>
-                </div>
-              </form>
-            </div>
-            <div className="flex items-center justify-center">
-              <img
-                src={contactImage}
-                alt="Contact Us"
-                className="w-full h-full object-cover rounded-lg shadow-lg"
+    <div className="min-h-screen flex items-center justify-center px-4 md:px-20">
+      <div className="max-w-7xl w-full space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="bg-white text-black dark:bg-slate-900 dark:border dark:text-white p-6 rounded-lg shadow-lg">
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <input
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Full Name"
+                required
               />
-            </div>
+              <input
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email Address"
+                required
+              />
+              <input
+                name="phone"
+                type="text"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="Phone (Optional)"
+              />
+              <input
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                placeholder="Subject"
+                required
+              />
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Message (Max 500 chars)"
+                required
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-lime-500 hover:bg-lime-600 text-white"
+              >
+                {loading ? "Sending..." : "Send Query"}
+              </button>
+              {responseMessage && (
+                <p className="text-center text-green-600">{responseMessage}</p>
+              )}
+            </form>
+          </div>
+          <div className="flex items-center justify-center">
+            <img
+              src={contactImage}
+              alt="Contact Us"
+              className="w-full h-full object-cover rounded-lg shadow-lg"
+            />
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

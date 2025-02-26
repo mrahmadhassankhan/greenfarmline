@@ -61,17 +61,18 @@ function ContactForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 md:px-20">
+    <div className="min-h-screen flex items-center justify-center px-4 md:px-20 ">
       <div className="max-w-7xl w-full space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-white text-black dark:bg-slate-900 dark:border dark:text-white p-6 rounded-lg shadow-lg">
-            <form className="space-y-6" onSubmit={handleSubmit}>
+            <form className="space-y-6 " onSubmit={handleSubmit}>
               <input
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Full Name"
                 required
+                className="bg-white text-black w-full "
               />
               <input
                 name="email"
@@ -80,6 +81,7 @@ function ContactForm() {
                 onChange={handleChange}
                 placeholder="Email Address"
                 required
+                className="bg-white text-black w-full"
               />
               <input
                 name="phone"
@@ -87,6 +89,7 @@ function ContactForm() {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="Phone (Optional)"
+                className="bg-white text-black w-full"
               />
               <input
                 name="subject"
@@ -94,6 +97,7 @@ function ContactForm() {
                 onChange={handleChange}
                 placeholder="Subject"
                 required
+                className="bg-white text-black w-full"
               />
               <textarea
                 name="message"
@@ -101,6 +105,7 @@ function ContactForm() {
                 onChange={handleChange}
                 placeholder="Message (Max 500 chars)"
                 required
+                className="bg-white text-black w-full"
               />
               <button
                 type="submit"

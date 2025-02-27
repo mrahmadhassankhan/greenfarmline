@@ -6,7 +6,7 @@ const authMiddleware = async (req, res, next) => {
   console.log("Cookies:", req.cookies);
   console.log("Headers:", req.headers);
 
-/*  const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
+const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
 
   if (!token) {
     console.log("No token found!");
@@ -26,7 +26,7 @@ const authMiddleware = async (req, res, next) => {
     next();
   } catch (error) {
     return res.status(401).json({ message: "Unauthorized" });
-  }*/
+  }
 next();
 };
 

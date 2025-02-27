@@ -4,6 +4,10 @@ require("dotenv").config();
 
 const authMiddleware = async (req, res, next) => {
   const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
+  console.log("Cookies:", req.cookies);
+  console.log("Headers:", req.headers);
+
+const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
 
   if (!token) {
     console.log("No token found!");
@@ -25,6 +29,8 @@ const authMiddleware = async (req, res, next) => {
     return res.status(401).json({ message: "Unauthorized" });
   }
   next();
+  }
+next();
 };
 
 module.exports = authMiddleware;

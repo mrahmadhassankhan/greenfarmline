@@ -6,8 +6,8 @@ function userCropImageModel() {
 
   useEffect(() => {
     const fetchHistory = async () => {
-      const userEmail = localStorage.getItem("email"); // Get user data
-      const userRole = localStorage.getItem("role");
+      const userEmail = JSON.parse(localStorage.getItem("user")).email; // Get user data
+      const userRole = JSON.parse(localStorage.getItem("user")).role;
       const userData = { email: userEmail, role: userRole };
       if (!userData || userData.role !== "farmer") {
         alert("Access denied! Only farmers can view detection history.");

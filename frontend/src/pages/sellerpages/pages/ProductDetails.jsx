@@ -56,7 +56,7 @@ const ProductDetails = () => {
       const response = await Axios_Node.post("/cart/add", {
         productId: data._id,
         quantity: parsedQuantity, // Use validated quantity
-        email: localStorage.getItem("email"),
+        email: JSON.parse(localStorage.getItem("user")).email,
       });
 
       if (response.status === 200) {

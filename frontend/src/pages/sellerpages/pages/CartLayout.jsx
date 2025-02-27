@@ -21,7 +21,7 @@ const CartLayout = () => {
     try {
       const response = await Axios_Node.delete(`/cart/delete/${id}`, {
         params: {
-          email: localStorage.getItem("email"),
+          email: JSON.parse(localStorage.getItem("user")).email,
           qty,
         },
       });
@@ -36,9 +36,9 @@ const CartLayout = () => {
 
   const fetchData = async () => {
     try {
-      const response = await Axios_Node.get("/cart", {
+      const response = await Axios_Node.get("/cart/getcart", {
         params: {
-          email: localStorage.getItem("email"),
+          email: JSON.parse(localStorage.getItem("user")).email,
         },
       });
       setData(response.data);
@@ -52,7 +52,7 @@ const CartLayout = () => {
       const response = await Axios_Node.post(
         "/payment/create-checkout-session",
         { coupon: appliedCoupon ? couponCode.toUpperCase() : "" },
-        { params: { email: localStorage.getItem("email") } }
+        { params: { email: JSON.parse(localStorage.getItem("user")).email } }
       );
       console.log(response);
 

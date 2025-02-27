@@ -91,45 +91,52 @@ function Navbar() {
   );
   const navButtons = (
     <>
-      <div className="flex items-center space-x-3 ">
-        {localStorage.getItem("role") === "farmer" && (
-          <div className="btnIcon">
-            <Link to="/cart" style={{ color: "#1a1a1a" }}>
-              <FaShoppingCart />
-              <div className="navAmount">
-                {localStorage.getItem("cartsize").includes("undefined")
-                  ? cartSize
-                  : 0}
+      <div className="items-center space-x-3 hidden lg:flex">
+        {auth ? (
+          <>
+            {JSON.parse(localStorage.getItem("user")).role === "farmer" && (
+              <div className="btnIcon">
+                <Link to="/cart" style={{ color: "#1a1a1a" }}>
+                  <FaShoppingCart />
+                  <div className="navAmount">
+                    {JSON.parse(localStorage.getItem("user")).cartSize
+                      ? cartSize
+                      : 0}
+                  </div>
+                </Link>
               </div>
-            </Link>
-          </div>
+            )}
+          </>
+        ) : (
+          <>
+            {/* nothing to show */}
+          </>
         )}
-
         <div className="btnIcon">
           {auth ? (
             <>
               <CgProfile />
-              <ul className="dropdown pt-2 pb-2">
+              <ul className="navdropdown dropdown pt-2 pb-2">
                 <li>
                   <Link
                     to={
-                      localStorage.getItem("role") === "farmer"
+                      JSON.parse(localStorage.getItem("user")).role === "farmer"
                         ? "/userdashboard"
-                        : localStorage.getItem("role") === "seller"
-                        ? "/seller"
-                        : localStorage.getItem("role") === "expert"
-                        ? "/expert"
-                        : localStorage.getItem("role") === "admin"
-                        ? "/admin"
-                        : "/"
+                        : JSON.parse(localStorage.getItem("user")).role === "seller"
+                          ? "/seller"
+                          : JSON.parse(localStorage.getItem("user")).role === "expert"
+                            ? "/expert"
+                            : JSON.parse(localStorage.getItem("user")).role === "admin"
+                              ? "/admin"
+                              : "/"
                     }
                   >
                     Dashboard
                   </Link>
                 </li>
-                {localStorage.getItem("role") === "farmer" && (
+                {JSON.parse(localStorage.getItem("user")).role === "farmer" && (
                   <li>
-                    <Link to="/users/orders">Orders</Link>
+                    <Link to="/orders">Orders</Link>
                   </li>
                 )}
                 <li>
@@ -158,11 +165,10 @@ function Navbar() {
   return (
     <>
       <div
-        className={` bg-white text-black max-w-full container mx-auto md:px-20 px-4 fixed top-0 left-0 right-0 z-10 dark:bg-slate-600 dark:text-white ${
-          sticky
-            ? "sticky-navbar bg-gray-200 shadow-md duration-300 transition-all ease-in-out dark:bg-slate-700 dark:text-white"
-            : ""
-        }`}
+        className={` bg-white text-black max-w-full container mx-auto md:px-20 px-4 fixed top-0 left-0 right-0 z-10 dark:bg-slate-600 dark:text-white ${sticky
+          ? "sticky-navbar bg-gray-200 shadow-md duration-300 transition-all ease-in-out dark:bg-slate-700 dark:text-white"
+          : ""
+          }`}
       >
         <div className="navbar">
           <div className="navbar-start">
@@ -192,7 +198,6 @@ function Navbar() {
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
               >
                 {navItems}
-                <div className="space-x-1 mx-3 my-5">{navButtons}</div>
               </ul>
             </div>
             <a className="text-xl text-lime-500 font-bold cursor-pointer">
@@ -224,7 +229,7 @@ function Navbar() {
                 </svg>
               </label>
             </div>
-            <div>
+            <div className="hidden lg:flex">
               <label className="swap swap-rotate">
                 {/* this hidden checkbox controls the state */}
                 <input
@@ -253,6 +258,75 @@ function Navbar() {
                   <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
                 </svg>
               </label>
+            </div>
+            <div className="items-center space-x-3 flex lg:hidden">
+              {auth ? (
+                <>
+                  {JSON.parse(localStorage.getItem("user")).role === "farmer" && (
+                    <div className="btnIcon">
+                      <Link to="/cart" style={{ color: "#1a1a1a" }}>
+                        <FaShoppingCart />
+                        <div className="navAmount">
+                          {JSON.parse(localStorage.getItem("user")).cartSize
+                            ? cartSize
+                            : 0}
+                        </div>
+                      </Link>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  {/* nothing to show */}
+                </>
+              )}
+              <div className="btnIcon">
+                {auth ? (
+                  <>
+                    <CgProfile />
+                    <ul className="navdropdown dropdown pt-2 pb-2">
+                      <li>
+                        <Link
+                          to={
+                            JSON.parse(localStorage.getItem("user")).role === "farmer"
+                              ? "/userdashboard"
+                              : JSON.parse(localStorage.getItem("user")).role === "seller"
+                                ? "/seller"
+                                : JSON.parse(localStorage.getItem("user")).role === "expert"
+                                  ? "/expert"
+                                  : JSON.parse(localStorage.getItem("user")).role === "admin"
+                                    ? "/admin"
+                                    : "/"
+                          }
+                        >
+                          Dashboard
+                        </Link>
+                      </li>
+                      {JSON.parse(localStorage.getItem("user")).role === "farmer" && (
+                        <li>
+                          <Link to="/orders">Orders</Link>
+                        </li>
+                      )}
+                      <li>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            localStorage.clear();
+                            setAuth(null);
+                            navigate("/");
+                          }}
+                        >
+                          Logout
+                        </button>
+                      </li>
+                    </ul>
+                  </>
+                ) : (
+                  <Link to="/login" style={{ color: "#1a1a1a", fontSize: "30px" }}>
+                    <BiLogIn />
+                  </Link>
+                )}
+              </div>
             </div>
             <div className="max-md:hidden space-x-3">{navButtons}</div>
           </div>

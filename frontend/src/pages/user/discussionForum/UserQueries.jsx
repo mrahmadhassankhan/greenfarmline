@@ -10,7 +10,7 @@ function UserQueries() {
   const [search, setSearch] = useState(""); // Search state
 
   useEffect(() => {
-    const email = localStorage.getItem("email");
+    const email = JSON.parse(localStorage.getItem("user")).email;
 
     Axios_Node.get(`/query/getuserquery?email=${email}`)
       .then((response) => {

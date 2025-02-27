@@ -140,7 +140,7 @@ const UpdateProducts = () => {
             "Content-Type": "multipart/form-data",
           },
           params: {
-            email: localStorage.getItem("email"),
+            email: JSON.parse(localStorage.getItem("user")).email,
           },
         }
       );

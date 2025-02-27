@@ -8,7 +8,7 @@ function ExpertAnsweredQueries() {
   const [queries, setQueries] = useState([]);
   const [search, setSearch] = useState(""); // Search state
   const navigate = useNavigate();
-  const expertEmail = localStorage.getItem("email"); // You can replace this with a dynamic value
+  const expertEmail = JSON.parse(localStorage.getItem("user")).email; // You can replace this with a dynamic value
 
   useEffect(() => {
     // Fetch the queries answered by the expert

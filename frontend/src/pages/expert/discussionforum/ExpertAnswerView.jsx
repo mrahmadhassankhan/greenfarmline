@@ -34,9 +34,9 @@ function ExpertAnswerView() {
     setIsSubmitting(true);
 
     const userData = {
-      name: localStorage.getItem("name"),
-      email: localStorage.getItem("email"),
-      role: localStorage.getItem("role"),
+      name: JSON.parse(localStorage.getItem("user")).name,
+      email: JSON.parse(localStorage.getItem("user")).email,
+      role: JSON.parse(localStorage.getItem("user")).role,
     };
 
     const newAnswerObj = {

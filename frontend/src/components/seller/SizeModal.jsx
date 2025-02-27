@@ -32,7 +32,7 @@ const SizeModal = ({ id, size, onClose }) => {
         },
         {
           params: {
-            email: localStorage.getItem("email"),
+            email: JSON.parse(localStorage.getItem("user")).email,
           },
         }
       );

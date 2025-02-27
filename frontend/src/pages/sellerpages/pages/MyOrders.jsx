@@ -21,7 +21,7 @@ const MyOrders = () => {
     try {
       const response = await Axios_Node.get("/users/orders", {
         params: {
-          email: localStorage.getItem("email"), // Ensure this matches the email in your database
+          email: JSON.parse(localStorage.getItem("user")).email, // Ensure this matches the email in your database
         },
       });
       setData(response.data.orders); // Set orders data
@@ -93,7 +93,7 @@ const MyOrders = () => {
         { rating: review.rating, review: review.opinion, productId, orderId },
         {
           params: {
-            email: localStorage.getItem("email"), // Ensure the email is passed
+            email: JSON.parse(localStorage.getItem("user")).email, // Ensure the email is passed
           },
         }
       );
@@ -131,7 +131,7 @@ const MyOrders = () => {
             </tr>
           </thead>
           <tbody className="order-table-tbody">
-            {data !== null &&
+            {data !== null && data !== undefined &&
               data.map((order, orderIndex) => (
                 <tr key={orderIndex}>
                   <td className="order-td">

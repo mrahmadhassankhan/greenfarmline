@@ -34,7 +34,7 @@ const AdminProductList = () => {
           limit,
           page,
           searchTerm,
-          email: localStorage.getItem("email"),
+          email: JSON.parse(localStorage.getItem("user")).email,
         },
       });
       console.log("Admin Products", response.data);
@@ -54,7 +54,7 @@ const AdminProductList = () => {
         return toast.error("Access denied.");
       }
       const response = await Axios.put(`/admin/product/${id}`, {
-        email: localStorage.getItem("email"),
+        email: JSON.parse(localStorage.getItem("user")).email,
       });
       if (response.data.success) {
         const updatedData = data.map((item) => {

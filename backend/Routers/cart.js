@@ -11,7 +11,7 @@ const {
 const authMiddleware = require("../middlewares/auth");
 const roleMiddleware = require("../middlewares/role");
 router.use(authMiddleware);
-router.route("/").get(roleMiddleware(["farmer", "seller", "expert"]), getCart);
+router.route("/getcart").get(roleMiddleware(["farmer", "seller", "expert"]), getCart);
 router
   .route("/add")
   .post(roleMiddleware(["farmer", "seller", "expert"]), addToCart);

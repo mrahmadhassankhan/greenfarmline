@@ -6,9 +6,9 @@ import { Axios_Flask } from "../../../Axios";
 import { Axios_Node } from "../../../Axios";
 
 function UserDashboard() {
-  const userEmail = localStorage.getItem("email");
-  const userName = localStorage.getItem("name");
-  const userRole = localStorage.getItem("role");
+  const userEmail = JSON.parse(localStorage.getItem("user")).email;
+  const userName = JSON.parse(localStorage.getItem("user")).name;
+  const userRole = JSON.parse(localStorage.getItem("user")).role;
   const user = { email: userEmail, name: userName, role: userRole };
 
   // State for handling image upload and detection results

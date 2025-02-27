@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { Axios_Node } from "../../../Axios";
 
 const expert = () => {
-  const expertEmail = localStorage.getItem("email");
-  const expertName = localStorage.getItem("name");
+  const expertEmail = JSON.parse(localStorage.getItem("user")).email;
+  const expertName = JSON.parse(localStorage.getItem("user")).name;
 
   const navigate = useNavigate();
 

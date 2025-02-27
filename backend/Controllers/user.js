@@ -51,7 +51,9 @@ const register = asyncErrorHandler(async (req, res, next) => {
 
   res.status(201).json({
     success: true,
-    message: `${role.charAt(0).toUpperCase() + role.slice(1)} Registered successfully`,
+    message: `${
+      role.charAt(0).toUpperCase() + role.slice(1)
+    } Registered successfully`,
     user: { name: newUser.name, email: newUser.email, role: newUser.role },
     token,
   });
@@ -74,7 +76,11 @@ const login = asyncErrorHandler(async (req, res, next) => {
     return next(new errorHandler("Invalid credentials", 401));
   }
 
-  const token = generateToken(userExists._id, userExists.email, userExists.role);
+  const token = generateToken(
+    userExists._id,
+    userExists.email,
+    userExists.role
+  );
 
   const cartSize = userExists.cart.items.reduce((a, p) => a + p.quantity, 0);
 
@@ -89,7 +95,12 @@ const login = asyncErrorHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: "User logged in successfully",
-    user: { name: userExists.name, email: userExists.email, role: userExists.role, cartSize },
+    user: {
+      name: userExists.name,
+      email: userExists.email,
+      role: userExists.role,
+      cartSize,
+    },
     token,
   });
 });
@@ -126,8 +137,14 @@ const updateUserProfile = asyncErrorHandler(async (req, res, next) => {
   if (!user) return next(new errorHandler("User not found", 404));
 
   const {
-    name, phoneNumber, address, businessName, registrationNo, qualification,
-    yearsOfExperience, expertise,
+    name,
+    phoneNumber,
+    address,
+    businessName,
+    registrationNo,
+    qualification,
+    yearsOfExperience,
+    expertise,
   } = req.body;
 
   user.name = name || user.name;
@@ -146,9 +163,13 @@ const updateUserProfile = asyncErrorHandler(async (req, res, next) => {
   }
 
   await user.save();
-  await Activity.create({ message: `The ${user.role} ${name} updated account details` });
+  await Activity.create({
+    message: `The ${user.role} ${name} updated account details`,
+  });
 
-  res.status(200).json({ success: true, message: "Profile updated successfully", user });
+  res
+    .status(200)
+    .json({ success: true, message: "Profile updated successfully", user });
 });
 
 // Get Orders
@@ -165,13 +186,13 @@ const getOrder = asyncErrorHandler(async (req, res, next) => {
     return res.status(404).json({ success: false, message: "No orders found" });
   }
 
-  const formattedOrders = orderObj.map(order => ({
+  const formattedOrders = orderObj.map((order) => ({
     id: order._id,
     paymentId: order.paymentIntentId,
     totalPrice: order.total,
     delivered: order.delivery_status,
     createdAt: order.createdAt.toLocaleDateString(),
-    items: order.products.map(item => ({
+    items: order.products.map((item) => ({
       id: item.productId._id,
       name: `${item.productId.brand} ${item.productId.name}`,
       price: item.productId.price,
@@ -184,7 +205,11 @@ const getOrder = asyncErrorHandler(async (req, res, next) => {
     })),
   }));
 
-  res.status(200).json({ success: true, count: formattedOrders.length, orders: formattedOrders.reverse() });
+  res.status(200).json({
+    success: true,
+    count: formattedOrders.length,
+    orders: formattedOrders.reverse(),
+  });
 });
 
 // Forget Password
@@ -193,10 +218,24 @@ const forgetPassword = asyncErrorHandler(async (req, res, next) => {
   const userExists = await User.findOne({ email });
   if (!userExists) return next(new errorHandler("User not found", 404));
 
-  const token = jwt.sign({ id: userExists._id }, secret + userExists.password, { expiresIn: "5m" });
-  await sendEmail({ email, subject: "Password Reset", message: `Reset your password: ${process.env.CLIENT_URL}/resetpassword?token=${token}&id=${userExists._id}` });
+  const token = jwt.sign({ id: userExists._id }, secret + userExists.password, {
+    expiresIn: "5m",
+  });
+  await sendEmail({
+    email,
+    subject: "Password Reset",
+    message: `Reset your password: ${process.env.CLIENT_URL}/resetpassword?token=${token}&id=${userExists._id}`,
+  });
 
   res.status(200).json({ success: true, message: "Password reset email sent" });
 });
 
-module.exports = { register, login, verifyUser, getOrder, forgetPassword, getUserProfile, updateUserProfile };
+module.exports = {
+  register,
+  login,
+  verifyUser,
+  getOrder,
+  forgetPassword,
+  getUserProfile,
+  updateUserProfile,
+};

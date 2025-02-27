@@ -158,10 +158,21 @@ const updateCart = asyncErrorHandler(async (req, res, next) => {
 
 const cartSize = asyncErrorHandler(async (req, res, next) => {
   const { email } = req.query;
-  const userObj = await user.findOne({ email });
-  if (!userObj) {
+
+  const userObj = await User.findOne({ email });
+
+  console.log(userObj);
+
+  if (
+    !userObj ||
+    !userObj.cart ||
+    !userObj.cart.items ||
+    userObj.cart.items.length === 0
+  ) {
     return res.status(200).json({ cartSize: 0 });
   }
+
   return res.status(200).json({ cartSize: userObj.cart.items.length });
 });
+
 module.exports = { addToCart, getCart, deleteCart, updateCart, cartSize };

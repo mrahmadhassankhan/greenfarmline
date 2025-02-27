@@ -27,6 +27,7 @@ const brandRoute = require("./Routers/brands");
 const categoryRoute = require("./Routers/category");
 const { webhook } = require("./Controllers/payments");
 const contactUsRouter = require("./Routers/contact");
+const loggerMiddleware = require("./middlewares/logger");
 
 const PORT = 1783;
 
@@ -92,8 +93,17 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.static(path.resolve(__dirname, "./public/Images/")));
 app.use(express.static("public"));
 app.use(cookieParser());
-
 app.use(bodyParser.json());
+app.use(loggerMiddleware);
+
+app.use((req, res, next) => {
+  const originalSend = res.send;
+  res.send = function (body) {
+    res.locals.responseData = body;
+    return originalSend.apply(res, arguments);
+  };
+  next();
+});
 
 app.use("/form/", contactUsRouter);
 app.use("/uptime", uptimeRoutes);

@@ -25,7 +25,7 @@ queryRouter
 
 queryRouter
   .route("/getapprovedqueries")
-  .get(roleMiddleware(["farmer", "expert"]), getApprovedQueries); // Get all Approved queries
+  .get(roleMiddleware(["farmer", "expert", "admin"]), getApprovedQueries); // Get all Approved queries
 queryRouter
   .route("/getpendingqueries")
   .get(roleMiddleware(["admin", "farmer"]), getPendingQueries); // Get all Pending queries

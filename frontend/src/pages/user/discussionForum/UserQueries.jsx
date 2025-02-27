@@ -12,7 +12,7 @@ function UserQueries() {
   useEffect(() => {
     const email = localStorage.getItem("email");
 
-    Axios_Node.get(`/getuserquery?email=${email}`)
+    Axios_Node.get(`/query/getuserquery?email=${email}`)
       .then((response) => {
         setQueries(response.data); // Set the fetched queries to state
       })

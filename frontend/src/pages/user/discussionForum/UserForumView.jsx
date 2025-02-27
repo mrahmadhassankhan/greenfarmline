@@ -13,7 +13,7 @@ function UserForumView() {
 
   // Fetch approved queries from backend
   useEffect(() => {
-    Axios_Node.get("/getapprovedqueries")
+    Axios_Node.get("/query/getapprovedqueries")
       .then((response) => {
         setQueries(response.data);
         setLoading(false);

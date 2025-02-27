@@ -22,9 +22,7 @@ queryRouter.use(authMiddleware);
 queryRouter
   .route("/postquery")
   .post(roleMiddleware(["farmer"]), UploadingFileMiddleware, createPostQuery); // Create a new query
-queryRouter
-  .route("/getqueries")
-  .get(roleMiddleware(["seller", "farmer", "expert"]), getAllPostQueries); // Get all queries
+
 queryRouter
   .route("/getapprovedqueries")
   .get(roleMiddleware(["farmer", "expert"]), getApprovedQueries); // Get all Approved queries
@@ -38,10 +36,10 @@ queryRouter
   .route("/getuserquery")
   .get(roleMiddleware(["farmer", "expert", "admin"]), getUserQueriesByEmail); // Get query by ID
 queryRouter
-  .route("/updatequery/:id")
+  .route("updatequery/:id")
   .put(roleMiddleware(["admin"]), updatePostQuery); // Update query by ID
 queryRouter
-  .route("/deletequery/:id")
+  .route("deletequery/:id")
   .delete(roleMiddleware(["admin", "farmer"]), deletePostQuery); // Delete query by ID
 queryRouter
   .route("/approverejectallqueries")

@@ -26,7 +26,9 @@ const expert = () => {
   const fetchCounts = async () => {
     try {
       // Fetch total approved queries
-      const approvedResponse = await Axios_Node.get("/getapprovedqueries");
+      const approvedResponse = await Axios_Node.get(
+        "/query/getapprovedqueries"
+      );
       const approvedQueries = Array.isArray(approvedResponse.data)
         ? approvedResponse.data
         : [];
@@ -59,7 +61,7 @@ const expert = () => {
 
   const fetchRecentQueries = async () => {
     try {
-      const response = await Axios_Node.get("/getapprovedqueries");
+      const response = await Axios_Node.get("/query/getapprovedqueries");
 
       if (Array.isArray(response.data)) {
         setRecentQueries(response.data.slice(0, 3)); // Take latest 3 queries

@@ -16,7 +16,7 @@ function AdminDashboard() {
     // Fetch only pending queries count from the backend when the component is mounted
     const fetchQueries = async () => {
       try {
-        const response = await Axios_Node.get("/getpendingqueries");
+        const response = await Axios_Node.get("/query/getpendingqueries");
         // console.log("Pending queries response:", response.data);
 
         if (Array.isArray(response.data.data)) {

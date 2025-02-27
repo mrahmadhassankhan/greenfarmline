@@ -12,7 +12,7 @@ function ExpertForumView() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    Axios_Node.get("/getapprovedqueries")
+    Axios_Node.get("/query/getapprovedqueries")
       .then((response) => {
         console.log("API Response:", response.data); // Debugging step
         setQueries(Array.isArray(response.data) ? response.data : []); // Ensure it's an array

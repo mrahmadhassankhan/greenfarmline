@@ -12,7 +12,7 @@ function ApprovedQueries() {
   useEffect(() => {
     const fetchApprovedQueries = async () => {
       try {
-        const response = await Axios_Node.get("/getapprovedqueries");
+        const response = await Axios_Node.get("/query/getapprovedqueries");
 
         if (response.status === 200) {
           if (response.data.data.length === 0) {

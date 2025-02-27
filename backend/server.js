@@ -99,7 +99,7 @@ app.use("/form/", contactUsRouter);
 app.use("/uptime", uptimeRoutes);
 app.use("/detections", detectionRoutes);
 
-app.use("/", queryRouter);
+app.use("/query", queryRouter);
 
 app.use("/answer", answerrouter);
 

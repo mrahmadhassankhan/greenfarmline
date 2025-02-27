@@ -92,7 +92,7 @@ function UserDashboard() {
     // Fetch latest 3 approved queries and their replies count
     const fetchQueries = async () => {
       try {
-        const response = await Axios_Node.get("/getapprovedqueries");
+        const response = await Axios_Node.get("/query/getapprovedqueries");
 
         let latestQueries = response.data.slice(-3); // Get last 3 approved queries
 

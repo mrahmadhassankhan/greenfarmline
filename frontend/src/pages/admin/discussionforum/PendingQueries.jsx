@@ -15,7 +15,7 @@ function PendingQueries() {
   useEffect(() => {
     const fetchQueries = async () => {
       try {
-        const response = await Axios_Node.get("/getpendingqueries");
+        const response = await Axios_Node.get("/query/getpendingqueries");
 
         if (response.status === 200) {
           if (response.data.data.length === 0) {
@@ -47,10 +47,10 @@ function PendingQueries() {
 
   const handleApproveAll = async () => {
     try {
-      await Axios_Node.put("/approverejectallqueries", {
+      await Axios_Node.put("/query/approverejectallqueries", {
         status: "Approved",
       });
-      const response = await Axios_Node.get("/getpendingqueries");
+      const response = await Axios_Node.get("/query/getpendingqueries");
       setQueries(response.data.data);
       toast.success("All Queries Approved");
     } catch (error) {
@@ -65,8 +65,10 @@ function PendingQueries() {
     }
 
     try {
-      await Axios_Node.put("/approverejectallqueries", { status: "Rejected" });
-      const response = await Axios_Node.get("/getpendingqueries");
+      await Axios_Node.put("/query/approverejectallqueries", {
+        status: "Rejected",
+      });
+      const response = await Axios_Node.get("/query/getpendingqueries");
       setQueries(response.data.data);
       toast.success("All Queries Rejected");
     } catch (error) {

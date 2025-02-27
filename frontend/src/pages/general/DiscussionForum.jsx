@@ -16,7 +16,7 @@ function DiscussionForum() {
 
   // Fetch approved queries from backend
   useEffect(() => {
-    Axios_Node.get("/getapprovedqueries")
+    Axios_Node.get("/query/getapprovedqueries")
       .then((response) => {
         setQueries(response.data); // Set the fetched queries to state
         setLoading(false); // Stop the loading spinner

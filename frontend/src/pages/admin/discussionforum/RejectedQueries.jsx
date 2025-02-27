@@ -14,7 +14,7 @@ function RejectedQueries() {
     const fetchRejectedQueries = async () => {
       try {
         setLoading(true);
-        const response = await Axios_Node.get("/getrejectedqueries");
+        const response = await Axios_Node.get("/query/getrejectedqueries");
 
         if (response.data && response.data.data) {
           setQueries(response.data.data);

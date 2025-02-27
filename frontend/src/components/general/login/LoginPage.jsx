@@ -46,6 +46,7 @@ const LoginPage = () => {
       );
       toast.success("Login Successful");
       if (response.data.token) {
+         localStorage.clear();
         login(response.data.token, response.data.user);
       }
       if (response.data.user.role === "seller") {

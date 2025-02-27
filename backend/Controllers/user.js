@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const sendEmail = require("../utils/sendEmail");
 const asyncErrorHandler = require("../middlewares/asyncErrorHandler");
 const errorHandler = require("../utils/errorHandler");
-const order = require("../Models/order");
+
 const secret = process.env.JWT_SECRET;
 
 // Utility function to generate JWT
@@ -21,13 +21,13 @@ const register = asyncErrorHandler(async (req, res, next) => {
   if (!name || !email || !password || !role) {
     return next(new errorHandler("Please provide all required fields", 400));
   }
-  // Check if file is uploaded
-  if (role === "seller" || role === "expert") {
-    if (!req.file) {
-      return next(new errorHandler("Please upload a document", 400));
-    }
-    extraFields.document = req.file.path;
+
+  // Check if file is uploaded for specific roles
+  if (["seller", "expert"].includes(role) && !req.file) {
+    return next(new errorHandler("Please upload a document", 400));
   }
+
+  if (req.file) extraFields.document = req.file.path;
 
   const emailAlreadyExists = await User.findOne({ email });
   if (emailAlreadyExists) {
@@ -35,28 +35,24 @@ const register = asyncErrorHandler(async (req, res, next) => {
   }
 
   const userData = { name, email, password, role, ...extraFields };
-
   const newUser = await User.create(userData);
-  await Activity.create({ message: `New ${role} "${name}" is registered` });
+
+  await Activity.create({ message: `New ${role} "${name}" registered` });
 
   const token = generateToken(newUser._id, newUser.email, newUser.role);
+
   res.cookie("token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "Strict",
+    secure: true,
+    sameSite: "None",
+    domain: process.env.COOKIE_DOMAIN || ".greenfarmline.shop",
     maxAge: 48 * 60 * 60 * 1000,
   });
 
   res.status(201).json({
     success: true,
-    message: `${
-      role.charAt(0).toUpperCase() + role.slice(1)
-    } Registered successfully`,
-    user: {
-      name: newUser.name,
-      email: newUser.email,
-      role: newUser.role,
-    },
+    message: `${role.charAt(0).toUpperCase() + role.slice(1)} Registered successfully`,
+    user: { name: newUser.name, email: newUser.email, role: newUser.role },
     token,
   });
 });
@@ -67,42 +63,33 @@ const login = asyncErrorHandler(async (req, res, next) => {
   if (!email || !password) {
     return next(new errorHandler("Please provide email and password", 400));
   }
+
   const userExists = await User.findOne({ email });
-  if (!userExists) {
+  if (!userExists || userExists.role !== role) {
     return next(new errorHandler("Invalid credentials", 401));
   }
-  if (userExists.role !== role) {
-    return next(new errorHandler("Access denied", 401));
-  }
+
   const isMatch = await userExists.comparePassword(password);
   if (!isMatch) {
     return next(new errorHandler("Invalid credentials", 401));
   }
 
-  const token = generateToken(
-    userExists._id,
-    userExists.email,
-    userExists.role
-  );
+  const token = generateToken(userExists._id, userExists.email, userExists.role);
 
   const cartSize = userExists.cart.items.reduce((a, p) => a + p.quantity, 0);
 
   res.cookie("token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "Strict", // Protects against CSRF
-    maxAge: 48 * 60 * 60 * 1000, // 48 hours in milliseconds
+    secure: true,
+    sameSite: "None",
+    domain: process.env.COOKIE_DOMAIN || ".greenfarmline.shop",
+    maxAge: 48 * 60 * 60 * 1000,
   });
 
   res.status(200).json({
     success: true,
     message: "User logged in successfully",
-    user: {
-      name: userExists.name,
-      email: userExists.email,
-      role: userExists.role,
-      cartSize,
-    },
+    user: { name: userExists.name, email: userExists.email, role: userExists.role, cartSize },
     token,
   });
 });
@@ -121,39 +108,26 @@ const verifyUser = asyncErrorHandler(async (req, res, next) => {
   const cartSize = userObj.cart.items.reduce((a, p) => a + p.quantity, 0);
   res.status(200).json({
     success: true,
-    user: {
-      name: userObj.name,
-      email: userObj.email,
-      cartSize,
-    },
+    user: { name: userObj.name, email: userObj.email, cartSize },
   });
 });
 
 // Fetch User Profile
 const getUserProfile = asyncErrorHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id).select("-password");
-  if (!user) {
-    return next(new errorHandler("User not found", 404));
-  }
+  if (!user) return next(new errorHandler("User not found", 404));
+
   res.status(200).json({ success: true, user });
 });
 
 // Update User Profile
 const updateUserProfile = asyncErrorHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id);
-  if (!user) {
-    return next(new errorHandler("User not found", 404));
-  }
+  if (!user) return next(new errorHandler("User not found", 404));
 
   const {
-    name,
-    phoneNumber,
-    address,
-    businessName,
-    registrationNo,
-    qualification,
-    yearsOfExperience,
-    expertise,
+    name, phoneNumber, address, businessName, registrationNo, qualification,
+    yearsOfExperience, expertise,
   } = req.body;
 
   user.name = name || user.name;
@@ -172,105 +146,57 @@ const updateUserProfile = asyncErrorHandler(async (req, res, next) => {
   }
 
   await user.save();
-  await Activity.create({
-    message: `The ${user.role} ${name} updated account details`,
-  });
-  res
-    .status(200)
-    .json({ success: true, message: "Profile updated successfully", user });
+  await Activity.create({ message: `The ${user.role} ${name} updated account details` });
+
+  res.status(200).json({ success: true, message: "Profile updated successfully", user });
 });
 
+// Get Orders
 const getOrder = asyncErrorHandler(async (req, res, next) => {
-  // Extract email from query parameters
   const { email } = req.query;
-  console.log(email);
-  // Check if email is provided
   if (!email) return next(new errorHandler("Email not provided", 400));
 
-  // Find orders based on the provided email
-  const orderObj = await order.find({ "shipping.email": email }).populate({
+  const orderObj = await Order.find({ "shipping.email": email }).populate({
     path: "products.productId",
     select: "name price brand image slug color",
   });
 
-  console.log("Orders found:", orderObj); // Debugging
-
-  // Check if orders exist for the provided email
   if (!orderObj || orderObj.length === 0) {
-    return res.status(404).json({
-      success: false,
-      message: "No orders found for the provided email",
-    });
+    return res.status(404).json({ success: false, message: "No orders found" });
   }
 
-  // Format the orders
-  const formattedOrders = orderObj.map((order) => {
-    return {
-      id: order._id,
-      paymentId: order.paymentIntentId,
-      totalPrice: order.total,
-      delivered: order.delivery_status,
-      createdAt: order.createdAt.toLocaleDateString(), // Format date
-      items: order.products.map((item) => {
-        return {
-          id: item.productId._id,
-          name: `${item.productId.brand} ${item.productId.name}`,
-          price: item.productId.price,
-          image: item.productId.image,
-          color: item.productId.color,
-          slug: item.productId.slug,
-          quantity: item.quantity,
-          size: item.size,
-          isReviewed: item.isReviewed,
-        };
-      }),
-    };
-  });
+  const formattedOrders = orderObj.map(order => ({
+    id: order._id,
+    paymentId: order.paymentIntentId,
+    totalPrice: order.total,
+    delivered: order.delivery_status,
+    createdAt: order.createdAt.toLocaleDateString(),
+    items: order.products.map(item => ({
+      id: item.productId._id,
+      name: `${item.productId.brand} ${item.productId.name}`,
+      price: item.productId.price,
+      image: item.productId.image,
+      color: item.productId.color,
+      slug: item.productId.slug,
+      quantity: item.quantity,
+      size: item.size,
+      isReviewed: item.isReviewed,
+    })),
+  }));
 
-  // Return the formatted orders with correct count
-  res.status(200).json({
-    success: true,
-    count: formattedOrders.length, // Ensure the count reflects the number of orders
-    orders: formattedOrders.reverse(), // Reverse to show the latest orders first
-  });
+  res.status(200).json({ success: true, count: formattedOrders.length, orders: formattedOrders.reverse() });
 });
 
-// Forget password
+// Forget Password
 const forgetPassword = asyncErrorHandler(async (req, res, next) => {
-  const { email } = req.params;
+  const { email } = req.body;
   const userExists = await User.findOne({ email });
-  if (!userExists) {
-    return next(new errorHandler("User not found", 404));
-  }
+  if (!userExists) return next(new errorHandler("User not found", 404));
 
-  const token = jwt.sign({ id: userExists._id }, secret + userExists.password, {
-    expiresIn: "5m",
-  });
-  const resetUrl = `${process.env.CLIENT_URL}/resetpassword?token=${token}&id=${userExists._id}`;
+  const token = jwt.sign({ id: userExists._id }, secret + userExists.password, { expiresIn: "5m" });
+  await sendEmail({ email, subject: "Password Reset", message: `Reset your password: ${process.env.CLIENT_URL}/resetpassword?token=${token}&id=${userExists._id}` });
 
-  await sendEmail({
-    email,
-    subject: "Password Reset Request for Your Account",
-    message: `
-      <p>Hello,</p>
-      <p>We received a request to reset your password. Click the link below to reset it:</p>
-      <a href="${resetUrl}">${resetUrl}</a>
-      <p>If you didn't request this, please ignore this email.</p>
-    `,
-  });
-
-  res.status(200).json({
-    success: true,
-    message: "Password reset email sent successfully",
-  });
+  res.status(200).json({ success: true, message: "Password reset email sent" });
 });
 
-module.exports = {
-  register,
-  login,
-  verifyUser,
-  getOrder,
-  forgetPassword,
-  getUserProfile,
-  updateUserProfile,
-};
+module.exports = { register, login, verifyUser, getOrder, forgetPassword, getUserProfile, updateUserProfile };

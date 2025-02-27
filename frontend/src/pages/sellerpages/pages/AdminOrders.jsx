@@ -82,7 +82,7 @@ const AdminOrders = () => {
         id,
         status,
         paymentId,
-        email: localStorage.getItem("email"),
+        email: JSON.parse(localStorage.getItem("user")).email,
       });
       console.log(response.data);
       if (response.data.success) {

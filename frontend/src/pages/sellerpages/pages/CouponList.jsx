@@ -96,7 +96,7 @@ const CouponList = () => {
         { formData },
         {
           params: {
-            email: localStorage.getItem("email"),
+            email: JSON.parse(localStorage.getItem("user")).email,
           },
         }
       );
@@ -123,7 +123,7 @@ const CouponList = () => {
         `/admin/coupons/${formData.name.toUpperCase()}`,
         {
           params: {
-            email: localStorage.getItem("email"),
+            email: JSON.parse(localStorage.getItem("user")).email,
           },
         }
       );

@@ -7,7 +7,7 @@ import AdminNav from "./admin/AdminNav";
 const Settings = () => {
   const [formData, setFormData] = useState({});
   const token = localStorage.getItem("token");
-  const userRole = localStorage.getItem("role");
+  const userRole = JSON.parse(localStorage.getItem("user")).role;
 
   useEffect(() => {
     const fetchProfile = async () => {

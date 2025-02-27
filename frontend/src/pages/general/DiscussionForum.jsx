@@ -12,7 +12,7 @@ function DiscussionForum() {
   const navigate = useNavigate();
 
   // Example: Simulating user authentication and role
-  const user = localStorage.getItem("email"); // Assume user info is stored in localStorage
+  const user = JSON.parse(localStorage.getItem("user")).email; // Assume user info is stored in localStorage
 
   // Fetch approved queries from backend
   useEffect(() => {
@@ -33,7 +33,7 @@ function DiscussionForum() {
     if (!user) {
       // If user is not logged in, redirect to login
       navigate("/login");
-    } else if (localStorage.getItem("role") !== "farmer") {
+    } else if (JSON.parse(localStorage.getItem("user")).role !== "farmer") {
       // If user role is not "farmer", show a toast or message
       alert("You are not allowed to access this page.");
     } else {

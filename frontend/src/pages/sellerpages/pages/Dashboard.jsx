@@ -44,7 +44,7 @@ const Dashboard = () => {
         }
         const res = await Axios_Node.get("/admin/info", {
           params: {
-            email: localStorage.getItem("email"),
+            email: JSON.parse(localStorage.getItem("user")).email,
           },
         });
         const myData = res.data.bar1.data.map((item) => Number(item));

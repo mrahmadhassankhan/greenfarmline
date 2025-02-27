@@ -38,9 +38,9 @@ const PostQuery = () => {
     const formData = new FormData();
     formData.append("title", queryData.title);
     formData.append("description", queryData.description);
-    formData.append("role", localStorage.getItem("role"));
-    formData.append("email", localStorage.getItem("email"));
-    formData.append("name", localStorage.getItem("name"));
+    formData.append("role", JSON.parse(localStorage.getItem("user")).role);
+    formData.append("email", JSON.parse(localStorage.getItem("user")).email);
+    formData.append("name", JSON.parse(localStorage.getItem("user")).name);
 
     // Append images if they exist
     queryData.queryImage.forEach((file) => {

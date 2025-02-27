@@ -15,7 +15,7 @@ const CustomerList = () => {
         }
         const response = await Axios_Node.get("/admin/users", {
           params: {
-            email: localStorage.getItem("email"),
+            email: JSON.parse(localStorage.getItem("user")).email,
           },
         });
         if (response.data.success) {

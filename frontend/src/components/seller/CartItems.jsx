@@ -64,7 +64,7 @@ const CartItems = ({
     try {
       const response = await Axios_Node.put(`/cart/update/${cartId}`, {
         quantity: debouncequantity,
-        email: localStorage.getItem("email"),
+        email: JSON.parse(localStorage.getItem("user")).email,
       });
       updateData(response.data.cart);
       toast.success("Quantity updated successfully");

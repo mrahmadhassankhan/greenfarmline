@@ -15,7 +15,7 @@ const AdminHeader = ({ open, toggleOpen }) => {
         {/* <p>Dashboard</p> */}
       </div>
       <p className="adminHeaderProfile">
-        Hello, {localStorage.getItem('name')}
+        Hello, {JSON.parse(localStorage.getItem("user")).name}
         <FaCircleUser size={28} />
       </p>
     </div>

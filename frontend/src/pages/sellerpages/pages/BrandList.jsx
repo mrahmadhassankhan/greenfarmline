@@ -91,7 +91,7 @@ const BrandList = () => {
         { ...formData },
         {
           params: {
-            email: localStorage.getItem("email"),
+            email: JSON.parse(localStorage.getItem("user")).email,
           },
         }
       );
@@ -125,7 +125,7 @@ const BrandList = () => {
         { ...formData },
         {
           params: {
-            email: localStorage.getItem("email"),
+            email: JSON.parse(localStorage.getItem("user")).email,
           },
         }
       );

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import logo from "../../images/logo-icon.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../authContext/auth";
 function AdminNav() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -58,8 +58,20 @@ function AdminNav() {
             </div>
             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
               <div className="flex shrink-0 items-center">
-                <img className="h-8 w-auto" src={logo} alt="Green Farm Line" />
-                <p className="text-white px-2">Admin Panel</p>
+                {
+                  <Link to="/">
+                    <img
+                      className="h-8 w-auto"
+                      src={logo}
+                      alt="Green Farm Line"
+                    />
+                  </Link>
+                }
+                {
+                  <Link to="/admin">
+                    <p className="text-white px-2">Admin Panel</p>
+                  </Link>
+                }
               </div>
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">

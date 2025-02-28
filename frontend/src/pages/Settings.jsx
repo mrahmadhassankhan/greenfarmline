@@ -49,7 +49,7 @@ const Settings = () => {
           Update Your Information
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 text-white">
           {/* Common Fields */}
           <div>
             <label className="block text-gray-700 font-medium">Full Name</label>
@@ -63,7 +63,9 @@ const Settings = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium">Phone Number</label>
+            <label className="block text-gray-700 font-medium">
+              Phone Number
+            </label>
             <input
               type="text"
               name="phoneNumber"
@@ -88,7 +90,9 @@ const Settings = () => {
           {userRole === "seller" && (
             <>
               <div>
-                <label className="block text-gray-700 font-medium">Business Name</label>
+                <label className="block text-gray-700 font-medium">
+                  Business Name
+                </label>
                 <input
                   type="text"
                   name="businessName"
@@ -99,7 +103,9 @@ const Settings = () => {
               </div>
 
               <div>
-                <label className="block text-gray-700 font-medium">Registration No</label>
+                <label className="block text-gray-700 font-medium">
+                  Registration No
+                </label>
                 <input
                   type="text"
                   name="registrationNo"
@@ -115,7 +121,9 @@ const Settings = () => {
           {userRole === "expert" && (
             <>
               <div>
-                <label className="block text-gray-700 font-medium">Qualification</label>
+                <label className="block text-gray-700 font-medium">
+                  Qualification
+                </label>
                 <input
                   type="text"
                   name="qualification"
@@ -126,7 +134,9 @@ const Settings = () => {
               </div>
 
               <div>
-                <label className="block text-gray-700 font-medium">Years of Experience</label>
+                <label className="block text-gray-700 font-medium">
+                  Years of Experience
+                </label>
                 <input
                   type="number"
                   name="yearsOfExperience"

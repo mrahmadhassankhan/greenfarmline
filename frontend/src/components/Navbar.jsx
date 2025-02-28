@@ -132,7 +132,7 @@ function Navbar() {
 
   const navButtons = (
     <>
-      <div className="items-center space-x-3 block lg:flex">
+      <div className="items-center space-x-3 lg:flex">
         {auth && user?.role === "farmer" && (
           <div className="btnIcon">
             <Link to="/cart" style={{ color: "#1a1a1a" }}>
@@ -219,12 +219,12 @@ function Navbar() {
             <a className="text-xl text-lime-500 font-bold cursor-pointer">
               GFL
             </a>
-            <ul className="menu menu-horizontal px-1 hidden  xl-[950px]:flex">
+            <ul className="menu menu-horizontal px-1 hidden  xl-[990px]:flex">
               {navItems}
             </ul>
           </div>
-          <div className="navbar-end space-x-3">
-            <div className="max-md:hidden">
+          <div className="navbar-end space-x-3 ">
+            <div className="hidden lg:flex">
               <label className="px-3 py-2 border rounded-md flex items-center gap-2">
                 <input
                   type="text"

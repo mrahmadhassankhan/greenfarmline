@@ -73,7 +73,7 @@ const CropDetectionLayout = ({ user }) => {
       <h1 className="text-2xl text-center font-bold text-green-600 mb-4 mt-16">
         Crop Image Detection
       </h1>
-      <div className="w-1/2 bg-white p-6 shadow-md rounded-lg">
+      <div className="w-full lg:w-1/2 bg-white p-6 shadow-md rounded-lg">
         {/* Image Upload Section */}
         <div className="mb-4">
           <label

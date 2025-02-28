@@ -14,13 +14,13 @@ function Banner() {
               Green Farm Line brings cutting-edge solutions to the agricultural
               sector, offering a seamless platform for purchasing essentials,
               expert advice, and advanced crop disease detection.{" "}
-              <span className="text-lime-500 font-bold">
+              <span className="text-green-600 font-bold">
                 Grow better, harvest smarter.
               </span>
             </p>
           </div>
           <div className="flex justify-center items-center md:justify-normal">
-            <button className="bg-lime-500 text-white p-2 mt-6 rounded-md hover:bg-lime-600 duration-200 cursor-pointer">
+            <button className="bg-green-600 text-white p-2 mt-6 rounded-md hover:bg-green-700 duration-200 cursor-pointer">
               Get Started
             </button>
           </div>

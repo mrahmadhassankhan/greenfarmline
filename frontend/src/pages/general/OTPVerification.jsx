@@ -55,7 +55,7 @@ const OTPVerification = () => {
 
                     <button
                         type="submit"
-                        className="w-full p-2 bg-lime-500 hover:bg-lime-600 text-white rounded"
+                        className="w-full p-2 bg-green-600 hover:bg-green-700 text-white rounded"
                         disabled={isLoading}
                     >
                         {isLoading ? 'Verifying...' : 'Verify OTP'}

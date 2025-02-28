@@ -13,7 +13,7 @@ function Intro() {
                         Green Farm Line is dedicated to transforming agriculture through innovative solutions. We offer a one-stop platform where farmers can access high-quality fertilizers, pesticides, and machinery, connect with experts for advice, and leverage advanced crop disease detection technology to ensure healthy harvests.
                     </p>
                 </div>
-                <a href="/about"><button className="bg-lime-500 text-white p-2 mt-6 rounded-md hover:bg-lime-600 duration-200 cursor-pointer">Learn More</button></a>
+                <a href="/about"><button className="bg-green-600 text-white p-2 mt-6 rounded-md hover:bg-green-700 duration-200 cursor-pointer">Learn More</button></a>
             </div>
         </>
     )

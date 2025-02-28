@@ -188,7 +188,7 @@ function Navbar() {
               <div
                 tabIndex={0}
                 role="button"
-                className="btn btn-ghost lg:hidden"
+                className="btn btn-ghost xl:hidden"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -207,15 +207,15 @@ function Navbar() {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow text-white"
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow text-black"
               >
                 {navItems}
               </ul>
             </div>
-            <a className="text-xl text-lime-500 font-bold cursor-pointer">
+            <a className="text-xl text-green-600 font-bold cursor-pointer">
               GFL
             </a>
-            <ul className="menu menu-horizontal px-1 hidden  xxl:flex">
+            <ul className="menu menu-horizontal px-1 hidden xl:flex">
               {navItems}
             </ul>
           </div>
@@ -242,7 +242,7 @@ function Navbar() {
               </label>
             </div>
             <div>
-              <label className="swap swap-rotate">
+              <label className="swap swap-rotate btnIcon">
                 {/* this hidden checkbox controls the state */}
                 <input
                   type="checkbox"

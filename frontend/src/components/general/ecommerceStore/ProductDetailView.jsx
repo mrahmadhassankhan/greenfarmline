@@ -5,7 +5,7 @@ const ProductDetailView = ({ product, onBack }) => {
         <div className="p-6 bg-gray-100 mt-16">
             <button
                 onClick={onBack}
-                className="mb-4 text-lime-600 hover:underline"
+                className="mb-4 text-green-700 hover:underline"
             >
                 &larr; Back to Store
             </button>
@@ -24,10 +24,10 @@ const ProductDetailView = ({ product, onBack }) => {
 
                 {/* Center Details Section */}
                 <div className="col-span-1">
-                    <h2 className="text-2xl font-bold text-lime-600">{product.title}</h2>
+                    <h2 className="text-2xl font-bold text-green-700">{product.title}</h2>
                     <p className="text-gray-600 mt-2">{product.description}</p>
                     <div className="mt-4">
-                        <p className="text-xl text-lime-500 font-bold">Rs. {product.price}</p>
+                        <p className="text-xl text-green-600 font-bold">Rs. {product.price}</p>
                         <p className="text-sm text-gray-500 mt-1">
                             Category: {product.category}
                         </p>
@@ -38,14 +38,14 @@ const ProductDetailView = ({ product, onBack }) => {
                             Rating: {product.rating} ⭐
                         </p>
                     </div>
-                    <button className="mt-6 bg-lime-500 text-white px-4 py-2 rounded-md hover:bg-lime-600">
+                    <button className="mt-6 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
                         <a href="/login">Proceed to Checkout</a>
                     </button>
                 </div>
 
                 {/* Delivery and Seller Info */}
                 <div className="col-span-1 bg-white shadow-lg rounded-lg p-4">
-                    <h3 className="text-lg font-semibold text-lime-600">Delivery Details</h3>
+                    <h3 className="text-lg font-semibold text-green-700">Delivery Details</h3>
                     <ul className="mt-4 space-y-2 text-sm text-gray-600">
                         <li>Store Location: {product.storeLocation}</li>
                         <li>Standard Delivery: Rs. {product.deliveryCharges}</li>
@@ -54,14 +54,14 @@ const ProductDetailView = ({ product, onBack }) => {
                         <li>Warranty: Not Available</li>
                     </ul>
 
-                    <h3 className="text-lg font-semibold text-lime-600 mt-6">Seller Information</h3>
+                    <h3 className="text-lg font-semibold text-green-700 mt-6">Seller Information</h3>
                     <p className="text-sm text-gray-600 mt-2">{product.sellerInfo}</p>
                 </div>
             </div>
 
             {/* User Reviews */}
             <div className="mt-8">
-                <h3 className="text-xl font-semibold text-lime-600">User Reviews</h3>
+                <h3 className="text-xl font-semibold text-green-700">User Reviews</h3>
                 <div className="mt-4 space-y-4">
                     {product.reviews.map((review, index) => (
                         <div

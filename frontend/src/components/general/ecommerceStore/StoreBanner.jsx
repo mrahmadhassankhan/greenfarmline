@@ -20,12 +20,12 @@ const StoreBanner = ({ onSearch, categories }) => {
             <div className="mt-6 p-6 flex flex-col md:flex-row gap-6">
                 {/* Categories List */}
                 <div className="w-full md:w-1/4 bg-white shadow-lg rounded-lg p-4">
-                    <h2 className="text-xl font-semibold text-lime-600 mb-4">Categories</h2>
+                    <h2 className="text-xl font-semibold text-green-700 mb-4">Categories</h2>
                     <ul className="space-y-3">
                         {categories.map((category, index) => (
                             <li
                                 key={index}
-                                className="cursor-pointer hover:text-lime-500"
+                                className="cursor-pointer hover:text-green-600"
                                 onClick={() => console.log(`Selected Category: ${category}`)}
                             >
                                 {category}
@@ -36,12 +36,12 @@ const StoreBanner = ({ onSearch, categories }) => {
 
                 {/* Search Box */}
                 <div className="w-full md:w-3/4 bg-white shadow-lg rounded-lg p-4">
-                    <h2 className="text-xl font-semibold text-lime-600 mb-4">Search for Products</h2>
+                    <h2 className="text-xl font-semibold text-green-700 mb-4">Search for Products</h2>
                     <div className="flex items-center gap-3">
                         <input
                             type="text"
                             placeholder="Search..."
-                            className="flex-grow border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-lime-500"
+                            className="flex-grow border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-green-600"
                         />
                         <select className="border border-gray-300 rounded-md p-2 bg-white">
                             <option>All Categories</option>
@@ -51,7 +51,7 @@ const StoreBanner = ({ onSearch, categories }) => {
                         </select>
                         <button
                             onClick={onSearch}
-                            className="bg-lime-500 text-white px-4 py-2 rounded-md hover:bg-lime-600"
+                            className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
                         >
                             Search
                         </button>

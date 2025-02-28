@@ -24,7 +24,7 @@ const FeaturesSection = () => {
                 <h2 className="card-title">{feature.title}</h2>
                 <p>{feature.description}</p>
                 <div className="card-actions">
-                  <button className="bg-lime-500 text-white p-2 mt-6 rounded-md hover:bg-lime-600 duration-200 cursor-pointer">
+                  <button className="bg-green-600 text-white p-2 mt-6 rounded-md hover:bg-green-700 duration-200 cursor-pointer">
                     <a href={feature.link}>Explore</a>
                   </button>
                 </div>

@@ -4,7 +4,7 @@ function Content() {
     return (
         <>
             <div className="container mx-auto md:px-20 px-4 py-6 mt-16">
-                <h1 className="text-4xl font-bold text-lime-500 text-center mb-8">Terms and Conditions</h1>
+                <h1 className="text-4xl font-bold text-green-600 text-center mb-8">Terms and Conditions</h1>
 
                 <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
                     Welcome to Green Farm Line! By using our platform, you agree to abide by the following terms and conditions.

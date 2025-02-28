@@ -71,7 +71,7 @@ const LoginPage = () => {
             onClick={() => handleRoleChange("farmer")}
             className={`btn join-item rounded-l-full flex-1 p-2 text-center rounded ${
               credentials.role === "farmer"
-                ? "bg-lime-500 text-white"
+                ? "bg-green-600 text-white"
                 : "bg-gray-200"
             }`}
           >
@@ -81,7 +81,7 @@ const LoginPage = () => {
             onClick={() => handleRoleChange("seller")}
             className={`btn join-item flex-1 p-2 text-center rounded ${
               credentials.role === "seller"
-                ? "bg-lime-500 text-white"
+                ? "bg-green-600 text-white"
                 : "bg-gray-200"
             }`}
           >
@@ -91,7 +91,7 @@ const LoginPage = () => {
             onClick={() => handleRoleChange("expert")}
             className={`btn join-item rounded-r-full flex-1 p-2 text-center rounded ${
               credentials.role === "expert"
-                ? "bg-lime-500 text-white"
+                ? "bg-green-600 text-white"
                 : "bg-gray-200"
             }`}
           >
@@ -130,7 +130,7 @@ const LoginPage = () => {
           </div>
           <button
             type="submit"
-            className="w-full p-2 bg-lime-500 text-white rounded hover:bg-lime-600"
+            className="w-full p-2 bg-green-600 text-white rounded hover:bg-green-700"
           >
             Login
           </button>

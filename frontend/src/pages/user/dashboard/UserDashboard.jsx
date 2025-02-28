@@ -219,7 +219,7 @@ function UserDashboard() {
         {/* Forum Activity & Crop Disease Detection */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           {/* Forum Activity */}
-          <div className="bg-white shadow-md rounded-lg p-6 mt-6">
+          <div className="bg-white shadow-md rounded-lg p-6">
             <h3 className="text-xl font-semibold mb-4">
               Latest Forum Discussions
             </h3>

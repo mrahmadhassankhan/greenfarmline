@@ -20,7 +20,7 @@ const ProductCard = ({ product, onBuyNow }) => {
                 </p>
                 <div className="flex flex-row justify-between items-center mt-4">
                     <div>
-                        <span className="bg-lime-500 text-white px-2 py-1 text-xs rounded-md">
+                        <span className="bg-green-600 text-white px-2 py-1 text-xs rounded-md">
                             Rs. {product.price}
                         </span>
                     </div>
@@ -34,7 +34,7 @@ const ProductCard = ({ product, onBuyNow }) => {
             <div className="flex">
                 <button
                     onClick={onBuyNow}
-                    className="flex-1 bg-lime-500 text-white py-2 rounded-bl-md hover:bg-lime-600"
+                    className="flex-1 bg-green-600 text-white py-2 rounded-bl-md hover:bg-green-700"
                 >
                     Buy Now
                 </button>

@@ -22,7 +22,7 @@ function Contact() {
           </div>
           <div className="flex justify-center items-center md:justify-normal">
             <a href="/contact">
-              <button className="bg-lime-500 text-white p-2 mt-6 rounded-md hover:bg-lime-600 duration-200 cursor-pointer">
+              <button className="bg-green-600 text-white p-2 mt-6 rounded-md hover:bg-green-700 duration-200 cursor-pointer">
                 Contact Us
               </button>
             </a>

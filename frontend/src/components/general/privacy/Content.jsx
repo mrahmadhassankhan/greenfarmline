@@ -3,7 +3,7 @@ import React from "react";
 function Content() {
   return (
     <div className="container md:px-20 px-4 py-6 mt-16">
-      <h1 className="text-5xl font-bold text-center text-lime-500 mb-12">
+      <h1 className="text-5xl font-bold text-center text-green-600 mb-12">
         Privacy Policy
       </h1>
 
@@ -140,7 +140,7 @@ function Content() {
         </p>
         <p className="text-lg text-gray-600 dark:text-gray-300">
           Email:{" "}
-          <a href="mailto:support@greenfarmline.com" className="text-lime-600">
+          <a href="mailto:support@greenfarmline.com" className="text-green-700">
             support@greenfarmline.com
           </a>
         </p>

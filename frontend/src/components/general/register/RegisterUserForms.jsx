@@ -166,7 +166,7 @@ const RegisterUserForms = () => {
         <div className="join flex justify-center mb-6">
           <button
             className={`btn join-item rounded-l-full px-4 py-2 ${
-              role === "farmer" ? "bg-lime-500 text-white" : "bg-gray-200"
+              role === "farmer" ? "bg-green-600 text-white" : "bg-gray-200"
             }`}
             onClick={() => setRole("farmer")}
           >
@@ -174,7 +174,7 @@ const RegisterUserForms = () => {
           </button>
           <button
             className={`btn join-item px-4 py-2 ${
-              role === "seller" ? "bg-lime-500 text-white" : "bg-gray-200"
+              role === "seller" ? "bg-green-600 text-white" : "bg-gray-200"
             }`}
             onClick={() => setRole("seller")}
           >
@@ -182,7 +182,7 @@ const RegisterUserForms = () => {
           </button>
           <button
             className={`btn join-item rounded-r-full px-4 py-2 ${
-              role === "expert" ? "bg-lime-500 text-white" : "bg-gray-200"
+              role === "expert" ? "bg-green-600 text-white" : "bg-gray-200"
             }`}
             onClick={() => setRole("expert")}
           >
@@ -193,7 +193,7 @@ const RegisterUserForms = () => {
         <form onSubmit={handleSubmit}>
           {renderForm()}
           <div className="mt-6">
-            <button className="w-full bg-lime-500 text-white py-2 rounded-lg hover:bg-lime-600">
+            <button className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700">
               Register
             </button>
           </div>

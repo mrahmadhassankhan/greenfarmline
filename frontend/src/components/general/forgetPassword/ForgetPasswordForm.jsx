@@ -40,23 +40,23 @@ const ForgetPasswordForm = () => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-lime-500 focus:border-transparent dark:bg-slate-900 dark:text-white"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent dark:bg-slate-900 dark:text-white"
               placeholder="Enter your email"
             />
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </div>
           <button
             type="submit"
-            className="w-full bg-lime-500 hover:bg-lime-600 text-white font-semibold py-2 rounded-lg transition duration-200"
+            className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-lg transition duration-200"
           >
             Send Reset Link
           </button>
           {success && (
-            <p className="text-lime-500 text-sm mt-4 text-center">{success}</p>
+            <p className="text-green-600 text-sm mt-4 text-center">{success}</p>
           )}
         </form>
         <div className="text-center mt-6">
-          <a href="/login" className="text-sm text-lime-500 hover:underline">
+          <a href="/login" className="text-sm text-green-600 hover:underline">
             Back to Login
           </a>
         </div>

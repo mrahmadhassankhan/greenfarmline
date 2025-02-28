@@ -61,9 +61,16 @@ function ContactForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 md:px-20 ">
+    <div className="flex items-center justify-center px-4 md:px-20 ">
       <div className="max-w-7xl w-full space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="flex items-center justify-center">
+            <img
+              src={contactImage}
+              alt="Contact Us"
+              className="w-full h-full object-cover rounded-lg shadow-lg"
+            />
+          </div>
           <div className="bg-white text-black dark:bg-slate-900 dark:border dark:text-white p-6 rounded-lg shadow-lg">
             <form className="space-y-6 " onSubmit={handleSubmit}>
               <input
@@ -110,7 +117,7 @@ function ContactForm() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-lime-500 hover:bg-lime-600 text-white p-2 rounded-lg"
+                className="w-full bg-green-600 hover:bg-green-700 text-white p-2 rounded-lg"
               >
                 {loading ? "Sending..." : "Send Query"}
               </button>
@@ -118,13 +125,6 @@ function ContactForm() {
                 <p className="text-center text-green-600">{responseMessage}</p>
               )}
             </form>
-          </div>
-          <div className="flex items-center justify-center">
-            <img
-              src={contactImage}
-              alt="Contact Us"
-              className="w-full h-full object-cover rounded-lg shadow-lg"
-            />
           </div>
         </div>
       </div>

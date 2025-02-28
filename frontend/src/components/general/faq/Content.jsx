@@ -36,13 +36,13 @@ const Content = () => {
 
     return (
         <div className="container mx-auto px-4 py-10 md:px-20 mt-16">
-            <h1 className="text-4xl text-lime-500 font-bold text-center mb-8">Frequently Asked Questions</h1>
+            <h1 className="text-4xl text-green-600 font-bold text-center mb-8">Frequently Asked Questions</h1>
             <div className="max-w-4xl mx-auto">
                 {faqData.map((faq, index) => (
                     <div key={index} className="mb-4 border-b border-gray-200 pb-4">
                         <button
                             onClick={() => toggleAnswer(index)}
-                            className="w-full text-left text-lg font-semibold text-gray-800 dark:text-gray-200 hover:text-lime-500 focus:outline-none transition-colors duration-300"
+                            className="w-full text-left text-lg font-semibold text-gray-800 dark:text-gray-200 hover:text-green-600 focus:outline-none transition-colors duration-300"
                         >
                             {faq.question}
                         </button>

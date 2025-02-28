@@ -105,6 +105,15 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/logout", (req,res)=>{
+   
+  res.clearCookie("token", {
+    maxAge: 0 // 48 hours
+  });
+  res.status(200).json("Logout Success")
+})
+
+
 app.use("/form/", contactUsRouter);
 app.use("/uptime", uptimeRoutes);
 app.use("/detections", detectionRoutes);

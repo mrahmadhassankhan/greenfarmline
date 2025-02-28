@@ -53,7 +53,7 @@ const AdminProductList = () => {
       if (!token) {
         return toast.error("Access denied.");
       }
-      const response = await Axios.put(`/admin/product/${id}`, {
+      const response = await Axios_Node.put(`/admin/product/${id}`, {
         email: JSON.parse(localStorage.getItem("user")).email,
       });
       if (response.data.success) {

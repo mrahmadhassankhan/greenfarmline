@@ -34,7 +34,7 @@ const ProductForm = ({
 
     const fetchCategories = async () => {
       try {
-        const response = await Axios_Node.get("/category");
+        const response = await Axios_Node.get("/category/addcategory");
         // console.log(response.data.categories);
         setCategories(response.data.categories); // Ensure correct property
       } catch (error) {

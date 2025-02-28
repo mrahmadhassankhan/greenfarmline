@@ -121,7 +121,7 @@ const AddProducts = () => {
 
       if (response.data.success) {
         toast.success(response.data.message);
-        navigate("/admin/products");
+        navigate("/seller/products");
       }
     } catch (error) {
       toast.error(error?.response?.data?.message || "An error occurred");
@@ -150,7 +150,7 @@ const AddProducts = () => {
           handleInputFileChange={handleInputFileChange}
           handleInputCheckboxChange={handleInputCheckboxChange}
           handleInputChangeQuantity={handleInputChangeQuantity}
-          handleCancel={() => navigate("/admin/products")}
+          handleCancel={() => navigate("/seller/products")}
         />
       </div>
     </div>

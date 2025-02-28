@@ -47,7 +47,7 @@ const UpdateProducts = () => {
         toast.error(error?.response?.data?.message || "Something went wrong", {
           position: "bottom-right",
         });
-        navigate("/admin/products");
+        navigate("/seller/products");
       }
     };
     fetchProduct();
@@ -132,7 +132,7 @@ const UpdateProducts = () => {
         return toast.error("Please fill all the fields.");
       }
 
-      const response = await Axios.put(
+      const response = await Axios_Node.put(
         `/product/update/${slug}`,
         { ...data },
         {
@@ -147,7 +147,7 @@ const UpdateProducts = () => {
       console.log(response);
       if (response.data.success) {
         toast.success(response.data.message);
-        navigate("/admin/products");
+        navigate("/seller/products");
       }
     } catch (error) {
       toast.error(error?.response?.data?.message);
@@ -179,7 +179,7 @@ const UpdateProducts = () => {
           handleInputChangeQuantity={handleInputChangeQuantity}
           handleInputFileChange={handleInputFileChange}
           handleInputCheckboxChange={handleInputCheckboxChange}
-          handleCancel={() => navigate("/admin/products")}
+          handleCancel={() => navigate("/seller/products")}
         />
       </div>
     </div>

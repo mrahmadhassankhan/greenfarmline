@@ -13,10 +13,8 @@ const CategoryList = () => {
       if (!token) {
         return toast.error("Access denied. Please login first.");
       }
-      const response = await Axios_Node.get("/category", {
-        headers: {
-          Authorization: token,
-        },
+      const response = await Axios_Node.get("/category/addcategory", {
+       
       });
 
       if (response.data.success) {
@@ -64,14 +62,9 @@ const CategoryList = () => {
       if (!token) {
         return toast.error("Access denied.");
       }
-      const response = await Axios.put(
+      const response = await Axios_Node.put(
         `/category/${id}`,
         { ...formData },
-        {
-          params: {
-            email: JSON.parse(localStorage.getItem("user")).email,
-          },
-        }
       );
       toast.success(response.data.message);
       setData(response.data.categories);
@@ -99,14 +92,10 @@ const CategoryList = () => {
       if (!token) {
         return toast.error("Access denied.");
       }
-      const response = await Axios.post(
-        "/category",
+      const response = await Axios_Node.post(
+        "/category/addCategory",
         { ...formData },
-        {
-          params: {
-            email: JSON.parse(localStorage.getItem("user")).email,
-          },
-        }
+       
       );
       toast.success(response.data.message);
       fetch();
@@ -125,9 +114,7 @@ const CategoryList = () => {
         return toast.error("Access denied.");
       }
       const response = await Axios_Node.delete(`/category/${id}`, {
-        headers: {
-          Authorization: token,
-        },
+     
       });
       fetch();
       resetForm();

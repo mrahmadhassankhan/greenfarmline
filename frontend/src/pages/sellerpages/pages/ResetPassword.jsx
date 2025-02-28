@@ -4,7 +4,7 @@ import "../../../styles/auth.css";
 import { useState } from "react";
 import Axios from "../../../Axios";
 import { toast } from "react-toastify";
-
+import { Axios_Node } from "../../../Axios";
 const ResetPassword = () => {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
@@ -27,7 +27,7 @@ const ResetPassword = () => {
         toast.error("Passwords do not match");
         return;
       } else {
-        const response = await Axios.post(
+        const response = await Axios_Node.post(
           "/resetpassword",
           {
             userId: id,

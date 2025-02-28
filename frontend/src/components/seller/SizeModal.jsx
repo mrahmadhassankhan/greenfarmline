@@ -23,7 +23,7 @@ const SizeModal = ({ id, size, onClose }) => {
       }
       const token = localStorage.getItem("token");
       console.log("Size Selected: ", Number(sizeSelected.value));
-      const response = await Axios.post(
+      const response = await Axios_Node.post(
         "/cart/add",
         {
           productId: id,

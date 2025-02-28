@@ -46,7 +46,7 @@ function ExpertAnswerView() {
       role: userData.role,
     };
 
-    Axios.post("/answer/postanswer", newAnswerObj)
+    Axios_Node.post("/answer/postanswer", newAnswerObj)
       .then((response) => {
         setNewAnswer(""); // Clear the textarea
         setIsSubmitting(false);

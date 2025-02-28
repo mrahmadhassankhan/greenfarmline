@@ -82,7 +82,7 @@ const MyOrders = () => {
         productId,
         orderId,
       });
-      const response = await Axios.put(
+      const response = await Axios_Node.put(
         "product/review",
         { rating: review.rating, review: review.opinion, productId, orderId },
         {

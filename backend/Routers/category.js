@@ -10,7 +10,7 @@ const roleMiddleware = require("../middlewares/role");
 const router = express.Router();
 router.use(authMiddleware);
 router
-  .route("/")
+  .route("/addCategory")
   .get(roleMiddleware(["farmer", "seller", "expert"]), getCategory)
   .post(roleMiddleware(["seller"]), createCategory);
 router

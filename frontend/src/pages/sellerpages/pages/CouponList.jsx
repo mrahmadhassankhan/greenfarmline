@@ -9,15 +9,13 @@ const CouponList = () => {
   const [loading, setLoading] = useState(true);
   const fetch = async () => {
     try {
-      console.log("fetching coupons");
+
       const token = localStorage.getItem("token");
       if (!token) {
         return toast.error("Access denied. Please login first.");
       }
       const response = await Axios_Node.get("/admin/coupons", {
-        headers: {
-          Authorization: token,
-        },
+       
       });
 
       if (response.data.success) {
@@ -91,14 +89,10 @@ const CouponList = () => {
       if (!token) {
         return toast.error("Access denied.");
       }
-      const response = await Axios.post(
+      const response = await Axios_Node.post(
         "/admin/coupons",
         { formData },
-        {
-          params: {
-            email: JSON.parse(localStorage.getItem("user")).email,
-          },
-        }
+       
       );
       toast.success(response.data.message);
       fetch();

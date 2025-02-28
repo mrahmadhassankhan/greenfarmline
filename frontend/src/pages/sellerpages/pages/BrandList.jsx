@@ -14,9 +14,7 @@ const BrandList = () => {
         return toast.error("Access denied. Please login first.");
       }
       const response = await Axios_Node.get("/brands", {
-        headers: {
-          Authorization: token,
-        },
+      
       });
 
       if (response.data.success) {
@@ -86,7 +84,7 @@ const BrandList = () => {
       if (!token) {
         return toast.error("Access denied.");
       }
-      const response = await Axios.put(
+      const response = await Axios_Node.put(
         `/brands/${id}`,
         { ...formData },
         {
@@ -120,14 +118,10 @@ const BrandList = () => {
       if (!token) {
         return toast.error("Access denied.");
       }
-      const response = await Axios.post(
+      const response = await Axios_Node.post(
         "/brands",
         { ...formData },
-        {
-          params: {
-            email: JSON.parse(localStorage.getItem("user")).email,
-          },
-        }
+       
       );
       toast.success(response.data.message);
       fetch();

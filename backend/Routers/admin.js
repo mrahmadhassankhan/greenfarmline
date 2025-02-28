@@ -32,12 +32,12 @@ router.route("/orders").get(roleMiddleware(["admin", "farmer"]), getAllOrders);
 router
   .route("/coupons")
   .get(roleMiddleware(["admin","seller"]), getCoupons)
-  .post(roleMiddleware(["admin"]), createCoupon);
+  .post(roleMiddleware(["admin","seller"]), createCoupon);
 router.route("/coupons/:id").delete(roleMiddleware(["admin"]), deleteCoupon);
 router
   .route("/products")
   .get(roleMiddleware(["admin", "seller"]), getAllProducts);
-router.route("/product/:id").put(roleMiddleware(["admin"]), productStatus);
+router.route("/product/:id").put(roleMiddleware(["admin","seller"]), productStatus);
 router.route("/info").get(roleMiddleware(["admin","seller"]), getAdminDetails);
 router.route("/user/:id").delete(roleMiddleware(["admin"]), deleteUser);
 router

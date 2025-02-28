@@ -78,7 +78,7 @@ const AdminOrders = () => {
       if (!token) {
         return toast.error("Access denied.");
       }
-      const response = await Axios.put("/admin/order", {
+      const response = await Axios_Node.put("/admin/order", {
         id,
         status,
         paymentId,

@@ -23,22 +23,22 @@ const router = express.Router();
 router.route("/adminLogin").post(adminLogin);
 router.use(authMiddleware);
 
-router.route("/users").get(roleMiddleware(["admin"]), getAllUsers);
+router.route("/users").get(roleMiddleware(["admin","seller"]), getAllUsers);
 router
   .route("/order")
-  .get(roleMiddleware(["admin"]), getAllOrdersAdmin)
+  .get(roleMiddleware(["admin","seller"]), getAllOrdersAdmin)
   .put(roleMiddleware(["seller"]), updateOrderStatus);
 router.route("/orders").get(roleMiddleware(["admin", "farmer"]), getAllOrders);
 router
   .route("/coupons")
-  .get(roleMiddleware(["admin"]), getCoupons)
+  .get(roleMiddleware(["admin","seller"]), getCoupons)
   .post(roleMiddleware(["admin"]), createCoupon);
 router.route("/coupons/:id").delete(roleMiddleware(["admin"]), deleteCoupon);
 router
   .route("/products")
   .get(roleMiddleware(["admin", "seller"]), getAllProducts);
 router.route("/product/:id").put(roleMiddleware(["admin"]), productStatus);
-router.route("/info").get(roleMiddleware(["admin"]), getAdminDetails);
+router.route("/info").get(roleMiddleware(["admin","seller"]), getAdminDetails);
 router.route("/user/:id").delete(roleMiddleware(["admin"]), deleteUser);
 router
   .route("/recent-activities")

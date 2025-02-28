@@ -157,20 +157,26 @@ const updateCart = asyncErrorHandler(async (req, res, next) => {
 });
 
 const cartSize = asyncErrorHandler(async (req, res, next) => {
-  const id = req.user.id;
+  try {
+    const id = req.user.id;
 
-  const userObj = await user.findOne({ id });
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid user ID" });
+    }
 
-  if (
-    !userObj ||
-    !userObj.cart ||
-    !userObj.cart.items ||
-    userObj.cart.items.length === 0
-  ) {
-    return res.status(200).json({ cartSize: 0 });
+    const userObj = await user.findOne({ _id: id });
+
+    if (!userObj) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Get cart size safely
+    const cartSize = userObj.cart?.items?.length || 0;
+
+    return res.status(200).json({ cartSize });
+  } catch (error) {
+    next(error);
   }
-
-  return res.status(200).json({ cartSize: userObj.cart.items.length });
 });
 
 module.exports = { addToCart, getCart, deleteCart, updateCart, cartSize };

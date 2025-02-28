@@ -174,9 +174,7 @@ const updateUserProfile = asyncErrorHandler(async (req, res, next) => {
 
 // Get Orders
 const getOrder = asyncErrorHandler(async (req, res, next) => {
-  const { email } = req.query;
-  if (!email) return next(new errorHandler("Email not provided", 400));
-
+  const email = req.user.email;
   const orderObj = await Order.find({ "shipping.email": email }).populate({
     path: "products.productId",
     select: "name price brand image slug color",

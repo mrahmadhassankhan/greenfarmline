@@ -16,18 +16,12 @@ const generateToken = (id, email, role) => {
 
 const adminLogin = asyncErrorHandler(async (req, res, next) => {
   const { email, password, role } = req.body;
-  console.log(req.body, role);
-
   if (!email || !password) {
     return next(new errorHandler("Please provide email and password", 400));
   }
 
-  if (role !== "admin") {
-    return next(new errorHandler("Access Denied", 401));
-  }
-
   const userExists = await user.findOne({ email });
-  if (!userExists) {
+  if (!userExists || userExists.role !== role) {
     return next(new errorHandler("Invalid credentials", 401));
   }
 
@@ -43,15 +37,16 @@ const adminLogin = asyncErrorHandler(async (req, res, next) => {
   );
 
   res.cookie("token", token, {
-    httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
-    secure: process.env.NODE_ENV === "production", // Ensures cookies are only sent over HTTPS in production
-    sameSite: "Strict", // Protects against CSRF
-    maxAge: 48 * 60 * 60 * 1000, // 48 hours in milliseconds
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+    domain: process.env.COOKIE_DOMAIN || ".greenfarmline.shop",
+    maxAge: 48 * 60 * 60 * 1000,
   });
 
   res.status(200).json({
     success: true,
-    message: "User logged in successfully",
+    message: "Logged in successfully",
     user: {
       name: userExists.name,
       email: userExists.email,

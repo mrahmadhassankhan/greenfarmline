@@ -14,6 +14,7 @@ const roleMiddleware = require("../middlewares/role");
 const authMiddleware = require("../middlewares/auth");
 router.route("/register").post(UploadingFileMiddleware, register);
 router.route("/login").post(login);
+
 router
   .route("/verify")
   .get(authMiddleware, roleMiddleware(["farmer"]), verifyUser);

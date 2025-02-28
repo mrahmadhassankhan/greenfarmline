@@ -74,11 +74,7 @@ function Navbar() {
         const token = localStorage.getItem("token");
         if (!token) return;
 
-        const response = await Axios_Node.get("/cart/cartSize", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await Axios_Node.get("/cart/cartSize");
 
         if (response.status === 200) {
           setCartSize(response.data.cartSize);
@@ -219,12 +215,12 @@ function Navbar() {
             <a className="text-xl text-lime-500 font-bold cursor-pointer">
               GFL
             </a>
-            <ul className="menu menu-horizontal px-1 hidden  xl-[990px]:flex">
+            <ul className="menu menu-horizontal px-1 hidden  xxl:flex">
               {navItems}
             </ul>
           </div>
           <div className="navbar-end space-x-3 ">
-            <div className="hidden lg:flex">
+            <div className="hidden xl:flex">
               <label className="px-3 py-2 border rounded-md flex items-center gap-2">
                 <input
                   type="text"

@@ -157,11 +157,9 @@ const updateCart = asyncErrorHandler(async (req, res, next) => {
 });
 
 const cartSize = asyncErrorHandler(async (req, res, next) => {
-  const { email } = req.query;
+  const id = req.user.id;
 
-  const userObj = await user.findOne({ email });
-
-  console.log(userObj);
+  const userObj = await user.findOne({ id });
 
   if (
     !userObj ||

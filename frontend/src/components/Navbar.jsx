@@ -132,7 +132,7 @@ function Navbar() {
 
   const navButtons = (
     <>
-      <div className="items-center space-x-3 lg:flex">
+      <div className="items-center space-x-3 flex lg:flex">
         {auth && user?.role === "farmer" && (
           <div className="btnIcon">
             <Link to="/cart" style={{ color: "#1a1a1a" }}>

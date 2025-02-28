@@ -1,12 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import loginImage from "../../../images/adminLoginImage-bg_rem.png";
 import "../../../styles/auth.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Axios_Node } from "../../../Axios";
+import { AuthContext } from "../../../../authContext/auth";
 import { toast } from "react-toastify";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
   const [user, setUser] = useState({ email: "", password: "", role: "admin" });
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,23 +17,13 @@ const AdminLogin = () => {
         toast.error("Please provide email and password");
         return;
       }
-      const response = await Axios_Node.post(
-        "/admin/adminLogin",
-        { email: user.email, password: user.password, role: user.role },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-      console.log(response);
-
+      const response = await Axios_Node.post("/admin/adminLogin", {
+        email: user.email,
+        password: user.password,
+        role: user.role,
+      });
+      login(response.data.token, response.data.user);
       toast.success("Login Successful");
-      localStorage.setItem("email", response.data.user.email);
-      localStorage.setItem("name", response.data.user.name);
-      localStorage.setItem("role", response.data.user.role);
-      localStorage.setItem("token", response.data.token);
       navigate("/admin");
     } catch (error) {
       console.error("Error during login:", error);
@@ -39,7 +31,7 @@ const AdminLogin = () => {
     }
   };
   return (
-    <div className="login-page">
+    <div className="login-page ">
       <div className="login-div div1">
         <div className="login-box">
           <h1 className="login-heading">Log in to your account</h1>

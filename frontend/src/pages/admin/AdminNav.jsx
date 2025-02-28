@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import logo from "../../images/logo-icon.png";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../authContext/auth";
 function AdminNav() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
+  const { logout } = useContext(AuthContext);
+
   return (
     <>
       <nav className="bg-gray-800">
@@ -148,7 +151,7 @@ function AdminNav() {
                     </a>
                     <a
                       onClick={() => {
-                        localStorage.removeItem("token");
+                        logout();
                         navigate("/");
                       }}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"

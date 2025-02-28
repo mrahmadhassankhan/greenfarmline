@@ -1,21 +1,39 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { BiLogIn } from "react-icons/bi";
+import { AuthContext } from "../../authContext/auth";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/navicons.css";
 import { Axios_Node } from "../Axios";
+
 function Navbar() {
   const navigate = useNavigate();
-  const [auth, setAuth] = useState(
-    localStorage.getItem("token") ? true : false
-  );
-  const [cartSize, setCartSize] = useState(0);
+  const [auth, setAuth] = useState(false);
+  const { logout } = useContext(AuthContext);
 
-  const [theme, setTheme] = useState(
-    localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
-  );
+  // Helper function to get initial theme
+  const getInitialTheme = () => localStorage.getItem("theme") || "light";
+  const [theme, setTheme] = useState(getInitialTheme);
+
+  // Get user data from localStorage
+  const getUser = () => {
+    const user = localStorage.getItem("user");
+    return user ? JSON.parse(user) : null;
+  };
+
+  const user = getUser();
+
+  const checkAuth = () => {
+    const token = localStorage.getItem("token");
+    return token && user;
+  };
+
+  useEffect(() => {
+    setAuth(checkAuth());
+  }, []);
+
+  // Handle theme changes
   const element = document.documentElement;
   useEffect(() => {
     if (theme === "dark") {
@@ -29,6 +47,7 @@ function Navbar() {
     }
   }, [theme]);
 
+  // Sticky navbar on scroll
   const [sticky, setSticky] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
@@ -44,7 +63,12 @@ function Navbar() {
     };
   }, []);
 
+  // Fetch cart size
+  const [cartSize, setCartSize] = useState(0);
   useEffect(() => {
+    const storedCartSize = localStorage.getItem("cartsize");
+    setCartSize(storedCartSize ? parseInt(storedCartSize, 10) : 0);
+
     const fetchCartSize = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -67,6 +91,22 @@ function Navbar() {
 
     fetchCartSize();
   }, []);
+
+  const getDashboardRoute = (role) => {
+    switch (role) {
+      case "farmer":
+        return "/userdashboard";
+      case "seller":
+        return "/seller";
+      case "expert":
+        return "/expert";
+      case "admin":
+        return "/admin";
+      default:
+        return "/";
+    }
+  };
+
   const navItems = (
     <>
       <li>
@@ -89,28 +129,17 @@ function Navbar() {
       </li>
     </>
   );
+
   const navButtons = (
     <>
-      <div className="items-center space-x-3 hidden lg:flex">
-        {auth ? (
-          <>
-            {JSON.parse(localStorage.getItem("user")).role === "farmer" && (
-              <div className="btnIcon">
-                <Link to="/cart" style={{ color: "#1a1a1a" }}>
-                  <FaShoppingCart />
-                  <div className="navAmount">
-                    {JSON.parse(localStorage.getItem("user")).cartSize
-                      ? cartSize
-                      : 0}
-                  </div>
-                </Link>
-              </div>
-            )}
-          </>
-        ) : (
-          <>
-            {/* nothing to show */}
-          </>
+      <div className="items-center space-x-3 block lg:flex">
+        {auth && user?.role === "farmer" && (
+          <div className="btnIcon">
+            <Link to="/cart" style={{ color: "#1a1a1a" }}>
+              <FaShoppingCart />
+              <div className="navAmount">{cartSize || "0"}</div>
+            </Link>
+          </div>
         )}
         <div className="btnIcon">
           {auth ? (
@@ -118,23 +147,9 @@ function Navbar() {
               <CgProfile />
               <ul className="navdropdown dropdown pt-2 pb-2">
                 <li>
-                  <Link
-                    to={
-                      JSON.parse(localStorage.getItem("user")).role === "farmer"
-                        ? "/userdashboard"
-                        : JSON.parse(localStorage.getItem("user")).role === "seller"
-                          ? "/seller"
-                          : JSON.parse(localStorage.getItem("user")).role === "expert"
-                            ? "/expert"
-                            : JSON.parse(localStorage.getItem("user")).role === "admin"
-                              ? "/admin"
-                              : "/"
-                    }
-                  >
-                    Dashboard
-                  </Link>
+                  <Link to={getDashboardRoute(user?.role)}>Dashboard</Link>
                 </li>
-                {JSON.parse(localStorage.getItem("user")).role === "farmer" && (
+                {user?.role === "farmer" && (
                   <li>
                     <Link to="/orders">Orders</Link>
                   </li>
@@ -143,9 +158,8 @@ function Navbar() {
                   <button
                     type="button"
                     onClick={() => {
-                      localStorage.clear();
-                      setAuth(null);
-                      navigate("/");
+                      logout();
+                      setAuth(false);
                     }}
                   >
                     Logout
@@ -162,13 +176,15 @@ function Navbar() {
       </div>
     </>
   );
+
   return (
     <>
       <div
-        className={` bg-white text-black max-w-full container mx-auto md:px-20 px-4 fixed top-0 left-0 right-0 z-10 dark:bg-slate-600 dark:text-white ${sticky
-          ? "sticky-navbar bg-gray-200 shadow-md duration-300 transition-all ease-in-out dark:bg-slate-700 dark:text-white"
-          : ""
-          }`}
+        className={`bg-white text-black max-w-full container mx-auto md:px-20 px-4 fixed top-0 left-0 right-0 z-10 dark:bg-slate-600 dark:text-white ${
+          sticky
+            ? "sticky-navbar bg-gray-200 shadow-md duration-300 transition-all ease-in-out dark:bg-slate-700 dark:text-white"
+            : ""
+        }`}
       >
         <div className="navbar">
           <div className="navbar-start">
@@ -195,7 +211,7 @@ function Navbar() {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow text-white"
               >
                 {navItems}
               </ul>
@@ -203,7 +219,7 @@ function Navbar() {
             <a className="text-xl text-lime-500 font-bold cursor-pointer">
               GFL
             </a>
-            <ul className="menu menu-horizontal px-1 max-md:hidden">
+            <ul className="menu menu-horizontal px-1 hidden  xl-[950px]:flex">
               {navItems}
             </ul>
           </div>
@@ -212,7 +228,7 @@ function Navbar() {
               <label className="px-3 py-2 border rounded-md flex items-center gap-2">
                 <input
                   type="text"
-                  className="bg-transparent grow outline-none "
+                  className="bg-transparent grow outline-none"
                   placeholder="Search"
                 />
                 <svg
@@ -229,7 +245,7 @@ function Navbar() {
                 </svg>
               </label>
             </div>
-            <div className="hidden lg:flex">
+            <div>
               <label className="swap swap-rotate">
                 {/* this hidden checkbox controls the state */}
                 <input
@@ -259,76 +275,7 @@ function Navbar() {
                 </svg>
               </label>
             </div>
-            <div className="items-center space-x-3 flex lg:hidden">
-              {auth ? (
-                <>
-                  {JSON.parse(localStorage.getItem("user")).role === "farmer" && (
-                    <div className="btnIcon">
-                      <Link to="/cart" style={{ color: "#1a1a1a" }}>
-                        <FaShoppingCart />
-                        <div className="navAmount">
-                          {JSON.parse(localStorage.getItem("user")).cartSize
-                            ? cartSize
-                            : 0}
-                        </div>
-                      </Link>
-                    </div>
-                  )}
-                </>
-              ) : (
-                <>
-                  {/* nothing to show */}
-                </>
-              )}
-              <div className="btnIcon">
-                {auth ? (
-                  <>
-                    <CgProfile />
-                    <ul className="navdropdown dropdown pt-2 pb-2">
-                      <li>
-                        <Link
-                          to={
-                            JSON.parse(localStorage.getItem("user")).role === "farmer"
-                              ? "/userdashboard"
-                              : JSON.parse(localStorage.getItem("user")).role === "seller"
-                                ? "/seller"
-                                : JSON.parse(localStorage.getItem("user")).role === "expert"
-                                  ? "/expert"
-                                  : JSON.parse(localStorage.getItem("user")).role === "admin"
-                                    ? "/admin"
-                                    : "/"
-                          }
-                        >
-                          Dashboard
-                        </Link>
-                      </li>
-                      {JSON.parse(localStorage.getItem("user")).role === "farmer" && (
-                        <li>
-                          <Link to="/orders">Orders</Link>
-                        </li>
-                      )}
-                      <li>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            localStorage.clear();
-                            setAuth(null);
-                            navigate("/");
-                          }}
-                        >
-                          Logout
-                        </button>
-                      </li>
-                    </ul>
-                  </>
-                ) : (
-                  <Link to="/login" style={{ color: "#1a1a1a", fontSize: "30px" }}>
-                    <BiLogIn />
-                  </Link>
-                )}
-              </div>
-            </div>
-            <div className="max-md:hidden space-x-3">{navButtons}</div>
+            {navButtons}
           </div>
         </div>
       </div>

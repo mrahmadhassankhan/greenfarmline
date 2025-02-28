@@ -46,7 +46,7 @@ router.get("/history/:farmerEmail", async (req, res) => {
     const history = await DetectionResult.find({ farmerId });
 
     if (!history.length) {
-      return res.status(404).json({ message: "No detection history found." });
+      return res.status(200).json({ message: "No detection history found." });
     }
 
     res.status(200).json(history);

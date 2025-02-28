@@ -12,14 +12,16 @@ function UserQueries() {
   useEffect(() => {
     const email = JSON.parse(localStorage.getItem("user")).email;
 
-    Axios_Node.get(`/query/getuserquery?email=${email}`)
-      .then((response) => {
-        setQueries(response.data); // Set the fetched queries to state
+    const res = Axios_Node.get(`/query/getuserquery?email=${email}`)
+      .then((res) => {
+        if (res.data.data && res.data.data.length > 0) {
+          setQueries(res.data.data);
+        } else {
+          setQueries([]);
+        }
       })
-      .catch((error) => {
-        console.error("Error fetching queries:", error);
-      });
-  }, []); // Empty array ensures this runs once when the component mounts
+      .catch((err) => {});
+  }, []);
 
   // Filter and search logic
   const filteredQueries = queries.filter((query) => {

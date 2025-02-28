@@ -123,7 +123,7 @@ const verifyUser = asyncErrorHandler(async (req, res, next) => {
   });
 });
 
-// Fetch User Profile
+// Fetch User Profile (Backend)
 const getUserProfile = asyncErrorHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id).select("-password");
   if (!user) return next(new errorHandler("User not found", 404));
@@ -183,7 +183,7 @@ const getOrder = asyncErrorHandler(async (req, res, next) => {
   });
 
   if (!orderObj || orderObj.length === 0) {
-    return res.status(404).json({ success: false, message: "No orders found" });
+    return res.status(200).json({ success: false, message: "No orders found" });
   }
 
   const formattedOrders = orderObj.map((order) => ({

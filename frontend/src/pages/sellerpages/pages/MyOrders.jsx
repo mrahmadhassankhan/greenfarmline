@@ -25,10 +25,8 @@ const MyOrders = () => {
         },
       });
       setData(response.data.orders); // Set orders data
-      console.log(response.data.orders); // Debugging
       setLoading(false);
     } catch (error) {
-      console.error(error);
       setLoading(false);
     }
   };
@@ -131,7 +129,8 @@ const MyOrders = () => {
             </tr>
           </thead>
           <tbody className="order-table-tbody">
-            {data !== null && data !== undefined &&
+            {data !== null &&
+              data !== undefined &&
               data.map((order, orderIndex) => (
                 <tr key={orderIndex}>
                   <td className="order-td">

@@ -30,7 +30,7 @@ const Product = () => {
     const fetchData = async () => {
       try {
         setLoading(true); // Ensure loading starts before making the request
-  
+
         const response = await Axios_Node.get("/product/filter", {
           params: {
             ...filters,
@@ -39,38 +39,34 @@ const Product = () => {
             limit: 12,
           },
         });
-  
+
         if (response.status !== 200) {
           throw new Error(`Error: Received status code ${response.status}`);
         }
-  
+
         if (!response.data || !response.data.products) {
           throw new Error("Invalid response structure");
         }
-  
-        console.log(response.data);
-  
+
         setProducts(response.data.products);
         setTotalPages(Math.ceil(response.data.count / 12));
         setOptions({
           brands: response.data.brandOptions || [],
           category: response.data.categoryOptions || [],
         });
-  
       } catch (error) {
         console.error("Error fetching data:", error.message || error);
-        
+
         // Optionally, set an error state if needed for UI feedback
         // setError(error.message || "Something went wrong!");
-  
       } finally {
         setLoading(false); // Ensure loading stops even if an error occurs
       }
     };
-  
+
     fetchData();
   }, [debouncedValue, currentPage, filters]); // Removed 'loading' to avoid unnecessary re-fetching
-  
+
   const canPreviousPage = currentPage > 1;
   const canNextPage = currentPage < totalPages;
   const gotoPage = (page) => {

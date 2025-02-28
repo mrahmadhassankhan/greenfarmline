@@ -84,7 +84,7 @@ const AdminOrders = () => {
         paymentId,
         email: JSON.parse(localStorage.getItem("user")).email,
       });
-      console.log(response.data);
+
       if (response.data.success) {
         const updatedData = data.map((item) => {
           if (item._id === id) {

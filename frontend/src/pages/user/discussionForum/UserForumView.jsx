@@ -7,23 +7,29 @@ import SideBar from "../../../components/user/discussionforum/SideBar";
 
 function UserForumView() {
   const [queries, setQueries] = useState([]);
-  const [search, setSearch] = useState(""); // Search state
+  const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch approved queries from backend
   useEffect(() => {
+    setLoading(true);
+
     Axios_Node.get("/query/getapprovedqueries")
       .then((response) => {
-        setQueries(response.data);
+        if (response.data.data.length > 0) {
+          setQueries(response.data.data);
+          setError("");
+        } else {
+          setError("No latest queries available");
+        }
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Error fetching approved queries:", err);
-        setError("Failed to load queries. Please try again.");
+        setError("An error occurred while fetching queries");
         setLoading(false);
       });
   }, []);
+
   const navigate = useNavigate();
 
   // Filter queries based on the search input
@@ -63,7 +69,7 @@ function UserForumView() {
               {loading ? (
                 <p className="text-gray-500">Loading queries...</p>
               ) : error ? (
-                <p className="text-red-500">{error}</p>
+                <p className="text-gray-500"> {error}</p>
               ) : searchedQueries.length > 0 ? (
                 searchedQueries.map((query) => (
                   <QueryCard

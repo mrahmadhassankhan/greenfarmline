@@ -18,7 +18,7 @@ const CategoryList = () => {
           Authorization: token,
         },
       });
-      console.log(response.data);
+
       if (response.data.success) {
         setData(response.data.categories);
       }

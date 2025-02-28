@@ -22,7 +22,6 @@ function QueryDetailedView() {
       Axios_Node.get(`/answer/answers/${query._id}`)
         .then((response) => {
           setAnswers(response.data.answers);
-          console.log(response.data);
         })
         .catch((error) => {
           console.error("Error fetching answers:", error);

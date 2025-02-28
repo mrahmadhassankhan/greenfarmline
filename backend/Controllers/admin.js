@@ -134,7 +134,7 @@ const getAllOrders = asyncErrorHandler(async (req, res, next) => {
 
   // Check if orders exist for the provided email
   if (!orderObj || orderObj.length === 0) {
-    return res.status(404).json({
+    return res.status(200).json({
       success: false,
       message: "No orders found for the provided email",
     });

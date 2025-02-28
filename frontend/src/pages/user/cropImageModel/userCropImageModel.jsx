@@ -20,15 +20,11 @@ function userCropImageModel() {
         const response = await Axios_Node.get(
           `/detections/history/${farmerEmail}`
         );
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
+        if (response.ok) {
+          const data = await response.json();
+          setDetectionHistory(data);
         }
-
-        const data = await response.json();
-        setDetectionHistory(data);
-      } catch (error) {
-        console.error("Error fetching detection history:", error);
-      }
+      } catch (error) {}
     };
 
     fetchHistory();

@@ -82,44 +82,54 @@ function UserDashboard() {
         const response = await Axios_Node.get(
           `/admin/orders?email=${userEmail}`
         );
-        setOrders(response.data.orders);
-        console.log(response.data);
+        if (response.data.success && response.data.orders.length > 0) {
+          setOrders(response.data.orders);
+        } else {
+          setOrders([]);
+        }
       } catch (error) {
-        console.error("Error fetching orders:", error);
+        // Only log errors other than 404
+        if (error.response && error.response.status !== 404) {
+          console.error("Error fetching orders:", error);
+        }
       }
     };
 
-    // Fetch latest 3 approved queries and their replies count
     const fetchQueries = async () => {
       try {
         const response = await Axios_Node.get("/query/getapprovedqueries");
+        if (response.data.data.length == 0) {
+          setQueries([]);
+        } else {
+          let latestQueries = response.data.data.slice(-3); // Get last 3 approved queries
 
-        let latestQueries = response.data.slice(-3); // Get last 3 approved queries
+          // Fetch replies count for each query
+          const queriesWithReplies = await Promise.all(
+            latestQueries.map(async (query) => {
+              try {
+                const replyResponse = await Axios_Node.get(
+                  `/answer/answers/${query._id}`
+                );
+                return {
+                  ...query,
+                  replyCount: replyResponse.data.answers.length,
+                };
+              } catch (error) {
+                console.error("Error fetching replies:", error);
+                return { ...query, replyCount: 0 };
+              }
+            })
+          );
 
-        // Fetch replies count for each query
-        const queriesWithReplies = await Promise.all(
-          latestQueries.map(async (query) => {
-            try {
-              const replyResponse = await Axios_Node.get(
-                `/answer/answers/${query._id}`
-              );
-              return {
-                ...query,
-                replyCount: replyResponse.data.answers.length,
-              };
-            } catch (error) {
-              console.error("Error fetching replies:", error);
-              return { ...query, replyCount: 0 };
-            }
-          })
-        );
-
-        setQueries(queriesWithReplies);
+          setQueries(queriesWithReplies);
+        }
       } catch (error) {
-        console.error("Error fetching approved queries:", error);
+        // Only log errors other than 404
+        if (error.response && error.response.status !== 404) {
+          console.error("Error fetching approved queries:", error);
+        }
       }
     };
-
     fetchOrders();
     fetchQueries();
   }, [userEmail]);

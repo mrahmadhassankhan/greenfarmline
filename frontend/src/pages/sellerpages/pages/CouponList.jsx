@@ -19,7 +19,7 @@ const CouponList = () => {
           Authorization: token,
         },
       });
-      console.log(response.data);
+
       if (response.data.success) {
         setData(response.data.data);
       }

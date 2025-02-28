@@ -88,25 +88,24 @@ const getApprovedQueries = async (req, res) => {
   try {
     console.log("Fetching approved queries...");
 
-    const approvedQueries = await QueryModel.find({ status: "Approved" }).exec();
+    const approvedQueries = await QueryModel.find({
+      status: "Approved",
+    }).exec();
 
     if (!approvedQueries || approvedQueries.length === 0) {
-      return res.status(404).json({ message: "No approved queries found", data: [] });
+      return res
+        .status(200)
+        .json({ message: "No approved queries found", data: [] });
     }
 
-    console.log("Approved queries fetched successfully.");
     return res.status(200).json({ data: approvedQueries });
-
   } catch (error) {
-    console.error("Error fetching approved queries:", error);
-
-    return res.status(500).json({ 
-      message: "Internal server error", 
-      error: error.message || "Unknown error occurred" 
+    return res.status(500).json({
+      message: "Internal server error",
+      error: error.message || "Unknown error occurred",
     });
   }
 };
-
 
 // Route to get all queries from a specific user based on email
 const getUserQueriesByEmail = async (req, res) => {

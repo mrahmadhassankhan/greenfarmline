@@ -28,7 +28,7 @@ router
   .route("/order")
   .get(roleMiddleware(["admin"]), getAllOrdersAdmin)
   .put(roleMiddleware(["seller"]), updateOrderStatus);
-router.route("/orders").get(roleMiddleware(["admin"]), getAllOrders);
+router.route("/orders").get(roleMiddleware(["admin", "farmer"]), getAllOrders);
 router
   .route("/coupons")
   .get(roleMiddleware(["admin"]), getCoupons)

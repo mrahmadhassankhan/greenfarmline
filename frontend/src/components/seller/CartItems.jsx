@@ -6,7 +6,14 @@ import { toast } from "react-toastify";
 import { Axios_Node } from "../../Axios";
 import "../../styles/cartlayout.css";
 
-const CartItems = ({ cartId, data, quantity, size, deleteItem, updateData }) => {
+const CartItems = ({
+  cartId,
+  data,
+  quantity,
+  size,
+  deleteItem,
+  updateData,
+}) => {
   const [currentQuantity, setCurrentQuantity] = useState(quantity);
   const [debounceQuantity, setDebounceQuantity] = useState(null);
   const [productDetails, setProductDetails] = useState(null);
@@ -22,7 +29,9 @@ const CartItems = ({ cartId, data, quantity, size, deleteItem, updateData }) => 
           console.log("Fetched Product Details:", fetchedDetails);
 
           setProductDetails((prevDetails) =>
-            JSON.stringify(prevDetails) !== JSON.stringify(fetchedDetails) ? fetchedDetails : prevDetails
+            JSON.stringify(prevDetails) !== JSON.stringify(fetchedDetails)
+              ? fetchedDetails
+              : prevDetails
           );
         } catch (error) {
           console.error("Error fetching product details:", error);
@@ -74,9 +83,15 @@ const CartItems = ({ cartId, data, quantity, size, deleteItem, updateData }) => 
       <td>
         <div className="cart-product-cont">
           <div className="cart-image-cont">
-            <Link to={`/product/${data.slug}`} style={{ textDecoration: "none" }}>
+            <Link
+              to={`/product/${data.slug}`}
+              style={{ textDecoration: "none" }}
+            >
               <img
-                src={`http://api.greenfarmline.shop/Images/${productDetails?.document.replace(/\\/g, "/").split("/").pop()}`} 
+                src={`https://api.greenfarmline.shop/Images/${productDetails?.document
+                  .replace(/\\/g, "/")
+                  .split("/")
+                  .pop()}`}
                 alt="cart-img"
               />
             </Link>

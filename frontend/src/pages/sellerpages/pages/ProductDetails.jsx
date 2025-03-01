@@ -74,7 +74,7 @@ const ProductDetails = () => {
   if (loading) return <TriangleLoader height="500px" />;
   if (!data) return <p style={{ textAlign: "center" }}>Product not found</p>;
 
-  const productImage = `http://api.greenfarmline.shop/Images/${encodeURIComponent(
+  const productImage = `https://api.greenfarmline.shop/Images/${encodeURIComponent(
     data.document.split("\\").pop()
   )}`;
 
@@ -93,12 +93,20 @@ const ProductDetails = () => {
           </div>
         </div>
         <div className="prod-details-cont">
-          <h1 className="ptitle">{`${data.brand} ${data.name.toLowerCase()}`}</h1>
+          <h1 className="ptitle">{`${
+            data.brand
+          } ${data.name.toLowerCase()}`}</h1>
           <h3 className="pprize">
             RS. {data.price} <span>3000</span>
           </h3>
           <div className="pStar">
-            <Star rating={data.ratings.length > 0 ? data.ratingScore / data.ratings.length : 0} />
+            <Star
+              rating={
+                data.ratings.length > 0
+                  ? data.ratingScore / data.ratings.length
+                  : 0
+              }
+            />
           </div>
 
           <div className="quantity-selector">
@@ -130,7 +138,9 @@ const ProductDetails = () => {
           </button>
 
           {data.quantity === 0 && (
-            <p className="outOfStock">Unfortunately, this product is currently out of stock.</p>
+            <p className="outOfStock">
+              Unfortunately, this product is currently out of stock.
+            </p>
           )}
 
           <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>
@@ -145,14 +155,18 @@ const ProductDetails = () => {
             Brand: {data.brand}
           </h3>
 
-          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>Features:</h3>
+          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>
+            Features:
+          </h3>
           <ul>
             {data.features?.map((feature, index) => (
               <li key={index}>{feature}</li>
             ))}
           </ul>
 
-          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>Note:</h3>
+          <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>
+            Note:
+          </h3>
           <ul style={{ listStyleType: "disc", padding: "10px" }}>
             <li>100% Original Products</li>
             <li>Pay on delivery might be available</li>

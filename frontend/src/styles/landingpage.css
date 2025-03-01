@@ -143,6 +143,7 @@
   align-items: center;
 }
 .Featured-products .product-container {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;

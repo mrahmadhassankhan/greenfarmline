@@ -106,7 +106,6 @@ const RegisterUserForms = () => {
         const response = await Axios_Node.post("/users/register", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
-            s,
           },
         });
         if (response.data.token) {

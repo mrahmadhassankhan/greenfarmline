@@ -13,11 +13,11 @@ const FeaturesSection = () => {
         <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-500 mb-10">
           What We Offer
         </h2>
-        <div className="flex justify-around flex-col md:flex-row">
+        <div className="flex justify-around flex-col lg:gap-5 lg:flex-row">
           {features.map((feature, idx) => (
             <div
               key={idx}
-              className="bg-white text-black card  dark:bg-slate-900 dark:text-white border w-96 drop-shadow-2xl p-10 mb-6"
+              className="bg-white text-black card  dark:bg-slate-900 dark:text-white border w-full lg:w-96 drop-shadow-2xl p-10 mb-6"
             >
               <div className="text-5xl">{feature.icon}</div>
               <div className="card-body items-center text-center">

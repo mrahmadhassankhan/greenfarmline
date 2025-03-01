@@ -139,13 +139,10 @@ const ProductDetails = () => {
           </h3>
           <p>{data.description}</p>
           <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>
-            Color:{" "}
-            <p style={{ fontWeight: "normal", display: "inline" }}>
-              {data.color}
-            </p>
+            Category:{" "}
           </h3>
           <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>
-            Material:{" "}
+            Brand:{" "}
           </h3>
           <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>
             Features:
@@ -174,9 +171,11 @@ const ProductDetails = () => {
           </div>
 
           <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>
-            Delivery Option
+           {/* Delivery Option */}
+	    Note:
           </h3>
           <div>
+	{/*
             <div>
               <input
                 type="number"
@@ -196,6 +195,7 @@ const ProductDetails = () => {
               Please enter PIN code to check delivery time & Pay on Delivery
               Availability
             </h5>
+	*/}
             <ul style={{ listStyleType: "disc", padding: "10px" }}>
               <li>100% Original Products</li>
               <li>Pay on delivery might be available</li>
@@ -203,13 +203,14 @@ const ProductDetails = () => {
               <li>Try & Buy might be available</li>
             </ul>
           </div>
-
+	{/*
           <h3 className="pDescTitle" style={{ fontWeight: "bold" }}>
             Offers
           </h3>
           <ul type="none">
-            <li>Use &apos;SUMILSUTHAR197&apos; to avail flat 20% Off</li>
+            <li>Use &apos;DISCOUNT&apos; to avail flat 20% Off</li>
           </ul>
+	*/}
           <RatingContainer ratings={data.ratings} />
         </div>
       </section>

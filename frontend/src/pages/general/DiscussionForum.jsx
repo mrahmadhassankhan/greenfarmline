@@ -11,14 +11,18 @@ function DiscussionForum() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // Example: Simulating user authentication and role
-  const user = JSON.parse(localStorage.getItem("user")).email; // Assume user info is stored in localStorage
+  
+  // Get user data from localStorage
+  const isUser = () => {
+    const user = localStorage.getItem("user");
+    return user ?true : false;
+  };
 
   // Fetch approved queries from backend
   useEffect(() => {
     Axios_Node.get("/query/getapprovedqueries")
       .then((response) => {
-        setQueries(response.data); // Set the fetched queries to state
+        setQueries(response.data.data); // Set the fetched queries to state
         setLoading(false); // Stop the loading spinner
       })
       .catch((error) => {
@@ -30,10 +34,10 @@ function DiscussionForum() {
 
   // Handle query click
   const handleQueryClick = (query) => {
-    if (!user) {
+    if (!isUser) {
       // If user is not logged in, redirect to login
       navigate("/login");
-    } else if (JSON.parse(localStorage.getItem("user")).role !== "farmer") {
+    } else if (JSON.parse(localStorage.getItem("user")).role !== "farmer" || JSON.parse(localStorage.getItem("user")).role !== "expert") {
       // If user role is not "farmer", show a toast or message
       alert("You are not allowed to access this page.");
     } else {
@@ -45,7 +49,7 @@ function DiscussionForum() {
   return (
     <>
       <Navbar />
-      <div className="max-w-7xl mx-auto p-6 mt-16 h-screen">
+      <div className="max-w-7xl mx-auto p-6 mt-16 h-auto">
         <h1 className="text-3xl font-bold text-center mb-6">
           Discussion Forum
         </h1>
@@ -55,10 +59,10 @@ function DiscussionForum() {
             <p className="text-gray-500">Loading queries...</p>
           ) : error ? (
             <p className="text-red-500">{error}</p>
-          ) : Array.isArray(queries).length > 0 ? (
+          ) : Array.isArray(queries) && queries.length > 0 ? (
             queries.map((query) => (
               <QueryCard
-                key={query.id}
+                key={query._id}
                 title={query.title}
                 description={query.description}
                 author={query.name}

@@ -29,8 +29,8 @@ const expert = () => {
       const approvedResponse = await Axios_Node.get(
         "/query/getapprovedqueries"
       );
-      const approvedQueries = Array.isArray(approvedResponse.data)
-        ? approvedResponse.data
+      const approvedQueries = Array.isArray(approvedResponse.data.data)
+        ? approvedResponse.data.data
         : [];
 
       // Fetch answered queries by expert
@@ -63,8 +63,8 @@ const expert = () => {
     try {
       const response = await Axios_Node.get("/query/getapprovedqueries");
 
-      if (Array.isArray(response.data)) {
-        setRecentQueries(response.data.slice(0, 3)); // Take latest 3 queries
+      if (Array.isArray(response.data.data)) {
+        setRecentQueries(response.data.data.slice(0, 3)); // Take latest 3 queries
       } else {
         setRecentQueries([]); // Set empty array to prevent errors
       }

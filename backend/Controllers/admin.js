@@ -426,7 +426,7 @@ const getAdminDetails = asyncErrorHandler(async (req, res) => {
     totalUsers,
     totalOrders,
     totalProducts,
-    totalSales: totalSales[0].total.toFixed(2),
+    totalSales: totalSales.length > 0 ? totalSales[0].total.toFixed(2) : "0.00",
   });
 });
 module.exports = {

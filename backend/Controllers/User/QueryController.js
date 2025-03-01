@@ -86,7 +86,6 @@ const getRejectedQueries = async (req, res) => {
 // Route to get only approved queries
 const getApprovedQueries = async (req, res) => {
   try {
-    console.log("Fetching approved queries...");
 
     const approvedQueries = await QueryModel.find({
       status: "Approved",

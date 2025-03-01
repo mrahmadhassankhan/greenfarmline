@@ -15,7 +15,7 @@ function Contact() {
               Block C Phase 1, Lahore, Pakistan <br />
               <br />
               <strong>Email:</strong> support@greenfarmline.com <br />
-              <strong>Phone:</strong> +92 31 23456789 <br />
+              <strong>Phone:</strong> +92 34 14126057 <br />
               <br />
               Need more help? <br />
             </p>

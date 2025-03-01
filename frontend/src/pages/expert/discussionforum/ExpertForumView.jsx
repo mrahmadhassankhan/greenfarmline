@@ -14,8 +14,8 @@ function ExpertForumView() {
   useEffect(() => {
     Axios_Node.get("/query/getapprovedqueries")
       .then((response) => {
-        console.log("API Response:", response.data); // Debugging step
-        setQueries(Array.isArray(response.data) ? response.data : []); // Ensure it's an array
+        console.log("API Response:", response.data.data); // Debugging step
+        setQueries(Array.isArray(response.data.data) ? response.data.data : []); // Ensure it's an array
         setLoading(false);
       })
       .catch((err) => {
@@ -62,7 +62,7 @@ function ExpertForumView() {
           ) : searchedQueries.length > 0 ? (
             searchedQueries.map((query) => (
               <QueryCard
-                key={query.id}
+                key={query._id}
                 title={query.title}
                 description={query.description}
                 author={query.name}

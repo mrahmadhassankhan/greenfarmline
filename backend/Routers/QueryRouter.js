@@ -16,16 +16,16 @@ const { UploadingFileMiddleware } = require("../middlewares/ImageMiddleware");
 const authMiddleware = require("../middlewares/auth");
 const roleMiddleware = require("../middlewares/role");
 
+queryRouter
+  .route("/getapprovedqueries")
+  .get(getApprovedQueries);
+
 queryRouter.use(authMiddleware);
 
 // Define routes
 queryRouter
   .route("/postquery")
   .post(roleMiddleware(["farmer"]), UploadingFileMiddleware, createPostQuery); // Create a new query
-
-queryRouter
-  .route("/getapprovedqueries")
-  .get(roleMiddleware(["farmer", "expert", "admin"]), getApprovedQueries); // Get all Approved queries
 queryRouter
   .route("/getpendingqueries")
   .get(roleMiddleware(["admin", "farmer"]), getPendingQueries); // Get all Pending queries

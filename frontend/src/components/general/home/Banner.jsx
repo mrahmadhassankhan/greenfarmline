@@ -21,7 +21,7 @@ function Banner() {
           </div>
           <div className="flex justify-center items-center md:justify-normal">
             <button className="bg-green-600 text-white p-2 mt-6 rounded-md hover:bg-green-700 duration-200 cursor-pointer">
-              Get Started
+             <a href="/register">Get Started</a>
             </button>
           </div>
         </div>

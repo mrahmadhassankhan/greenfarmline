@@ -139,6 +139,7 @@ const App = () => {
           <Route path="/image-detection" element={<CropImageDetection />} />
           <Route path="products" element={<Product />} />
           <Route path="/adminLogin" element={<AdminLogin />} />
+          <Route path="product/:slug" element={<ProductDetails />} />
           <Route path="/*" element={<ErrorPage />} />
 
           <Route element={<PrivateRoute />}>
@@ -178,7 +179,6 @@ const App = () => {
               <Route path="brands" element={<BrandList />} />
               <Route path="category" element={<CategoryList />} />
             </Route>
-            <Route path="product/:slug" element={<ProductDetails />} />
             <Route path="cart" element={<CartLayout />} />
             <Route path="/orders" element={<ProfileLayout />}>
               <Route index element={<MyOrders />} />

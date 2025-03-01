@@ -34,7 +34,7 @@ function DiscussionForum() {
 
   // Handle query click
   const handleQueryClick = (query) => {
-    if (!isUser) {
+    if (isUser) {
       // If user is not logged in, redirect to login
       navigate("/login");
     } else if (JSON.parse(localStorage.getItem("user")).role !== "farmer" || JSON.parse(localStorage.getItem("user")).role !== "expert") {

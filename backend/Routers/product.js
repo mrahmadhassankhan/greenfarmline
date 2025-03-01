@@ -14,6 +14,12 @@ const { UploadingFileMiddleware } = require("../middlewares/ImageMiddleware");
 const authMiddleware = require("../middlewares/auth");
 const roleMiddleware = require("../middlewares/role");
 
+// Filter products route (search, pagination, sorting, etc.)
+router.route("/filter").get(getProducts);
+
+// Get a single product by its slug
+router.route("/:slug").get(getProduct);
+
 router.use(authMiddleware);
 // Create product route with image upload middleware
 router
@@ -25,9 +31,6 @@ router
   .route("/update/:slug")
   .put(roleMiddleware(["seller"]), UploadingFileMiddleware, updateProduct);
 
-// Filter products route (search, pagination, sorting, etc.)
-router.route("/filter").get(getProducts);
-
 // Get filter options for categories, colors, and brands
 router
   .route("/filterOptions")
@@ -37,9 +40,6 @@ router
 router
   .route("/options")
   .get(roleMiddleware(["seller", "farmer", "expert"]), getOptions);
-
-// Get a single product by its slug
-router.route("/:slug").get(getProduct);
 
 // Update a review
 router

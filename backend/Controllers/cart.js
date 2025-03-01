@@ -2,7 +2,7 @@ const user = require("../Models/user");
 const asyncErrorHandler = require("../middlewares/asyncErrorHandler");
 const errorHandler = require("../utils/errorHandler");
 const Product = require("../Models/product");
-
+const mongoose = require("mongoose");
 const getCart = asyncErrorHandler(async (req, res, next) => {
   const { email } = req.query;
   const userObj = await user.findOne({ email }).populate({

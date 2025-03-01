@@ -109,7 +109,7 @@ const Dashboard = () => {
         <DashCard title="Total Users" amount={data.totalUsers} />
         <DashCard title="Total Orders" amount={data.totalOrders} />
         <DashCard title="Total Products" amount={data.totalProducts} />
-        <DashCard title="Total Products" amount={`Pkr ${data.totalSales}`} />
+        <DashCard title="Total Revenue" amount={`Pkr ${data.totalSales}`} />
       </div>
       <div className="graphBox">
         <div className="graph-box box-1">

@@ -11,11 +11,10 @@ function DiscussionForum() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  
   // Get user data from localStorage
   const isUser = () => {
     const user = localStorage.getItem("user");
-    return user ?true : false;
+    return user ? true : false;
   };
 
   // Fetch approved queries from backend
@@ -37,7 +36,10 @@ function DiscussionForum() {
     if (isUser) {
       // If user is not logged in, redirect to login
       navigate("/login");
-    } else if (JSON.parse(localStorage.getItem("user")).role !== "farmer" || JSON.parse(localStorage.getItem("user")).role !== "expert") {
+    } else if (
+      JSON.parse(localStorage.getItem("user")).role !== "farmer" ||
+      JSON.parse(localStorage.getItem("user")).role !== "expert"
+    ) {
       // If user role is not "farmer", show a toast or message
       alert("You are not allowed to access this page.");
     } else {
@@ -67,7 +69,7 @@ function DiscussionForum() {
                 description={query.description}
                 author={query.name}
                 date={new Date(query.datePosted).toLocaleDateString()}
-                image={`https://greenfarmline.shop/Images/${query.image}`}
+                image={`https://api.greenfarmline.shop/Images/${query.image}`}
                 status={query.status}
                 onClick={() => handleQueryClick(query)}
               />

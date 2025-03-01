@@ -76,7 +76,7 @@ function UserQueries() {
                   description={query.description}
                   author={query.name}
                   date={new Date(query.datePosted).toLocaleDateString()}
-                  image={`https://greenfarmline.shop/Images/${query.image}`}
+                  image={`https://api.greenfarmline.shop/Images/${query.image}`}
                   status={query.status}
                 />
               ))

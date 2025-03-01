@@ -6,39 +6,24 @@ import { toast } from "react-toastify";
 import { Axios_Node } from "../../Axios";
 import "../../styles/cartlayout.css";
 
-const CartItems = ({
-  cartId,
-  data,
-  quantity,
-  size,
-  deleteItem,
-  updateData,
-}) => {
-  const [currentquantity, setCurrentquantity] = useState(quantity);
-  const [debouncequantity, setDebouncequantity] = useState(null);
+const CartItems = ({ cartId, data, quantity, size, deleteItem, updateData }) => {
+  const [currentQuantity, setCurrentQuantity] = useState(quantity);
+  const [debounceQuantity, setDebounceQuantity] = useState(null);
   const [productDetails, setProductDetails] = useState(null);
   const firstUpdate = useRef(true);
+  const userEmail = JSON.parse(localStorage.getItem("user"))?.email || "";
 
   useEffect(() => {
     const fetchDetails = async () => {
       if (data?.slug) {
         try {
           const response = await Axios_Node.get(`/product/${data.slug}`);
-          const fetchedDetails = response.data.data; // Access the actual product details
+          const fetchedDetails = response.data.data;
+          console.log("Fetched Product Details:", fetchedDetails);
 
-          console.log("Fetched Product Details:", fetchedDetails); // Log the correct product details
-
-          // Update state with the correct product details
-          setProductDetails((prevDetails) => {
-            if (
-              JSON.stringify(prevDetails) !== JSON.stringify(fetchedDetails)
-            ) {
-              console.log("Updating productDetails state");
-              return fetchedDetails;
-            }
-            console.log("No changes detected in product details");
-            return prevDetails;
-          });
+          setProductDetails((prevDetails) =>
+            JSON.stringify(prevDetails) !== JSON.stringify(fetchedDetails) ? fetchedDetails : prevDetails
+          );
         } catch (error) {
           console.error("Error fetching product details:", error);
         }
@@ -47,51 +32,51 @@ const CartItems = ({
     fetchDetails();
   }, [data?.slug]);
 
-  // Debounce mechanism for quantity updates
   useEffect(() => {
     const handler = setTimeout(() => {
       if (firstUpdate.current) {
         firstUpdate.current = false;
         return;
       }
-      setDebouncequantity(currentquantity);
+      setDebounceQuantity(currentQuantity);
     }, 450);
-    return () => clearTimeout(handler);
-  }, [currentquantity]);
 
-  // Update quantity in the backend
-  const changequantity = async () => {
-    try {
-      const response = await Axios_Node.put(`/cart/update/${cartId}`, {
-        quantity: debouncequantity,
-        email: JSON.parse(localStorage.getItem("user")).email,
-      });
-      updateData(response.data.cart);
-      toast.success("Quantity updated successfully");
-    } catch (error) {
-      toast.error("Something went wrong");
-    }
-  };
+    return () => clearTimeout(handler);
+  }, [currentQuantity]);
 
   useEffect(() => {
-    if (debouncequantity !== null) {
-      changequantity();
+    const changeQuantity = async () => {
+      try {
+        if (!userEmail) {
+          toast.error("User not logged in");
+          return;
+        }
+
+        const response = await Axios_Node.put(`/cart/update/${cartId}`, {
+          quantity: debounceQuantity,
+          email: userEmail,
+        });
+
+        updateData(response.data.cart);
+        toast.success("Quantity updated successfully");
+      } catch (error) {
+        toast.error("Something went wrong");
+      }
+    };
+
+    if (debounceQuantity !== null) {
+      changeQuantity();
     }
-  }, [debouncequantity]);
+  }, [debounceQuantity, cartId, updateData, userEmail]);
 
   return (
     <tr>
       <td>
         <div className="cart-product-cont">
           <div className="cart-image-cont">
-            <Link
-              to={`/product/${data.slug}`}
-              style={{ textDecoration: "none" }}
-            >
+            <Link to={`/product/${data.slug}`} style={{ textDecoration: "none" }}>
               <img
-                src={`http:\\\\localhost:1783\\Images\\${productDetails?.document
-                  .split("\\")
-                  .pop()}`} // Use the document from productDetails
+                src={`http://api.greenfarmline.shop/Images/${productDetails?.document.replace(/\\/g, "/").split("/").pop()}`} 
                 alt="cart-img"
               />
             </Link>
@@ -120,13 +105,13 @@ const CartItems = ({
         <div>
           <button
             onClick={() =>
-              setCurrentquantity((prev) => (prev > 0 ? prev - 1 : prev))
+              setCurrentQuantity((prev) => (prev > 1 ? prev - 1 : prev))
             }
           >
             <HiMinusCircle />
           </button>
-          <p>{currentquantity}</p>
-          <button onClick={() => setCurrentquantity((prev) => prev + 1)}>
+          <p>{currentQuantity}</p>
+          <button onClick={() => setCurrentQuantity((prev) => prev + 1)}>
             <HiPlusCircle />
           </button>
         </div>

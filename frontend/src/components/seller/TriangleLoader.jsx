@@ -10,7 +10,6 @@ const TriangleLoader = ({ height }) => {
         justifyContent: "center",
         flexDirection: "column",
         alignItems: "center",
-        height: `${height}`,
         color: "#1a1a1a",
         gap: "10px",
       }}

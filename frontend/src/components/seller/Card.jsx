@@ -4,57 +4,62 @@ import Star from "./Star";
 import { memo, useState } from "react";
 import { toast } from "react-toastify";
 import SizeModal from "./SizeModal";
-const Card = (data) => {
+
+const Card = ({ _id, slug, document, brand, name, ratingScore, ratings, price, sizeQuantity }) => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+
   const toTitleCase = (word) => {
-    let letterCapitalizer = (match) =>
-      match.substring(0, 1).toUpperCase() + match.substring(1);
-    return word.split(" ").map(letterCapitalizer).join(" ");
+    return word.split(" ").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
   };
-  const handleAddToCart = async (len) => {
-    try {
-      if (!auth) {
-        toast.error("Login required");
-        navigate("/login");
-        return;
-      } else if (len === 0) {
-        toast.error("Out of stock");
-        return;
-      }
-      setShowModal((prev) => !prev);
-    } catch (error) {
-      toast.error("Something went wrong");
+
+  const auth = JSON.parse(localStorage.getItem("user")); // 🔹 Ensure auth is defined
+
+  const handleAddToCart = (len) => {
+    if (!auth) {
+      toast.error("Login required");
+      navigate("/login");
+      return;
+    } else if (len === 0) {
+      toast.error("Out of stock");
+      return;
     }
+    setShowModal((prev) => !prev);
   };
 
   return (
     <div className="card-container">
       {showModal && (
         <SizeModal
-          id={data._id}
-          size={data.sizeQuantity}
+          id={_id}
+          size={sizeQuantity}
           onClose={() => setShowModal((prev) => !prev)}
         />
       )}
-      <Link to={`/product/${data.slug}`} style={{ textDecoration: "none" }}>
+      <Link to={`/product/${slug}`} style={{ textDecoration: "none" }}>
         <div className="image-div">
-          <img src={`http:\\\\localhost:1783\\Images\\${data.document.split('\\').pop()}`} alt="image" style={{ objectFit: "cover", aspectRatio: "1", width: "100%", height: "100%", padding: "0" }} height="240px" loading="lazy" />
+          <img 
+            src={`https://api.greenfarmline.shop/Images/${document.split('\\').pop()}`} 
+            alt="Product Image"
+            style={{ objectFit: "cover", aspectRatio: "1", width: "100%", height: "100%", padding: "0" }} 
+            height="240px" 
+            loading="lazy" 
+          />
         </div>
       </Link>
       <div className="desc">
-        <Link to={`/product/${data.slug}`} style={{ textDecoration: "none" }}>
-          <h5>{data.brand}</h5>
-          <h6>{toTitleCase(data.name)}</h6>
+        <Link to={`/product/${slug}`} style={{ textDecoration: "none" }}>
+          <h5>{brand}</h5>
+          <h6>{toTitleCase(name)}</h6>
         </Link>
         <div className="star">
-          {<Star rating={data.ratingScore / data.ratings.length || 0} />}
+          <Star rating={ratings.length ? ratingScore / ratings.length : 0} />
         </div>
-        <h4>RS. {data.price}</h4>
+        <h4>RS. {price}</h4>
       </div>
       <button
         className="btn-cart"
-        onClick={() => handleAddToCart(data.sizeQuantity.length)}
+        onClick={() => handleAddToCart(sizeQuantity.length)}
       >
         <span className="add-to-cart">
           <FaShoppingCart />

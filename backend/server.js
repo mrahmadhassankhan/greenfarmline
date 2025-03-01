@@ -32,10 +32,10 @@ const loggerMiddleware = require("./middlewares/logger");
 const PORT = 1783;
 
 const corsOptions = {
-  origin: ["https://greenfarmline.shop", "http://localhost:5173"],
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  origin: ["https://greenfarmline.shop", "http://localhost:5173"], 
+ methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: ["Content-Type", "Authorization", "Set-Cookie"],
-  credentials: true,
+  credentials: true
 };
 
 app.use(cors(corsOptions));
@@ -90,8 +90,8 @@ app.post(
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
-app.use("/Images", express.static(path.join(__dirname, "public/Images")));
 app.use(express.static("public"));
+app.use("/Images", express.static(path.join(__dirname, "public/Images")));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(loggerMiddleware);
@@ -115,7 +115,9 @@ app.get("/logout", (req, res) => {
 app.use("/form/", contactUsRouter);
 app.use("/uptime", uptimeRoutes);
 app.use("/detections", detectionRoutes);
-
+app.use("/hi",(req,res)=>{
+res.send("hhi");
+});
 app.use("/query", queryRouter);
 
 app.use("/answer", answerrouter);

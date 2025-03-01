@@ -135,7 +135,7 @@ const MyOrders = () => {
                         <div className="cart-product-cont">
                           <div className="cart-image-cont">
                             <img
-                              src={`https://api.greenfarmline.shop/Images/${productDetails?.[
+                              src={`https://greenfarmline.shop/Images/${productDetails?.[
                                 product.slug
                               ]
                                 ?.split("\\")

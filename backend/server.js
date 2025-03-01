@@ -90,7 +90,7 @@ app.post(
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
-app.use(express.static(path.resolve(__dirname, "./public/Images/")));
+app.use("/Images", express.static(path.join(__dirname, "public/Images")));
 app.use(express.static("public"));
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -105,14 +105,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/logout", (req,res)=>{
-   
+app.get("/logout", (req, res) => {
   res.clearCookie("token", {
-    maxAge: 0 // 48 hours
+    maxAge: 0, // 48 hours
   });
-  res.status(200).json("Logout Success")
-})
-
+  res.status(200).json("Logout Success");
+});
 
 app.use("/form/", contactUsRouter);
 app.use("/uptime", uptimeRoutes);

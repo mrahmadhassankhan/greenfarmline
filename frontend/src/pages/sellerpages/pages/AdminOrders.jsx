@@ -138,7 +138,7 @@ const AdminOrders = () => {
                         <div className="cart-product-cont">
                           <div className="cart-image-cont">
                             <img
-                              src={`http://localhost:1783/Images/${productDetails[
+                              src={`https://api.greenfarmline.shop/Images/${productDetails[
                                 item.slug
                               ]
                                 ?.split("\\")

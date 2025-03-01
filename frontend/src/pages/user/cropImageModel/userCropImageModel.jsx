@@ -20,11 +20,8 @@ function userCropImageModel() {
         const response = await Axios_Node.get(
           `/detections/history/${farmerEmail}`
         );
-        if (response.ok) {
-          const data = await response.json();
-          setDetectionHistory(data);
-        }
-      } catch (error) {}
+        setDetectionHistory(response.data);
+      } catch (error) { }
     };
 
     fetchHistory();
@@ -41,7 +38,6 @@ function userCropImageModel() {
           <p className="text-gray-600">
             View all your past crop disease detection results.
           </p>
-
           {detectionHistory.length === 0 ? (
             <p className="text-gray-500 mt-4">No detection history found.</p>
           ) : (
@@ -58,26 +54,28 @@ function userCropImageModel() {
                   </tr>
                 </thead>
                 <tbody>
-                  {detectionHistory.map((entry, index) => (
-                    <tr key={index} className="text-center">
-                      <td className="border p-2">{index + 1}</td>
-                      <td className="border p-2">
-                        <img
-                          src={entry.imageUrl}
-                          alt="Crop"
-                          className="w-16 h-16 rounded"
-                        />
-                      </td>
-                      <td className="border p-2">{entry.disease}</td>
-                      <td className="border p-2">
-                        {entry.confidence.toFixed(2)}%
-                      </td>
-                      <td className="border p-2">{entry.recommendations}</td>
-                      <td className="border p-2">
-                        {new Date(entry.detectedAt).toLocaleString()}
-                      </td>
-                    </tr>
-                  ))}
+                  {detectionHistory.length > 0 &&
+                    detectionHistory.map((entry, index) => (
+                      <tr key={index} className="text-center">
+                        <td className="border p-2">{index + 1}</td>
+                        <td className="border p-2">
+                          <img
+                            src={entry.imageUrl}
+                            alt="Crop"
+                            className="w-16 h-16 rounded"
+                          />
+                        </td>
+                        <td className="border p-2">{entry.disease}</td>
+                        <td className="border p-2">
+                          {entry.confidence.toFixed(2)}%
+                        </td>
+                        <td className="border p-2">{entry.recommendations}</td>
+                        <td className="border p-2">
+                          {new Date(entry.detectedAt).toLocaleString()}
+                        </td>
+                      </tr>
+                    ))
+                  }
                 </tbody>
               </table>
             </div>

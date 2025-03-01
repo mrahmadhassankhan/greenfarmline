@@ -1,6 +1,8 @@
+// SellerForm.js
 import React from "react";
 import CommonFields from "./CommonFields";
 import PropTypes from "prop-types";
+
 const SellerForm = ({ formValues, handleChange, errors }) => {
   return (
     <>
@@ -17,7 +19,7 @@ const SellerForm = ({ formValues, handleChange, errors }) => {
           type="text"
           name="businessName"
           placeholder="Enter your business name"
-          className="w-full p-2 border rounded-md bg-white  dark:text-white text-black dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white dark:text-white text-black dark:bg-slate-900"
           value={formValues.businessName}
           onChange={handleChange}
         />
@@ -33,7 +35,7 @@ const SellerForm = ({ formValues, handleChange, errors }) => {
           type="text"
           name="registrationNo"
           placeholder="Enter your registration number"
-          className="w-full p-2 border rounded-md bg-white  dark:text-white text-black dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white dark:text-white text-black dark:bg-slate-900"
           value={formValues.registrationNo}
           onChange={handleChange}
         />
@@ -48,16 +50,17 @@ const SellerForm = ({ formValues, handleChange, errors }) => {
         <input
           type="file"
           name="document"
-          className="w-full p-2 border rounded-md bg-white  dark:text-white text-black dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white dark:text-white text-black dark:bg-slate-900"
           onChange={handleChange}
         />
-        {errors.logo && (
-          <p className="text-red-500 text-xs mt-1">{errors.logo}</p>
+        {errors.document && (
+          <p className="text-red-500 text-xs mt-1">{errors.document}</p>
         )}
       </div>
     </>
   );
 };
+
 SellerForm.propTypes = {
   formValues: PropTypes.object.isRequired,
   handleChange: PropTypes.func.isRequired,

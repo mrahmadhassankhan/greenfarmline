@@ -49,7 +49,7 @@ const Settings = () => {
           Update Your Information
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4 text-white">
+        <form onSubmit={handleSubmit} className="space-y-4 text-black">
           {/* Common Fields */}
           <div>
             <label className="block text-gray-700 font-medium">Full Name</label>

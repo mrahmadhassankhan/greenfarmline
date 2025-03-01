@@ -1,6 +1,8 @@
+// ExpertForm.js
 import React from "react";
 import CommonFields from "./CommonFields";
 import PropTypes from "prop-types";
+
 const ExpertForm = ({ formValues, handleChange, errors }) => {
   return (
     <>
@@ -17,7 +19,7 @@ const ExpertForm = ({ formValues, handleChange, errors }) => {
           type="text"
           name="qualification"
           placeholder="Enter your qualification"
-          className="w-full p-2 border rounded-md bg-white  text-black dark:text-white dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white text-black dark:text-white dark:bg-slate-900"
           value={formValues.qualification}
           onChange={handleChange}
         />
@@ -32,7 +34,7 @@ const ExpertForm = ({ formValues, handleChange, errors }) => {
         <input
           type="file"
           name="document"
-          className="w-full p-2 border rounded-md bg-white  text-black  dark:text-white dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white text-black dark:text-white dark:bg-slate-900"
           onChange={handleChange}
         />
         {errors.document && (
@@ -47,14 +49,12 @@ const ExpertForm = ({ formValues, handleChange, errors }) => {
           type="number"
           name="yearsOfExperience"
           placeholder="Enter your years of experience"
-          className="w-full p-2 border rounded-md bg-white  text-black  dark:text-white dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white text-black dark:text-white dark:bg-slate-900"
           value={formValues.yearsOfExperience}
           onChange={handleChange}
         />
         {errors.yearsOfExperience && (
-          <p className="text-red-500 text-xs mt-1">
-            {errors.yearsOfExperience}
-          </p>
+          <p className="text-red-500 text-xs mt-1">{errors.yearsOfExperience}</p>
         )}
       </div>
       <div className="mb-4">
@@ -65,7 +65,7 @@ const ExpertForm = ({ formValues, handleChange, errors }) => {
           type="text"
           name="expertise"
           placeholder="Enter your area of expertise"
-          className="w-full p-2 border rounded-md bg-white  text-black  dark:text-white dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white text-black dark:text-white dark:bg-slate-900"
           value={formValues.expertise}
           onChange={handleChange}
         />

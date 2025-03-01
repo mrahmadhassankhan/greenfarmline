@@ -20,4 +20,5 @@ FarmerForm.propTypes = {
   handleChange: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
 };
+
 export default FarmerForm;

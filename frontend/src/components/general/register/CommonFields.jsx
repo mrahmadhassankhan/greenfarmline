@@ -1,5 +1,7 @@
+// CommonFields.js
 import React from "react";
 import PropTypes from "prop-types";
+
 const CommonFields = ({ formValues, handleChange, errors }) => {
   return (
     <div>
@@ -11,12 +13,12 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
           type="text"
           name="name"
           placeholder="Enter your full name"
-          className="w-full p-2 border rounded-md bg-white  text-black dark:bg-slate-900 dark:text-white"
+          className="w-full p-2 border rounded-md bg-white text-black dark:bg-slate-900 dark:text-white"
           value={formValues.name}
           onChange={handleChange}
         />
-        {errors.fullName && (
-          <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>
+        {errors.name && (
+          <p className="text-red-500 text-xs mt-1">{errors.name}</p>
         )}
       </div>
       <div className="mb-4">
@@ -27,7 +29,7 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
           type="email"
           name="email"
           placeholder="Enter your email address"
-          className="w-full p-2 border rounded-md bg-white  text-black dark:text-white dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white text-black dark:text-white dark:bg-slate-900"
           value={formValues.email}
           onChange={handleChange}
         />
@@ -43,7 +45,7 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
           type="tel"
           name="phoneNumber"
           placeholder="Enter your phone number"
-          className="w-full p-2 border rounded-md bg-white  dark:text-white text-black dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white dark:text-white text-black dark:bg-slate-900"
           value={formValues.phoneNumber}
           onChange={handleChange}
         />
@@ -59,7 +61,7 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
           type="text"
           name="address"
           placeholder="Enter your address"
-          className="w-full p-2 border rounded-md bg-white  dark:text-white text-black dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white dark:text-white text-black dark:bg-slate-900"
           value={formValues.address}
           onChange={handleChange}
         />
@@ -75,7 +77,7 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
           type="password"
           name="password"
           placeholder="Enter your password"
-          className="w-full p-2 border rounded-md bg-white  dark:text-white text-black dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white dark:text-white text-black dark:bg-slate-900"
           value={formValues.password}
           onChange={handleChange}
         />
@@ -91,7 +93,7 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
           type="password"
           name="confirmPassword"
           placeholder="Confirm your password"
-          className="w-full p-2 border rounded-md bg-white  dark:text-white text-black dark:bg-slate-900"
+          className="w-full p-2 border rounded-md bg-white dark:text-white text-black dark:bg-slate-900"
           value={formValues.confirmPassword}
           onChange={handleChange}
         />
@@ -102,6 +104,7 @@ const CommonFields = ({ formValues, handleChange, errors }) => {
     </div>
   );
 };
+
 CommonFields.propTypes = {
   formValues: PropTypes.shape({
     name: PropTypes.string.isRequired,

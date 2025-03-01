@@ -27,6 +27,48 @@ const RegisterUserForms = () => {
   });
   const [errors, setErrors] = useState({});
 
+  const validateForm = (formValues, role) => {
+    const errors = {};
+  
+    // Common fields validation
+    if (!formValues.name) errors.name = "Name is required";
+    if (!formValues.email) {
+      errors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formValues.email)) {
+      errors.email = "Email address is invalid";
+    }
+    if (!formValues.phoneNumber) {
+      errors.phoneNumber = "Phone number is required";
+    } else if (!/^03\d{9}$/.test(formValues.phoneNumber)) {
+      errors.phoneNumber = "Phone number must start with 03 and be 11 digits long";
+    }
+    if (!formValues.address) errors.address = "Address is required";
+    if (!formValues.password) {
+      errors.password = "Password is required";
+    } else if (formValues.password.length < 6) {
+      errors.password = "Password must be at least 6 characters long";
+    }
+    if (!formValues.confirmPassword) {
+      errors.confirmPassword = "Confirm Password is required";
+    } else if (formValues.confirmPassword !== formValues.password) {
+      errors.confirmPassword = "Passwords do not match";
+    }
+  
+    // Role-specific validation
+    if (role === "seller") {
+      if (!formValues.businessName) errors.businessName = "Business Name is required";
+      if (!formValues.registrationNo) errors.registrationNo = "Registration No. is required";
+      if (!formValues.document) errors.document = "Business Logo is required";
+    } else if (role === "expert") {
+      if (!formValues.qualification) errors.qualification = "Qualification is required";
+      if (!formValues.yearsOfExperience) errors.yearsOfExperience = "Years of Experience is required";
+      if (!formValues.expertise) errors.expertise = "Area of Expertise is required";
+      if (!formValues.document) errors.document = "Document is required";
+    }
+  
+    return errors;
+  };
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (files) {
@@ -37,8 +79,12 @@ const RegisterUserForms = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
+  const errors = validateForm(formValues, role);
+  setErrors(errors);
+
+  if (Object.keys(errors).length === 0) {
     const formData = new FormData();
 
     if (role === "farmer") {
@@ -117,7 +163,8 @@ const RegisterUserForms = () => {
         toast.error("User Already Exists");
       }
     }
-  };
+  }
+};
 
   const renderForm = () => {
     switch (role) {

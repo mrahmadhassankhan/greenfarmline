@@ -21,6 +21,7 @@ const ProductDetails = () => {
       try {
         const response = await Axios_Node.get(`/product/${slug}`);
         setData(response.data.data);
+        console.log(response.data.data)
       } catch (error) {
         toast.error(error?.response?.data?.message || "Something went wrong", {
           position: "bottom-right",
@@ -74,7 +75,7 @@ const ProductDetails = () => {
   if (loading) return <TriangleLoader height="500px" />;
   if (!data) return <p style={{ textAlign: "center" }}>Product not found</p>;
 
-  const productImage = `https://api.greenfarmline.shop/Images/${data.document.imageUrl}`;
+  const productImage = `https://api.greenfarmline.shop/Images/${data.document.split("/").pop()}`;
 
   return (
     <>

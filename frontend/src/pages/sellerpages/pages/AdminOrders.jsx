@@ -47,7 +47,7 @@ const AdminOrders = () => {
             const response = await Axios_Node.get(`/product/${item.slug}`);
             return {
               slug: item.slug,
-              image: response.data.data.document.imageUrl, // Assuming 'document' contains the image path
+              image: response.data.document.split("/").pop(), // Assuming 'document' contains the image path
             };
           })
         );
@@ -140,9 +140,8 @@ const AdminOrders = () => {
                             <img
                               src={`https://api.greenfarmline.shop/Images/${productDetails[
                                 item.slug
-                              ]
-                                ?.split("\\")
-                                .pop()}`}
+                              ]}
+                              `}
                               alt={item.product.name}
                               className="cart-image"
                             />

@@ -88,10 +88,7 @@ const CartItems = ({
               style={{ textDecoration: "none" }}
             >
               <img
-                src={`https://api.greenfarmline.shop/Images/${productDetails?.document
-                  .replace(/\\/g, "/")
-                  .split("/")
-                  .pop()}`}
+                src={`https://api.greenfarmline.shop/Images/${productDetails.document}`}
                 alt="cart-img"
               />
             </Link>

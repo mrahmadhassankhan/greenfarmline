@@ -5,12 +5,25 @@ import { memo, useState } from "react";
 import { toast } from "react-toastify";
 import SizeModal from "./SizeModal";
 
-const Card = ({ _id, slug, document, brand, name, ratingScore, ratings, price, sizeQuantity }) => {
+const Card = ({
+  _id,
+  slug,
+  document,
+  brand,
+  name,
+  ratingScore,
+  ratings,
+  price,
+  sizeQuantity,
+}) => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
   const toTitleCase = (word) => {
-    return word.split(" ").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+    return word
+      .split(" ")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
   };
 
   const auth = JSON.parse(localStorage.getItem("user")); // 🔹 Ensure auth is defined
@@ -38,12 +51,18 @@ const Card = ({ _id, slug, document, brand, name, ratingScore, ratings, price, s
       )}
       <Link to={`/product/${slug}`} style={{ textDecoration: "none" }}>
         <div className="image-div">
-          <img 
-            src={`https://api.greenfarmline.shop/Images/${document.split('\\').pop()}`} 
+          <img
+            src={`https://api.greenfarmline.shop/Images/${document}`}
             alt="Product Image"
-            style={{ objectFit: "cover", aspectRatio: "1", width: "100%", height: "100%", padding: "0" }} 
-            height="240px" 
-            loading="lazy" 
+            style={{
+              objectFit: "cover",
+              aspectRatio: "1",
+              width: "100%",
+              height: "100%",
+              padding: "0",
+            }}
+            height="240px"
+            loading="lazy"
           />
         </div>
       </Link>

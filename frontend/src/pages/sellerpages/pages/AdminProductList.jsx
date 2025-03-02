@@ -132,9 +132,7 @@ const AdminProductList = () => {
                     <div className="cart-product-cont">
                       <div className="cart-image-cont">
                         <img
-                          src={`https://api.greenfarmline.shop/Images/${item.document
-                            ?.split("\\")
-                            .pop()}`}
+                          src={`https://api.greenfarmline.shop/Images/${item.document}`}
                           alt="product"
                           className="cart-image"
                         />

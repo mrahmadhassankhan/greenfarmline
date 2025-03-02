@@ -135,11 +135,7 @@ const MyOrders = () => {
                         <div className="cart-product-cont">
                           <div className="cart-image-cont">
                             <img
-                              src={`https://api.greenfarmline.shop/Images/${productDetails?.[
-                                product.slug
-                              ]
-                                ?.split("\\")
-                                .pop()}`}
+                              src={`https://api.greenfarmline.shop/Images/${product.document}`}
                               alt={product.name}
                               className="cart-image"
                             />

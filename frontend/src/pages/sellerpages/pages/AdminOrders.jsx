@@ -47,7 +47,7 @@ const AdminOrders = () => {
             const response = await Axios_Node.get(`/product/${item.slug}`);
             return {
               slug: item.slug,
-              image: response.data.data.document, // Assuming 'document' contains the image path
+              image: response.data.data.document.imageUrl, // Assuming 'document' contains the image path
             };
           })
         );

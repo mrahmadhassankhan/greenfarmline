@@ -88,11 +88,13 @@ const CartItems = ({
               style={{ textDecoration: "none" }}
             >
               <img
-                src={`https://api.greenfarmline.shop/Images/${productDetails.document}`}
-                alt="cart-img"
+                src={`https://api.greenfarmline.shop/Images/$
+              {productDetails.document.split("/").pop()}`}
+                alt=""
               />
             </Link>
           </div>
+
           <div className="cart-name-cont">
             <p style={{ textAlign: "left" }}>
               {productDetails?.brand} {productDetails?.name}

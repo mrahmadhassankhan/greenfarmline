@@ -14,7 +14,6 @@ function ExpertForumView() {
   useEffect(() => {
     Axios_Node.get("/query/getapprovedqueries")
       .then((response) => {
-        console.log("API Response:", response.data.data); // Debugging step
         setQueries(Array.isArray(response.data.data) ? response.data.data : []); // Ensure it's an array
         setLoading(false);
       })

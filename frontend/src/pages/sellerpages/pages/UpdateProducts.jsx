@@ -26,7 +26,6 @@ const UpdateProducts = () => {
     const fetchProduct = async () => {
       try {
         const response = await Axios_Node.get(`/product/${slug}`);
-        console.log(response.data.data);
 
         setLink(response.data.data.document); // Correcting the typo
 
@@ -117,8 +116,6 @@ const UpdateProducts = () => {
       if (!token) {
         return toast.error("Access denied.");
       }
-      // const validFields = fields.filter((field) => field && field.quantity > 0);
-      console.log("data:", { ...data, image: link });
       if (
         !data.name ||
         !data.description ||
@@ -144,14 +141,12 @@ const UpdateProducts = () => {
           },
         }
       );
-      console.log(response);
       if (response.data.success) {
         toast.success(response.data.message);
         navigate("/seller/products");
       }
     } catch (error) {
       toast.error(error?.response?.data?.message);
-      console.log(error);
     }
   };
   if (loading) return <TriangleLoader height="500px" />;

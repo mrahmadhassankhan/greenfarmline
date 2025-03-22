@@ -84,7 +84,6 @@ function RejectedQueries() {
                       : ""
                   }
                   status={query.status}
-                  onClick={() => console.log("Query Clicked..")}
                 />
               ))
             ) : (

@@ -34,7 +34,6 @@ const AdminOrders = () => {
       setTotalPages(Math.ceil(response.data.count / limit));
       setLoading(false);
     } catch (error) {
-      console.log("Error", error);
       setLoading(false);
     }
   };
@@ -93,7 +92,6 @@ const AdminOrders = () => {
           return item;
         });
         setData(updatedData);
-        console.log("Data", data);
         toast.success(response.data.message);
       }
     } catch (error) {
@@ -138,9 +136,9 @@ const AdminOrders = () => {
                         <div className="cart-product-cont">
                           <div className="cart-image-cont">
                             <img
-                              src={`https://api.greenfarmline.shop/Images/${productDetails[
-                                item.slug
-                              ]}
+                              src={`https://api.greenfarmline.shop/Images/${
+                                productDetails[item.slug]
+                              }
                               `}
                               alt={item.product.name}
                               className="cart-image"

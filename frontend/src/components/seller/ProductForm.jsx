@@ -23,7 +23,6 @@ const ProductForm = ({
     const fetchBrands = async () => {
       try {
         const response = await Axios_Node.get("/brands");
-        // console.log(response.data.brands);
         setBrands(response.data.brands);
       } catch (error) {
         toast.error(error?.response?.data?.message || "Error Fetching Brands", {
@@ -35,7 +34,6 @@ const ProductForm = ({
     const fetchCategories = async () => {
       try {
         const response = await Axios_Node.get("/category/addcategory");
-        // console.log(response.data.categories);
         setCategories(response.data.categories); // Ensure correct property
       } catch (error) {
         console.error("Error fetching categories:", error);

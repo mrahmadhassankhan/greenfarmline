@@ -1,9 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import MultiSelectBox from "./MultiSelectBox";
 import { toast } from "react-toastify";
 import { Axios_Node } from "../../Axios";
-
+import { AuthContext } from "../../../authContext/auth";
 const SizeModal = ({ id, size, onClose }) => {
+  const { user, cartSize, setCartSize } = useContext(AuthContext);
   const modelRef = useRef();
   const closeModal = (e) => {
     if (modelRef.current === e.target) {
@@ -22,7 +23,6 @@ const SizeModal = ({ id, size, onClose }) => {
         return;
       }
       const token = localStorage.getItem("token");
-      console.log("Size Selected: ", Number(sizeSelected.value));
       const response = await Axios_Node.post(
         "/cart/add",
         {
@@ -37,7 +37,7 @@ const SizeModal = ({ id, size, onClose }) => {
         }
       );
       toast.success(response?.data?.message);
-      setAuth({ ...auth, cartSize: auth.cartSize + 1 });
+      setCartSize(cartSize + 1);
     } catch (error) {
       toast.error("Something went wrong");
     }

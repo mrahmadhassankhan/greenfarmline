@@ -45,7 +45,6 @@ const MyOrders = () => {
           const promises = data.flatMap((order) =>
             order.items.map(async (product) => {
               const response = await Axios_Node.get(`/product/${product.slug}`);
-              // console.log(`Response for slug ${product.slug}:`, response.data);
               return {
                 slug: product.slug,
                 document: response.data.data.document,
@@ -63,11 +62,7 @@ const MyOrders = () => {
 
           // Update productDetails state
           setProductDetails(detailsMap);
-
-          console.log("Fetched Product Details Map:", detailsMap);
-        } catch (error) {
-          console.error("Error fetching product details:", error);
-        }
+        } catch (error) {}
       }
     };
 
@@ -76,12 +71,6 @@ const MyOrders = () => {
 
   const submitReview = async (review, productId, orderId) => {
     try {
-      console.log({
-        rating: review.rating,
-        review: review.opinion,
-        productId,
-        orderId,
-      });
       const response = await Axios_Node.put(
         "product/review",
         { rating: review.rating, review: review.opinion, productId, orderId },
@@ -95,9 +84,7 @@ const MyOrders = () => {
         fetchData(); // Reload orders after review submission
       }
       setShowModal(false);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -169,7 +156,6 @@ const MyOrders = () => {
                                 product.id,
                                 order.id
                               );
-                              // console.log(order.delivered +","+ product.id +","+ order.id)
                             }}
                           >
                             {product.isReviewed ? "Reviewed" : "Review"}

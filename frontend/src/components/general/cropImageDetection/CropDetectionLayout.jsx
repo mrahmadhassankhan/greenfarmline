@@ -57,8 +57,6 @@ const CropDetectionLayout = ({ user }) => {
             headers: { "Content-Type": "application/json" },
           }
         );
-
-        console.log("Detection result saved successfully.");
       }
     } catch (error) {
       console.error("Error during detection:", error);

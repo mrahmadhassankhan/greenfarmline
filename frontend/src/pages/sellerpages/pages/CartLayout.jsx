@@ -54,18 +54,14 @@ const CartLayout = () => {
         { coupon: appliedCoupon ? couponCode.toUpperCase() : "" },
         { params: { email: JSON.parse(localStorage.getItem("user")).email } }
       );
-      console.log(response);
 
       if (response.data.url) {
         window.location.href = response.data.url;
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   const applyCoupon = (coupon) => {
     if (!data || data.length <= 0) return toast.error("Cart is empty.");
-    console.log(coupon.toUpperCase());
     const listOfCoupons = ["SUMILSUTHAR197", "NIKE2024"];
     if (listOfCoupons.includes(coupon.toUpperCase())) {
       setCouponCode(coupon);
@@ -80,7 +76,6 @@ const CartLayout = () => {
       setLoading(false);
       return;
     }
-    console.log("cart layout");
     fetchData();
   }, []);
   if (loading) return <TriangleLoader height="500px" />;
@@ -102,7 +97,6 @@ const CartLayout = () => {
               <tbody className="cart-table-tbody">
                 {data &&
                   data.items.map((item) => {
-                    console.log("ITEM", item);
                     return (
                       <CartItems
                         key={item._id}

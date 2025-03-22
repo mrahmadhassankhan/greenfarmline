@@ -17,7 +17,6 @@ function AdminDashboard() {
     const fetchQueries = async () => {
       try {
         const response = await Axios_Node.get("/query/getpendingqueries");
-        // console.log("Pending queries response:", response.data);
 
         if (Array.isArray(response.data.data)) {
           setPendingQueriesCount(response.data.data.length);
@@ -36,9 +35,6 @@ function AdminDashboard() {
     const fetchUsers = async () => {
       try {
         const response = await Axios_Node.get("/admin/users");
-
-        // console.log("Total Users:", response.data.count); // Debug total users count
-        // console.log("Total Sellers:", response.data.sellersCount); // Debug sellers count
 
         setUserCount(response.data.count);
         setSellerCount(response.data.sellersCount);

@@ -88,7 +88,6 @@ function ExpertAnswerView() {
             date={new Date(query.datePosted).toLocaleDateString()}
             image={`https://api.greenfarmline.shop/Images/${query.image}`}
             status={query.status}
-            onClick={() => console.log(`Navigating to query ID: ${query.id}`)}
           />
         </div>
 

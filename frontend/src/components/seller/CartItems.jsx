@@ -26,7 +26,6 @@ const CartItems = ({
         try {
           const response = await Axios_Node.get(`/product/${data.slug}`);
           const fetchedDetails = response.data.data;
-          console.log("Fetched Product Details:", fetchedDetails);
 
           setProductDetails((prevDetails) =>
             JSON.stringify(prevDetails) !== JSON.stringify(fetchedDetails)

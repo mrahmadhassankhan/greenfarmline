@@ -10,7 +10,6 @@ const ResetPassword = () => {
   const queryParams = new URLSearchParams(location.search);
   const id = queryParams.get("id");
   const token = queryParams.get("token");
-  console.log(token, id);
   if (token === undefined || token === "") {
     toast.error("Invalid token. Please try again.");
     navigate("/");
@@ -39,7 +38,6 @@ const ResetPassword = () => {
             },
           }
         );
-        console.log(response);
 
         if (response.data.success === true) {
           toast.success("Password reset successfully");
@@ -49,7 +47,6 @@ const ResetPassword = () => {
         }
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.response.data.message);
     }
   };

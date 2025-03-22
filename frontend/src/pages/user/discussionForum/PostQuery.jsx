@@ -48,9 +48,7 @@ const PostQuery = () => {
     });
 
     // Log FormData entries
-    formData.forEach((value, key) => {
-      console.log(key, value);
-    });
+    formData.forEach((value, key) => {});
     try {
       // Send the POST request
       const response = await Axios_Node.post("/query/postquery", formData, {
@@ -60,7 +58,6 @@ const PostQuery = () => {
       });
 
       // Handle the response after successfully submitting the query
-      console.log("Query submitted successfully:", response.data);
       toast.success("Query Submitted Successfully");
       navigate("/your-queries");
     } catch (error) {

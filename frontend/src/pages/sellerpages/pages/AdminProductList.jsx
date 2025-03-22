@@ -37,9 +37,7 @@ const AdminProductList = () => {
           email: JSON.parse(localStorage.getItem("user")).email,
         },
       });
-      console.log("Admin Products", response.data);
       setData(response.data.products);
-      console.log("prducts data:", response.data.products);
       setTotalPages(Math.ceil(response.data.count / limit));
       setLoading(false);
     } catch (error) {

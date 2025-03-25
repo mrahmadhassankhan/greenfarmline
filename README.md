@@ -10,7 +10,7 @@ VITE_FLASK_URL="http://192.168.1.112:5000"
 
 .env(Backend)
 
-JWT_SECRET = 'asasdas'
+JWT_SECRET = ''
 STRIPE_SECRET_KEY =""
 CLIENT_URL = "http://localhost:5173"
 STRIPE_WEBHOOK_SECRET= ""

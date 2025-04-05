@@ -122,7 +122,7 @@ const MyOrders = () => {
                         <div className="cart-product-cont">
                           <div className="cart-image-cont">
                             <img
-                              src={`https://api.greenfarmline.shop/Images/${product.document}`}
+                              src={`http://localhost:1783/Images/${product.document}`}
                               alt={product.name}
                               className="cart-image"
                             />

@@ -80,7 +80,7 @@ function RejectedQueries() {
                   }
                   image={
                     query.image
-                      ? `https://api.greenfarmline.shop/Images/${query.image}`
+                      ? `http://localhost:1783/Images/${query.image}`
                       : ""
                   }
                   status={query.status}

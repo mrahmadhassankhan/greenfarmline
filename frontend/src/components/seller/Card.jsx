@@ -52,7 +52,7 @@ const Card = ({
       <Link to={`/product/${slug}`} style={{ textDecoration: "none" }}>
         <div className="image-div">
           <img
-            src={`https://api.greenfarmline.shop/Images/${document.split("/").pop()}`}
+            src={`http://localhost:1783/Images/${document.split("/").pop()}`}
             alt="Product Image"
             style={{
               objectFit: "cover",

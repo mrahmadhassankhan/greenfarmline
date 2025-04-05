@@ -78,7 +78,7 @@ function UserForumView() {
                     description={query.description}
                     author={query.name}
                     date={new Date(query.datePosted).toLocaleDateString()}
-                    image={`https://api.greenfarmline.shop/Images/${query.image}`}
+                    image={`http://localhost:1783/Images/${query.image}`}
                     status={query.status}
                     onClick={() =>
                       navigate("/query-detailed-view", { state: { query } })

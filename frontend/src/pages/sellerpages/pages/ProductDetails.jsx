@@ -77,7 +77,7 @@ const ProductDetails = () => {
   if (loading) return <TriangleLoader height="500px" />;
   if (!data) return <p style={{ textAlign: "center" }}>Product not found</p>;
 
-  const productImage = `https://api.greenfarmline.shop/Images/${data.document
+  const productImage = `http://localhost:1783/Images/${data.document
     .split("/")
     .pop()}`;
 

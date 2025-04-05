@@ -1,8 +1,5 @@
 const Contact = require("../Models/Contact");
 
-// @desc  Submit Contact Form
-// @route POST /api/contact
-// @access Public
 exports.submitContactForm = async (req, res) => {
   try {
     const { name, email, phone, subject, message } = req.body;

@@ -3,7 +3,6 @@ const asyncErrorHandler = require("../middlewares/asyncErrorHandler");
 const Stripe = require("stripe");
 const order = require("../Models/order");
 const user = require("../Models/user");
-const product = require("../Models/product");
 
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -25,15 +24,14 @@ const checkout = asyncErrorHandler(async (req, res) => {
     .select("cart name");
 
   const formattedCart = cartObj.cart.items.map((item) => {
-    // Assuming item.productId.quantity now directly holds the available quantity for the product
-    const availablequantity = item.productId.quantity; // Directly use quantity since no size exists anymore
+    const availablequantity = item.productId.quantity;
 
     return {
       productId: item.productId._id,
       name: `${item.productId.brand} ${item.productId.name}`,
       image: item.productId.image,
       quantity:
-        item.quantity > availablequantity ? availablequantity : item.quantity, // Ensure quantity does not exceed available stock
+        item.quantity > availablequantity ? availablequantity : item.quantity,
       price: item.productId.price,
     };
   });
@@ -65,7 +63,7 @@ const checkout = asyncErrorHandler(async (req, res) => {
         },
         unit_amount: item.price * 100,
       },
-      quantity: item.quantity, // Use `item.quantity` instead of `item.quantity`
+      quantity: item.quantity,
     };
   });
 
@@ -75,11 +73,11 @@ const checkout = asyncErrorHandler(async (req, res) => {
     0
   );
 
-  if (totalAmount < 5000) {
+  if (totalAmount < 100) {
     return res.status(400).json({
       success: false,
       message:
-        "The total amount must be at least 50.00 to proceed with the checkout.",
+        "The total amount must be at least 100 to proceed with the checkout.",
     });
   }
 
@@ -167,7 +165,7 @@ const webhook = asyncErrorHandler((request, response) => {
     // Construct the event using the raw body and the signature
     event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
   } catch (err) {
-    console.log(`⚠️  Webhook signature verification failed.`, err);
+    console.log(`Webhook signature verification failed.`, err);
     return response.sendStatus(400);
   }
 
@@ -187,7 +185,6 @@ const webhook = asyncErrorHandler((request, response) => {
         });
       break;
     default:
-      // Handle other events
       break;
   }
 

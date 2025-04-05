@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { Axios_Node } from "../../Axios";
 import { AuthContext } from "../../../authContext/auth";
 const SizeModal = ({ id, size, onClose }) => {
-  const { user, cartSize, setCartSize } = useContext(AuthContext);
+  const { cartSize, setCartSize } = useContext(AuthContext);
   const modelRef = useRef();
   const closeModal = (e) => {
     if (modelRef.current === e.target) {
@@ -22,7 +22,6 @@ const SizeModal = ({ id, size, onClose }) => {
         toast.error("Please select a valid size");
         return;
       }
-      const token = localStorage.getItem("token");
       const response = await Axios_Node.post(
         "/cart/add",
         {
@@ -37,7 +36,7 @@ const SizeModal = ({ id, size, onClose }) => {
         }
       );
       toast.success(response?.data?.message);
-      setCartSize(cartSize + 1);
+      setCartSize((prev) => prev + 10);
     } catch (error) {
       toast.error("Something went wrong");
     }

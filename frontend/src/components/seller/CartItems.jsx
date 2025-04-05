@@ -18,7 +18,8 @@ const CartItems = ({
   const [debounceQuantity, setDebounceQuantity] = useState(null);
   const [productDetails, setProductDetails] = useState(null);
   const firstUpdate = useRef(true);
-  const userEmail = JSON.parse(localStorage.getItem("user"))?.email || "";
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userEmail = user ? user.email : null;
 
   useEffect(() => {
     const fetchDetails = async () => {

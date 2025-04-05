@@ -12,7 +12,6 @@ const getAllBrands = asyncErrorHandler(async (req, res) => {
 });
 
 const createBrand = asyncErrorHandler(async (req, res, next) => {
-  console.log(req.body); // Log request body for debugging
   const { name, description, email, isActivate } = req.body;
 
   // Check if required fields are provided

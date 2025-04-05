@@ -5,11 +5,13 @@ import { FiSearch, FiMenu } from "react-icons/fi";
 import { FaShoppingCart } from "react-icons/fa";
 import { CgProfile, CgClose } from "react-icons/cg";
 import { BiLogIn } from "react-icons/bi";
-
+import { AuthContext } from "../../../authContext/auth";
+import { useContext, useEffect } from "react";
 const Navbar = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-
+  const { cartSize } = useContext(AuthContext);
+  useEffect(() => {}, [cartSize]);
   return (
     <div className="navigation-bar">
       <div
@@ -89,7 +91,7 @@ const Navbar = () => {
           <div className="btnIcon">
             <Link to="/cart" style={{ color: "#1a1a1a" }}>
               <FaShoppingCart />
-              <div className="navAmount">{auth?.cartSize || 0}</div>
+              <div className="navAmount">{cartSize}</div>
             </Link>
           </div>
           <div className="btnIcon">

@@ -98,12 +98,12 @@ const createProduct = asyncErrorHandler(async (req, res, next) => {
       brand,
       description,
       price,
-      quantity, // Make sure quantity comes as a number or string
+      quantity,
       category,
       featured,
     } = req.body;
 
-    let document = req.body.document; // Avoid destructuring document here, because you're overwriting it
+    let document = req.body.document;
 
     if (!req.file && !document) {
       return next(
@@ -193,32 +193,24 @@ const createProduct = asyncErrorHandler(async (req, res, next) => {
 // Update a product
 const updateProduct = asyncErrorHandler(async (req, res, next) => {
   const { slug } = req.params;
-  const {
-    sku,
-    name,
-    brand,
-    description,
-    price,
-    quantity,
-    featured,
-    category,
-  } = req.body;
+  const { sku, name, brand, description, price, quantity, featured, category } =
+    req.body;
 
   let document = req.body.document; // Avoid destructuring document here, because you're overwriting it
 
-    if (!req.file && !document) {
-      return next(
-        new errorHandler(
-          "Please upload a document or provide a URL for the document",
-          400
-        )
-      );
-    }
+  if (!req.file && !document) {
+    return next(
+      new errorHandler(
+        "Please upload a document or provide a URL for the document",
+        400
+      )
+    );
+  }
 
-    // If a file is uploaded, use its path
-    if (req.file) {
-      document = req.file.path;
-    }
+  // If a file is uploaded, use its path
+  if (req.file) {
+    document = req.file.path;
+  }
 
   if (
     !sku ||
@@ -293,10 +285,15 @@ const updateReview = asyncErrorHandler(async (req, res, next) => {
   }
 
   // Update product ratings
-  productObj.ratings.push({ name: userObj.name, rating, review, date: Date.now() });
+  productObj.ratings.push({
+    name: userObj.name,
+    rating,
+    review,
+    date: Date.now(),
+  });
   productObj.ratingScore += rating;
 
-  await productObj.save().catch(err => {
+  await productObj.save().catch((err) => {
     console.error("Error Saving Product:", err);
   });
 
@@ -313,7 +310,7 @@ const updateReview = asyncErrorHandler(async (req, res, next) => {
     return item;
   });
 
-  await orderObj.save().catch(err => {
+  await orderObj.save().catch((err) => {
     console.error("Error Saving Order:", err);
   });
 
@@ -324,7 +321,6 @@ const updateReview = asyncErrorHandler(async (req, res, next) => {
 });
 
 const getFeaturedProducts = asyncErrorHandler(async (req, res, next) => {
-  console.log("called");
   const featured = await product
     .find({ isActive: true, isFeatured: true })
     .limit(8);

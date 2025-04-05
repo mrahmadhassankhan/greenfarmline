@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "../../../styles/productDetails.css";
 import { Axios_Node } from "../../../Axios";
@@ -8,8 +8,10 @@ import Star from "../../../components/seller/Star";
 import RatingContainer from "../../../components/seller/RatingContainer";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
+import { AuthContext } from "../../../../authContext/auth";
 
 const ProductDetails = () => {
+  const { setCartSize } = useContext(AuthContext);
   const { slug } = useParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -35,6 +37,7 @@ const ProductDetails = () => {
   }, [slug, navigate]);
 
   const handleAddToCart = async () => {
+    setCartSize((prev) => prev + 1);
     const parsedQuantity = parseInt(quantity, 10);
 
     if (isNaN(parsedQuantity) || parsedQuantity <= 0) {

@@ -55,7 +55,7 @@ function DiscussionForum() {
         <h1 className="text-3xl font-bold text-center mb-6">
           Discussion Forum
         </h1>
-        <div className="space-y-4">
+        <div className="space-y-4 min-h-screen">
           <h2 className="text-lg font-semibold">Latest Queries</h2>
           {loading ? (
             <p className="text-gray-500">Loading queries...</p>
